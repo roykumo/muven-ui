@@ -1,0 +1,41 @@
+﻿<Page x:Class="CakeGUI.forms.NewInventory"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CakeGUI.forms"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="ProductInventoryList" Width="800" Height="600">
+
+    <Border Padding="10">
+        <StackPanel HorizontalAlignment="Left" Height="580" VerticalAlignment="Top" Width="780">
+            <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Barang Masuk @ " FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
+            <Grid Height="20" Margin="0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" x:Name="lblTransactionCode" TextWrapping="Wrap" Text="Kode Transaksi" FontSize="16" FontWeight="Bold" Margin="0,0,0.4,0"/>
+                <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+                <Button Grid.Column="2" Content="Tambah" Margin="5 0 0 0" Click="btnAdd_Click"/>
+            </Grid>
+            <Grid>
+                <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" ItemsSource="{Binding inventories}" IsReadOnly="True" Margin="0,-3,0,-336" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Product.Name}" HeaderStringFormat="" Header="Nama Barang" Foreground="Black"/>
+                        <DataGridTextColumn Binding="{Binding Product.BarCode}" ClipboardContentBinding="{x:Null}" Header="BarCode"/>
+                        <DataGridTextColumn Binding="{Binding PurchaseDate, StringFormat=\{0:yyyy-MM-dd\}}" Header="Tanggal Barang Masuk"/>
+                        <DataGridTextColumn Binding="{Binding PurchasePrice}" Header="Harga Beli Satuan"/>
+                        <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah"/>
+                        <DataGridTextColumn Binding="{Binding ExpiredDate, StringFormat=\{0:yyyy-MM-dd\}}" Header="Expired Date"/>
+                        <DataGridTextColumn Binding="{Binding Remarks}" Header="Keterangan"/>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </Grid>
+
+        </StackPanel>
+    </Border>
+</Page>

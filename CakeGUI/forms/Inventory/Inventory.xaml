@@ -1,0 +1,60 @@
+﻿<Page x:Class="CakeGUI.forms.Inventory"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CakeGUI.forms"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="300"
+      Title="Product" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Border Padding="10">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="380" Width="280">
+            <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Inventory Barang Masuk" TextDecorations="Underline" FontWeight="Bold" FontSize="18"/>
+            <Grid Margin="0 10" Height="200">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="45"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Barcode" FontSize="14"/>
+                <TextBlock Grid.Row="1" Text="Barang" FontSize="14"/>
+                <!--<TextBlock Grid.Row="2" Text="Kode Transaksi" FontSize="14"/>-->
+                <TextBlock Grid.Row="2" Text="Tanggal datang" FontSize="14"/>
+                <TextBlock Grid.Row="3" Text="Harga Beli Satuan" FontSize="14"/>
+                <TextBlock Grid.Row="4" Text="Jumlah" FontSize="14"/>
+                <TextBlock Grid.Row="5" Text="Expired Date" FontSize="14"/>
+                <TextBlock Grid.Row="6" Text="Keterangan" FontSize="14"/>
+
+                <TextBox Grid.Column="1" Grid.Row="0" Name="txtBarcode" Height="20" Margin="0,3,58,2.6"/>
+                <Button Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Content="Cari" Margin="0,0,5,25.2" Click="btnSearch_Click" Grid.RowSpan="2" Width="48"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Name="txtName" Height="20" IsEnabled="False" />
+                <!--<TextBox Grid.Column="1" Grid.Row="2" Name="txtTransactionCode" Height="20"/>-->
+                <DatePicker Grid.Column="1" Grid.Row="2" Name="dtPurchase" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <!--<TextBox Grid.Column="1" Grid.Row="3" Name="txtPurchaseDate" Height="20"/>-->
+                <TextBox Grid.Column="1" Grid.Row="3" Name="txtPurchasePrice" Height="20"/>
+                <TextBox Grid.Column="1" Grid.Row="4" Name="txtQuantity" Height="20"/>
+                <!--<TextBox Grid.Column="1" Grid.Row="6" Name="txtExpiredDate" Height="20"/>-->
+                <DatePicker Grid.Column="1" Grid.Row="5" Name="dtExpired" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <TextBox Grid.Column="1" Grid.Row="6" Name="txtRemarks" Height="40"/>
+            </Grid>
+
+            <Grid Height="20" Margin="0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Simpan" Margin="0 0 5 0" Click="btnSave_Click"/>
+                <Button Grid.Column="1" Content="Batal" Margin="5 0 0 0" Click="btnCancel_Click"/>
+            </Grid>
+        </StackPanel>
+    </Border>
+
+</Page>
