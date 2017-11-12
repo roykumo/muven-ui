@@ -117,6 +117,12 @@
     <Compile Include="classes\entity\InventoryEntity.cs" />
     <Compile Include="classes\entity\ProductEntity.cs" />
     <Compile Include="classes\entity\ProductStockEntity.cs" />
+    <Compile Include="classes\entity\ProductTypeEntity.cs" />
+    <Compile Include="classes\entity\SellPrice.cs" />
+    <Compile Include="classes\service\SellPriceServiceImpl.cs" />
+    <Compile Include="classes\service\SellPriceService.cs" />
+    <Compile Include="classes\service\ProductTypeServiceImpl.cs" />
+    <Compile Include="classes\service\ProductTypeService.cs" />
     <Compile Include="classes\service\ProductServiceImpl.cs" />
     <Compile Include="classes\service\ProductService.cs" />
     <Compile Include="classes\service\ProductInventoryService.cs" />

@@ -11,6 +11,7 @@ namespace CakeGUI.classes.entity
         public String Id { get; set; }
         public String BarCode { get; set; }
         public String Name { get; set; }
+        public ProductTypeEntity Type { get; set; }
         public int AlertRed { get; set; }
         public int AlertYellow { get; set; }
         public int AlertGreen { get; set; }

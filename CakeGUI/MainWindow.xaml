@@ -25,12 +25,20 @@
                 <MenuItem x:Name="Exit" Header="_Exit"/>
             </MenuItem>
             <MenuItem Header="_List Item" x:Name="ListItem">
-                <MenuItem x:Name="Product" Header="_Master Barang"/>
                 <MenuItem x:Name="ProductStock" Header="_Stock Barang"/>
+                <MenuItem x:Name="Product" Header="_Master Barang"/>
+            </MenuItem>
+            <MenuItem Header="_Notification" x:Name="Notification">
+                <MenuItem x:Name="Alert" Header="_Expired / Aging Alert"/>
+                <MenuItem x:Name="SaleNotification" Header="_Sale Notification"/>
             </MenuItem>
             <MenuItem Header="_Stock In" x:Name="StockIn">
                 <MenuItem x:Name="Inventory" Header="_Barang Masuk"/>
                 <MenuItem x:Name="Repacking" Header="_Repacking Masuk"/>
+            </MenuItem>
+            <MenuItem Header="_Stock Out" x:Name="StockOut">
+                <MenuItem x:Name="InventoryOut" Header="_Barang Keluar"/>
+                <MenuItem x:Name="RepackingOut" Header="_Repacking Keluar"/>
             </MenuItem>
         </Menu>
         <Frame x:Name="mainFrame" Content="Frame" HorizontalAlignment="Left" Height="687" Margin="10,41,0,0" VerticalAlignment="Top" Width="998"/>

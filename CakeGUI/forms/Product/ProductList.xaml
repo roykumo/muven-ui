@@ -10,12 +10,14 @@
 
     <Border Padding="10">
         <StackPanel HorizontalAlignment="Left" Height="580" VerticalAlignment="Top" Width="780">
-            <TextBlock TextWrapping="Wrap" Text="List Barang" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
+            <TextBlock TextWrapping="Wrap" Text="List Master Barang" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
             <Grid>
                 <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0,20,0,-554" ItemsSource="{Binding products}" IsReadOnly="True" >
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Name}" HeaderStringFormat="" Header="Barang" Foreground="Black"/>
-                        <DataGridTextColumn Binding="{Binding Alerts}" Header="Expiry Notif"/>
+                        <DataGridTextColumn Binding="{Binding Type.Description}" HeaderStringFormat="" Header="Jenis"/>
+                        <DataGridTextColumn Binding="{Binding Name}" HeaderStringFormat="" Header="Nama" />
+                        <DataGridTextColumn Binding="{Binding BarCode}" HeaderStringFormat="" Header="Barcode" />
+                        <DataGridTextColumn Binding="{Binding Alerts}" Header="Expiry / Aging Notif"/>
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellStyle>
                                 <Style>
