@@ -123,5 +123,15 @@ namespace CakeGUI.classes.service
             }
             return null;
         }
+
+        public List<ProductEntity> getProducts(ProductTypeEntity type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ProductStockEntity> getStocks(ProductTypeEntity type)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -9,7 +9,8 @@ namespace CakeGUI.classes.service
 {
     interface SellPriceService
     {
-        List<SellPrice> getSellPrices();
+        List<SellPrice> getSellPrices(ProductEntity product);
         SellPrice getSellPrice(string id);
+        void saveSellPrice(SellPrice sellPrice);
     }
 }

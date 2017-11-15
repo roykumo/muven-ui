@@ -11,8 +11,20 @@
     <Border Padding="10">
         <StackPanel HorizontalAlignment="Left" Height="580" VerticalAlignment="Top" Width="780">
             <TextBlock TextWrapping="Wrap" Text="List Master Barang" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
+            <Grid Height="30">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ComboBox x:Name="cmbType" Grid.Column="0" SelectedValuePath="Id" DisplayMemberPath="Description" Margin="0, 10" HorizontalAlignment="Left" VerticalAlignment="Center" Width="100" Height="20" SelectionChanged="cmbType_SelectionChanged"/>
+                <Button Content="Tambah Barang" Grid.Column="1" Click="btnAdd_Click" HorizontalAlignment="Right" Width="139" VerticalAlignment="Center" Height="20"/>
+
+            </Grid>
             <Grid>
-                <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0,20,0,-554" ItemsSource="{Binding products}" IsReadOnly="True" >
+                <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0,2,0,-554" ItemsSource="{Binding products}" IsReadOnly="True" >
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Type.Description}" HeaderStringFormat="" Header="Jenis"/>
                         <DataGridTextColumn Binding="{Binding Name}" HeaderStringFormat="" Header="Nama" />
@@ -48,7 +60,6 @@
 
                 </DataGrid>
             </Grid>
-            <Button Content="Tambah Barang" Click="btnAdd_Click" HorizontalAlignment="Right" Width="139" VerticalAlignment="Center" Height="18"/>
         </StackPanel>
     </Border>
 </Page>

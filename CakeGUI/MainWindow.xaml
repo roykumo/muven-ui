@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CakeGUI"
         mc:Ignorable="d"
-        Title="Toko Kue" Height="768" Width="1024" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Toko Bahan Kue - Muven" Height="768" Width="1024" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Menu x:Name="menuBar" Height="20" VerticalAlignment="Top" Margin="10,0,-0.4,0" RenderTransformOrigin="0.5,0.5">
             <Menu.Resources>

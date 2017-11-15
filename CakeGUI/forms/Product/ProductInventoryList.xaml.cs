@@ -23,9 +23,9 @@ namespace CakeGUI.forms
     /// </summary>
     public partial class ProductInventoryList : Page
     {
-        private static ProductService productService = ProductServiceImpl.Instance;
+        private static ProductService productService = ProductServiceRestImpl.Instance;
 
-        ProductInventoryService inventoryService = ProductInventoryServiceImpl.Instance;
+        ProductInventoryItemService inventoryService = ProductInventoryItemServiceRestImpl.Instance;
         
         public ProductInventoryList()
         {
@@ -42,19 +42,31 @@ namespace CakeGUI.forms
 
         public ProductEntity product;
         
-        public List<CakeGUI.classes.entity.InventoryEntity> inventories { get; set; }
+        public List<CakeGUI.classes.entity.InventoryItemEntity> inventories { get; set; }
         
         private void init()
         {
-            if(product == null)
-                product = productService.getProduct("1");
+            if (product != null)
+            {
+                inventories = inventoryService.getProductInventories(product);
+                dataGrid.Columns[3].Header = product.Type.Expiration ? "Expired Date" : "Aging Date";
 
-            inventories = inventoryService.getProductInventories(product);
+                this.dataGrid.ItemsSource = inventories;
 
-            this.dataGrid.ItemsSource = inventories;
-
-            lblProduct.Text = product.Name + " [" + product.BarCode + "]";
+                lblProduct.Text = product.Name + " [" + product.BarCode + "]";
+            }
         }
-        
+        private void EditProductClicked(object sender, RoutedEventArgs e)
+        {
+            InventoryItemEntity cellContent = (InventoryItemEntity)dataGrid.SelectedItem;
+            //MessageBox.Show(cellContent.Product.Name);
+
+            GenericWindow windowInventoryList = new GenericWindow();
+            InventoryMaintenance inventoryMaintenancePage = new InventoryMaintenance(cellContent);
+
+            windowInventoryList.Content = inventoryMaintenancePage;
+            windowInventoryList.ShowDialog();
+            init();
+        }
     }
 }

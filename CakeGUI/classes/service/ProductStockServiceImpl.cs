@@ -79,6 +79,9 @@ namespace CakeGUI.classes.service
 
         }
 
-
+        public List<ProductStockEntity> getProductStock(ProductTypeEntity type)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

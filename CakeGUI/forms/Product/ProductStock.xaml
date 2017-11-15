@@ -4,13 +4,18 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CakeGUI.forms"
+      xmlns:util="clr-namespace:CakeGUI.classes.util"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="ProductStock" Width="800" Height="600">
 
+    <Page.Resources>
+        <util:AlertConverter x:Key="AlertConverter"/>
+    </Page.Resources>
+    
     <Border Padding="10">
         <StackPanel HorizontalAlignment="Left" Height="580" VerticalAlignment="Top" Width="780">
-            <TextBlock TextWrapping="Wrap" Text="Stock Barang" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
+            <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Stock Barang" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
             <ComboBox x:Name="cmbType" SelectedValuePath="Id" DisplayMemberPath="Description" Margin="0, 10" HorizontalAlignment="Left" Width="100" SelectionChanged="cmbType_SelectionChanged"/>
             <Grid>
                 <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0, 0 ,0,-554" ItemsSource="{Binding products}" IsReadOnly="True" LoadingRow="dataGrid_LoadingRow" >
@@ -26,9 +31,32 @@
                         <DataGridTextColumn Binding="{Binding Product.BarCode}" Header="Barcode"/>
                         <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah"/>
                         <DataGridTextColumn Binding="{Binding ExpiredDate, StringFormat=\{0:yyyy-MM-dd\}}" Header="{Binding HeaderAlertDate}" />
-                        <DataGridTextColumn CanUserResize="False" Width="5"/>
+                        <!--<DataGridTextColumn CanUserResize="False" Width="5"/>-->
+                        <DataGridTextColumn CanUserResize="False" Width="5">
+                            <!--<DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Foreground" Value="{Binding AlertColor, Converter={StaticResource AlertConverter}}"/>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>-->
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background" Value="{Binding AlertColor, Converter={StaticResource AlertConverter}}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding BuyPrice, StringFormat=\{0:n0\}}" Header="Harga Beli (rata-rata)" />
-                        <DataGridTextColumn Binding="{Binding SellPrice.SellingPrice, StringFormat=\{0:n0\}}" Header="Harga Jual (yang berlaku)"/>
+                        <DataGridTextColumn Binding="{Binding SellPrice.SellingPrice, StringFormat=\{0:n0\}}" Header="Harga Jual (yang berlaku)" Foreground="#FF1800FF">
+                            <DataGridTextColumn.CellStyle>
+                                <Style>
+                                    <EventSetter Event="DataGridCell.MouseLeftButtonDown"
+                                        Handler="SellPriceClicked" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn CanUserResize="False" Width="5" />
                         <DataGridTextColumn Binding="{Binding Product.Alerts}" Header="Expiry Notification"/>
                     </DataGrid.Columns>

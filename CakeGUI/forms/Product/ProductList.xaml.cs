@@ -23,8 +23,9 @@ namespace CakeGUI.forms
     /// </summary>
     public partial class ProductList : Page
     {
-        private static ProductService productService = ProductServiceImpl.Instance;
-        
+        private static ProductService productService = ProductServiceRestImpl.Instance;
+        private static ProductTypeService productTypeService = ProductTypeServiceRestImpl.Instance;
+
         public ProductList()
         {
             InitializeComponent();
@@ -33,13 +34,37 @@ namespace CakeGUI.forms
         
         public ProductEntity product;        
         public List<CakeGUI.classes.entity.ProductEntity> products { get; set; }
-        
+        public List<CakeGUI.classes.entity.ProductTypeEntity> productTypes { get; set; }
+
+
         private void init()
         {
+            if (productTypes == null)
+            {
+                productTypes = productTypeService.getProductTypes();
+            }
+
+            if (productTypes.Count > 0)
+            {
+                cmbType.ItemsSource = productTypes;
+                cmbType.SelectedItem = 0;
+            }
+
+            loadData();
+        }
+
+        private void loadData()
+        {
             this.dataGrid.ItemsSource = null;
-            products = productService.getProducts();
+            if (cmbType.SelectedItem == null)
+            {
+                products = productService.getProducts();
+            }
+            else
+            {
+                products = productService.getProducts((ProductTypeEntity)cmbType.SelectedItem);
+            }
             this.dataGrid.ItemsSource = products;
-            
         }
       
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -81,6 +106,21 @@ namespace CakeGUI.forms
                 }
             }
             
+        }
+
+        private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
+            if (type != null)
+            {
+                //dataGrid.Columns[3].Header = type.Expiration ? "Expired Date" : "Aging Date";
+                dataGrid.Columns[3].Header = type.Expiration ? "Expiry Notif" : "Aging Notif";
+                loadData();
+                /*dataGrid.ItemsSource = null;
+                dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type != null && string.Equals(x.Product.Type.Id, type.Id));*/
+                //MessageBox.Show("change");
+                //lblNotif.Text = type.Expiration ? "Expire Notification" : "Aging Notification";
+            }
         }
     }
 }

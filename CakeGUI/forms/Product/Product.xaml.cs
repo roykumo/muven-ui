@@ -23,8 +23,8 @@ namespace CakeGUI.forms
     /// </summary>
     public partial class Product : Page
     {
-        private static ProductService productService = ProductServiceImpl.Instance;
-        private static ProductTypeService productTypeService = ProductTypeServiceImpl.Instance;
+        private static ProductService productService = ProductServiceRestImpl.Instance;
+        private static ProductTypeService productTypeService = ProductTypeServiceRestImpl.Instance;
 
         public Product()
         {
@@ -52,10 +52,11 @@ namespace CakeGUI.forms
         {
             productTypes = productTypeService.getProductTypes();
             cmbType.ItemsSource = productTypes;
-            cmbType.SelectedItem = product.Type;
+
         }
         
         private ProductEntity product;
+        public ProductEntity _Product { get { return this.product; } }
         private List<ProductTypeEntity> productTypes = new List<ProductTypeEntity>();
 
         //public ProductEntity ProductSelected
@@ -115,6 +116,16 @@ namespace CakeGUI.forms
             if (type != null)
             {
                 lblNotif.Text = type.Expiration ? "Expire Notification" : "Aging Notification";
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            if (product.Type != null)
+            {
+                int idx = productTypes.FindIndex(t => t.Id == product.Type.Id);
+                cmbType.SelectedIndex = idx;
             }
         }
     }

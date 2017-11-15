@@ -73,6 +73,14 @@ namespace CakeGUI.classes.service
 
         }
 
+        public void saveSellPrice(SellPrice sellPrice)
+        {
+            throw new NotImplementedException();
+        }
 
+        public List<SellPrice> getSellPrices(ProductEntity product)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

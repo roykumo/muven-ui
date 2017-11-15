@@ -21,43 +21,53 @@ namespace CakeGUI.forms
     /// <summary>
     /// Interaction logic for ProductInventoryList.xaml
     /// </summary>
-    public partial class NewInventory : Page
+    public partial class SellPriceHistory : Page
     {
-        private static ProductService productService = ProductServiceImpl.Instance;
+        private static ProductService productService = ProductServiceRestImpl.Instance;
+        private static SellPriceService sellPriceService = SellPriceServiceRestImpl.Instance;
 
-        ProductInventoryItemService inventoryService = ProductInventoryItemServiceRestImpl.Instance;
-        
-        public NewInventory()
+        public SellPriceHistory()
         {
             InitializeComponent();
             init();
         }
 
-        private DateTime trxDate = DateTime.Now;
-        public List<CakeGUI.classes.entity.InventoryItemEntity> inventories { get; set; }
-        
+        public SellPriceHistory(ProductEntity product)
+        {
+            InitializeComponent();
+            this.product = product;
+            init();
+        }
+
+        public ProductEntity product;     
+        public List<SellPrice> sellPrices { get; set; }
+
         private void init()
         {
-            lblTitle.Text += trxDate.ToString("yyyy-MM-dd");
-            inventories = new List<InventoryItemEntity>();
             loadData();
         }
 
         private void loadData()
         {
             this.dataGrid.ItemsSource = null;
-            this.dataGrid.ItemsSource = inventories;
+            if(product != null)
+            {
+                sellPrices = sellPriceService.getSellPrices(product);
+                this.dataGrid.ItemsSource = null;
+                this.dataGrid.ItemsSource = sellPrices;
+            }
         }
-
+      
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             GenericWindow windowAdd = new GenericWindow();
-            Inventory inventoryPage = new Inventory(inventories);
+            SellPriceMaintenance sellPricePage = new SellPriceMaintenance(product);
 
-            windowAdd.Content = inventoryPage;
+            windowAdd.Content = sellPricePage;
             windowAdd.Owner = (this.Tag as MainWindow);
             windowAdd.ShowDialog();
-            loadData();
+            init();
         }
+        
     }
 }
