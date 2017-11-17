@@ -96,7 +96,7 @@ namespace CakeGUI.forms
             if (type != null)
             {
                 dataGrid.Columns[3].Header = type.Expiration ? "Expired Date" : "Aging Date";
-                dataGrid.Columns[8].Header = type.Expiration ? "Expiry Notif" : "Aging Notif";
+                dataGrid.Columns[7].Header = type.Expiration ? "Expiry Notif" : "Aging Notif";
                 loadData();
                 //dataGrid.ItemsSource = null;
                 //dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type!=null && string.Equals(x.Product.Type.Id, type.Id));

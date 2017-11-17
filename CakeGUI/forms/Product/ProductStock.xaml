@@ -12,7 +12,7 @@
     <Page.Resources>
         <util:AlertConverter x:Key="AlertConverter"/>
     </Page.Resources>
-    
+
     <Border Padding="10">
         <StackPanel HorizontalAlignment="Left" Height="580" VerticalAlignment="Top" Width="780">
             <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Stock Barang" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
@@ -30,33 +30,72 @@
                         </DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Product.BarCode}" Header="Barcode"/>
                         <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah"/>
-                        <DataGridTextColumn Binding="{Binding ExpiredDate, StringFormat=\{0:yyyy-MM-dd\}}" Header="{Binding HeaderAlertDate}" />
-                        <!--<DataGridTextColumn CanUserResize="False" Width="5"/>-->
-                        <DataGridTextColumn CanUserResize="False" Width="5">
-                            <!--<DataGridTextColumn.CellStyle>
+                        <DataGridTemplateColumn Header="{Binding HeaderAlertDate}">
+                            <!--<DataGridTemplateColumn.CellStyle>
                                 <Style TargetType="DataGridCell">
-                                    <Setter Property="Foreground" Value="{Binding AlertColor, Converter={StaticResource AlertConverter}}"/>
+                                    <Setter Property="Background" Value="{Binding MyColor.Background}" />
                                 </Style>
-                            </DataGridTextColumn.CellStyle>-->
+                            </DataGridTemplateColumn.CellStyle>-->
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="15"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ExpiredDate, StringFormat=\{0:yyyy-MM-dd\}}" Width="80" HorizontalAlignment="Left" />
+                                        <Label Grid.Row="0" Grid.Column="1" Background="{Binding AlertColor}" Height="20" Width="20"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!--<DataGridTextColumn Binding="{Binding ExpiredDate, StringFormat=\{0:yyyy-MM-dd\}}" Header="{Binding HeaderAlertDate}" />
+                        <DataGridTextColumn CanUserResize="False" Width="5">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Style.Triggers>
                                         <Trigger Property="Text" Value="">
-                                            <Setter Property="Background" Value="{Binding AlertColor, Converter={StaticResource AlertConverter}}"/>
+                                            <Setter Property="Background" Value="{Binding AlertColor}"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
+                        </DataGridTextColumn>-->
                         <DataGridTextColumn Binding="{Binding BuyPrice, StringFormat=\{0:n0\}}" Header="Harga Beli (rata-rata)" />
-                        <DataGridTextColumn Binding="{Binding SellPrice.SellingPrice, StringFormat=\{0:n0\}}" Header="Harga Jual (yang berlaku)" Foreground="#FF1800FF">
+                        <!--<DataGridTextColumn Binding="{Binding SellPrice.SellingPrice, StringFormat=\{0:n0\}}" Header="Harga Jual (yang berlaku)" Foreground="#FF1800FF">
                             <DataGridTextColumn.CellStyle>
                                 <Style>
                                     <EventSetter Event="DataGridCell.MouseLeftButtonDown"
                                         Handler="SellPriceClicked" />
                                 </Style>
                             </DataGridTextColumn.CellStyle>
-                        </DataGridTextColumn>
+                        </DataGridTextColumn>-->
+                        <DataGridTemplateColumn Header="Harga Jual (yang berlaku)">
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style>
+                                    <EventSetter Event="DataGridCell.MouseLeftButtonDown"
+                                        Handler="SellPriceClicked" />
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="15"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding SellPrice.SellingPrice, StringFormat=\{0:n0\}}" Width="60" TextAlignment="Right" HorizontalAlignment="Right" Foreground="#FF1800FF"/>
+                                        <Label Grid.Row="0" Grid.Column="1" Content="{Binding SellPrice.SaleText}" Background="{Binding SellPrice.SaleColor}" FontSize="9" VerticalContentAlignment="Stretch" Height="20" Width="40"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn CanUserResize="False" Width="5" />
                         <DataGridTextColumn Binding="{Binding Product.Alerts}" Header="Expiry Notification"/>
                     </DataGrid.Columns>

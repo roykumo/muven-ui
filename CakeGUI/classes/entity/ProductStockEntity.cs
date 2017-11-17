@@ -30,31 +30,57 @@ namespace CakeGUI.classes.entity
             set { _BuyPrice = value; }
         }
 
-        public Color AlertColor
+        public Brush AlertColor
         {
             get
             {
                 if(ExpiredDate!=null && Product!=null && Product.Type != null)
                 {
-                    int dateDiff = (ExpiredDate - DateTime.Now).Days;
-                    if (dateDiff > Product.AlertGreen)
+                    if (Product.Type.Expiration)
                     {
-                        return Colors.Transparent;
-                    }else if(dateDiff > Product.AlertYellow)
-                    {
-                        return Colors.Green;
-                    }else if(dateDiff > Product.AlertRed)
-                    {
-                        return Colors.Yellow;
+                        int dateDiff = (ExpiredDate - DateTime.Now).Days;
+                        if (dateDiff > Product.AlertGreen)
+                        {
+                            return new SolidColorBrush(Colors.Transparent);
+                        }
+                        else if (dateDiff > Product.AlertYellow)
+                        {
+                            return new SolidColorBrush(Colors.Green);
+                        }
+                        else if (dateDiff > Product.AlertRed)
+                        {
+                            return new SolidColorBrush(Colors.Yellow);
+                        }
+                        else
+                        {
+                            return new SolidColorBrush(Colors.Red);
+                        }
                     }
                     else
                     {
-                        return Colors.Red;
+                        DateTime now = DateTime.Now;
+                        int dateDiff = ((ExpiredDate.Year - now.Year) * 12 )+(ExpiredDate.Month - now.Month);
+                        if (dateDiff > Product.AlertGreen)
+                        {
+                            return new SolidColorBrush(Colors.Transparent);
+                        }
+                        else if (dateDiff > Product.AlertYellow)
+                        {
+                            return new SolidColorBrush(Colors.Transparent);
+                        }
+                        else if (dateDiff > Product.AlertRed)
+                        {
+                            return new SolidColorBrush(Colors.Yellow);
+                        }
+                        else
+                        {
+                            return new SolidColorBrush(Colors.Red);
+                        }
                     }
                 }
                 else
                 {
-                    return Colors.Transparent;
+                    return new SolidColorBrush(Colors.Transparent);
                 }
             }
         }

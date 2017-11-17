@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace CakeGUI.classes.entity
 {
@@ -26,5 +27,8 @@ namespace CakeGUI.classes.entity
         public bool Sale { get; set; }
         [JsonProperty("product")]
         public ProductEntity Product { get; set; }
+
+        public string SaleText { get { return Sale ? "Sale" : ""; } }
+        public Brush SaleColor { get { return Sale ? new SolidColorBrush(Colors.LightBlue) : new SolidColorBrush(Colors.Transparent); } }
     }
 }
