@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CakeGUI.classes.util;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +10,12 @@ namespace CakeGUI.classes.entity
 {
     public class InventoryEntity
     {
+        [JsonProperty("id")]
         public String Id { get; set; }
+        [JsonProperty("transactionCode")]
         public String TransactionCode { get; set; }
-        public ProductEntity Product { get; set; }
-        public DateTime PurchaseDate { get; set; }
-        public DateTime ExpiredDate { get; set; }
-        public Int32 Quantity { get; set; }
-        public Decimal PurchasePrice { get; set; }
-        public String Remarks { get; set; }
+        [JsonProperty("date")]
+        [JsonConverter(typeof(ISODateConverter))]
+        public DateTime Date { get; set; }
     }
 }

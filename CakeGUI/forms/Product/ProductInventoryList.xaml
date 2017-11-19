@@ -6,21 +6,35 @@
       xmlns:local="clr-namespace:CakeGUI.forms"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="ProductInventoryList" Width="800" Height="600">
+      Title="ProductInventoryList" Width="800" Height="600" Loaded="Page_Loaded">
 
     <Border Padding="10">
         <StackPanel HorizontalAlignment="Left" Height="580" VerticalAlignment="Top" Width="780">
+            <Label Content="Title" Name="lblSiteMap"/>
             <TextBlock TextWrapping="Wrap" Text="Info Barang" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
 
             <Grid>
                 <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0,31,0,-554" ItemsSource="{Binding products}" IsReadOnly="True" >
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding TransactionCode}" HeaderStringFormat="" Header="Kode Transaksi" Foreground="Black"/>
-                        <DataGridTextColumn Binding="{Binding PurchaseDate, StringFormat=\{0:yyyy-MM-dd\}}" Header="Tanggal Barang Masuk"/>
+                        <DataGridTextColumn Binding="{Binding Inventory.TransactionCode}" HeaderStringFormat="" Header="Kode Transaksi" Foreground="Black"/>
+                        <DataGridTextColumn Binding="{Binding Inventory.Date, StringFormat=\{0:yyyy-MM-dd\}}" Header="Tanggal Barang Masuk"/>
                         <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah saat masuk"/>
-                        <DataGridTextColumn Binding="{Binding PurchasePrice}" Header="Harga Beli Satuan"/>
                         <DataGridTextColumn Binding="{Binding ExpiredDate, StringFormat=\{0:yyyy-MM-dd\}}" Header="Expired Date"/>
+                        <DataGridTextColumn Binding="{Binding PurchasePrice}" Header="Harga Beli Satuan"/>
                         <DataGridTextColumn Binding="{Binding Remarks}" Header="Keterangan"/>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style>
+                                    <EventSetter Event="DataGridCell.MouseLeftButtonDown"
+                                        Handler="EditProductClicked" />
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="ubah" Foreground="#FF1800FF"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
 
                 </DataGrid>

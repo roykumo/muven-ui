@@ -7,8 +7,10 @@ using CakeGUI.classes.entity;
 
 namespace CakeGUI.classes.service
 {
-    interface ProductStockService
+    interface SellPriceService
     {
-        List<ProductStockEntity> getProductStock(ProductTypeEntity type);
+        List<SellPrice> getSellPrices(ProductEntity product);
+        SellPrice getSellPrice(string id);
+        void saveSellPrice(SellPrice sellPrice);
     }
 }

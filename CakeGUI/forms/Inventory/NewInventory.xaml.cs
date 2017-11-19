@@ -25,7 +25,7 @@ namespace CakeGUI.forms
     {
         private static ProductService productService = ProductServiceImpl.Instance;
 
-        ProductInventoryService inventoryService = ProductInventoryServiceImpl.Instance;
+        ProductInventoryItemService inventoryService = ProductInventoryItemServiceRestImpl.Instance;
         
         public NewInventory()
         {
@@ -34,12 +34,12 @@ namespace CakeGUI.forms
         }
 
         private DateTime trxDate = DateTime.Now;
-        public List<CakeGUI.classes.entity.InventoryEntity> inventories { get; set; }
+        public List<CakeGUI.classes.entity.InventoryItemEntity> inventories { get; set; }
         
         private void init()
         {
             lblTitle.Text += trxDate.ToString("yyyy-MM-dd");
-            inventories = new List<InventoryEntity>();
+            inventories = new List<InventoryItemEntity>();
             loadData();
         }
 

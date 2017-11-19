@@ -23,41 +23,23 @@ namespace CakeGUI.forms
     /// </summary>
     public partial class ProductStock : Page
     {
-        private static ProductService productService = ProductServiceImpl.Instance;
+        private static ProductService productService = ProductServiceRestImpl.Instance;
+        private static ProductTypeService productTypeService = ProductTypeServiceRestImpl.Instance;
 
-        ProductStockService stockService = new ProductStockServiceImpl();
+        ProductStockService stockService = ProductStockServiceRestImpl.Instance;
+        private List<ProductTypeEntity> productTypes = new List<ProductTypeEntity>();
+
+        private CommonPage commonPage;
 
         public ProductStock()
         {
             InitializeComponent();
+
+            commonPage = new CommonPage();
+            commonPage.Title = "Stock Barang";
+            lblSiteMap.Content = commonPage.Title;
+
             init();
-        }
-        
-        private List<CakeGUI.classes.entity.ProductStockEntity> getListProduct()
-        {
-            if (productStocks == null)
-            {
-                productStocks = new List<classes.entity.ProductStockEntity>();
-
-                classes.entity.ProductStockEntity stock1 = new classes.entity.ProductStockEntity();
-                stock1.Product = productService.getProduct("1");
-                stock1.BuyPrice = 9000;
-                stock1.ExpiredDate = new DateTime(2017, 8, 31);
-                stock1.Quantity = 5;
-                stock1.SellPrice = 12500;
-                productStocks.Add(stock1);
-
-                classes.entity.ProductStockEntity stock2 = new classes.entity.ProductStockEntity();
-                stock2.Product = productService.getProduct("2");
-                stock2.BuyPrice = 10000;
-                stock2.ExpiredDate = new DateTime(2018, 3, 28);
-                stock2.Quantity = 10;
-                stock2.SellPrice = 12500;
-                productStocks.Add(stock2);
-
-            }
-
-            return productStocks;
         }
         
         public List<CakeGUI.classes.entity.ProductStockEntity> productStocks { get; set; }
@@ -65,10 +47,24 @@ namespace CakeGUI.forms
 
         private void init()
         {
-            //productStocks = stockService.getProductStock();
-            productStocks = getListProduct();
+            //productStocks = getListProduct();
 
-            this.dataGrid.ItemsSource = productStocks;
+            productTypes = productTypeService.getProductTypes();
+            cmbType.ItemsSource = productTypes;
+            cmbType.SelectedIndex = 0;
+
+            loadData();
+            //if(cmbType.SelectedIndex >= 0 )
+            //    this.dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type != null && string.Equals(x.Product.Type.Id, ((ProductTypeEntity)cmbType.SelectedItem).Id));
+
+            //this.dataGrid.ItemsSource = productStocks;
+        }
+
+        private void loadData()
+        {
+            productStocks = stockService.getProductStock((ProductTypeEntity)cmbType.SelectedItem);
+            dataGrid.ItemsSource = null;
+            dataGrid.ItemsSource = productStocks;
         }
 
         private void ProductNameClicked(object sender, MouseButtonEventArgs e)
@@ -77,10 +73,77 @@ namespace CakeGUI.forms
             //MessageBox.Show(cellContent.Product.Name);
 
             GenericWindow windowInventoryList = new GenericWindow();
-            Page inventoryListPage = new ProductInventoryList(cellContent.Product);
+            ProductInventoryList inventoryListPage = new ProductInventoryList(cellContent.Product);
+            inventoryListPage.SetParent(commonPage);
 
             windowInventoryList.Content = inventoryListPage;
             windowInventoryList.ShowDialog();
+        }
+
+        private void SellPriceClicked(object sender, MouseButtonEventArgs e)
+        {
+            ProductStockEntity cellContent = (ProductStockEntity)dataGrid.SelectedItem;
+            
+            GenericWindow windowSellPriceHistory = new GenericWindow();
+            SellPriceHistory sellPriceHistoryPage = new SellPriceHistory(cellContent.Product);
+            sellPriceHistoryPage.SetParent(commonPage);
+            sellPriceHistoryPage.setAvgBuyPrice(cellContent.BuyPrice);
+
+            windowSellPriceHistory.Content = sellPriceHistoryPage;
+            windowSellPriceHistory.ShowDialog();
+        }
+
+        private string headerAlertDate = "Date";
+        public string HeaderAlertDate
+        {
+            get { return headerAlertDate; }
+            set { headerAlertDate = value; }
+        }
+        
+        private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
+            if (type != null)
+            {
+                dataGrid.Columns[3].Header = type.Expiration ? "Expired Date" : "Aging Date";
+                dataGrid.Columns[7].Header = type.Expiration ? "Expiry Notif" : "Aging Notif";
+                loadData();
+                //dataGrid.ItemsSource = null;
+                //dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type!=null && string.Equals(x.Product.Type.Id, type.Id));
+                //MessageBox.Show("change");
+                //lblNotif.Text = type.Expiration ? "Expire Notification" : "Aging Notification";
+            }
+        }
+
+        public void SetParent(CommonPage page)
+        {
+            if (commonPage != null)
+            {
+                commonPage.ParentPage = page;
+            }
+        }
+
+        private void dataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            /*try
+            {
+                DataGridRow gridRow = e.Row;
+                ProductStockEntity stock = (ProductStockEntity)gridRow.Item;
+
+                dataGrid.Columns[4].CellStyle = new Style(typeof(DataGridCell));
+                dataGrid.Columns[4].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(stock != null ? stock.AlertColor : Colors.Transparent)));
+
+                if (stock != null && stock.SellPrice != null)
+                {
+                    dataGrid.Columns[7].CellStyle = new Style(typeof(DataGridCell));
+                    dataGrid.Columns[7].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(stock.SellPrice.Sale ? Colors.Blue : Colors.Transparent)));
+                }
+            }catch {  }*/
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            lblSiteMap.Content = commonPage.TitleSiteMap;
         }
     }
 }

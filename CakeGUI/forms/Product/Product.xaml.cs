@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,12 +23,17 @@ namespace CakeGUI.forms
     /// </summary>
     public partial class Product : Page
     {
-        private static ProductService productService = ProductServiceImpl.Instance;
-        
+        private static ProductService productService = ProductServiceRestImpl.Instance;
+        private static ProductTypeService productTypeService = ProductTypeServiceRestImpl.Instance;
+
+        private CommonPage commonPage;
+
         public Product()
         {
             InitializeComponent();
             product = new ProductEntity();
+            //product.Type = productTypeService.getProductType("2");
+            init();
         }
 
         public Product(ProductEntity product)
@@ -40,27 +46,100 @@ namespace CakeGUI.forms
             txtExpiryYellow.Text = this.product.AlertYellow.ToString();
             txtExpiryGreen.Text = this.product.AlertGreen.ToString();
             lblTitle.Text += " (ubah)";
+            //product.Type = productTypeService.getProductType("2");
+            init();
         }
 
+        private void init()
+        {
+            commonPage = new CommonPage();
+            commonPage.Title = "Master Barang";
+            productTypes = productTypeService.getProductTypes();
+            cmbType.ItemsSource = productTypes;
+
+        }
+        
         private ProductEntity product;
+        public ProductEntity _Product { get { return this.product; } }
+        private List<ProductTypeEntity> productTypes = new List<ProductTypeEntity>();
+
+        //public ProductEntity ProductSelected
+        //{
+        //    get { return product; }
+        //    set { product = value; }
+        //}
+
+        //public ObservableCollection<ProductTypeEntity> ProductTypeList
+        //{
+        //    get { return new ObservableCollection<ProductTypeEntity>(productTypes); }
+        //}
+
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             ((GenericWindow)this.Parent).Close();
+            
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            product.BarCode = txtBarcode.Text;
-            product.Name = txtName.Text;
-            product.AlertRed = Int32.Parse(txtExpiryRed.Text);
-            product.AlertYellow = Int32.Parse(txtExpiryYellow.Text);
-            product.AlertGreen = Int32.Parse(txtExpiryGreen.Text);
+            if (cmbType.SelectedIndex >= 0)
+            {
+                product.Type = (ProductTypeEntity)cmbType.SelectedItem;
 
-            productService.saveProduct(product);
+                MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan Barang?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    product.BarCode = txtBarcode.Text;
+                    product.Name = txtName.Text;
+                    product.AlertRed = Int32.Parse(txtExpiryRed.Text);
+                    product.AlertYellow = Int32.Parse(txtExpiryYellow.Text);
+                    product.AlertGreen = Int32.Parse(txtExpiryGreen.Text);
 
-            GenericWindow genericWindow = ((GenericWindow)this.Parent);
-            //((MainWindow)genericWindow.Owner).refreshFrame();
-            genericWindow.Close();
+                    productService.saveProduct(product);
+
+                    MessageBox.Show("Barang berhasil disimpan");
+
+                    GenericWindow genericWindow = ((GenericWindow)this.Parent);
+                    //((MainWindow)genericWindow.Owner).refreshFrame();
+                    genericWindow.Close();
+                    
+
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Pilih jenis Barang!");
+            }
+
+        }
+
+        private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
+            if (type != null)
+            {
+                lblNotif.Text = type.Expiration ? "Expire Notification" : "Aging Notification";
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            //(this.Tag as MainWindow).setLabelTitle(commonPage.TitleSiteMap);
+            lblSiteMap.Content = commonPage.TitleSiteMap;
+            if (product.Type != null)
+            {
+                int idx = productTypes.FindIndex(t => t.Id == product.Type.Id);
+                cmbType.SelectedIndex = idx;
+            }
+        }
+
+        public void SetParent(CommonPage page)
+        {
+            if (commonPage != null)
+            {
+                commonPage.ParentPage = page;
+            }
         }
     }
 }

@@ -7,8 +7,9 @@ using CakeGUI.classes.entity;
 
 namespace CakeGUI.classes.service
 {
-    interface ProductStockService
+    interface ProductTypeService
     {
-        List<ProductStockEntity> getProductStock(ProductTypeEntity type);
+        ProductTypeEntity getProductType(String id);
+        List<ProductTypeEntity> getProductTypes();
     }
 }

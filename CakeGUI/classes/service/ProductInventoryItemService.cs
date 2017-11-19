@@ -7,9 +7,9 @@ using CakeGUI.classes.entity;
 
 namespace CakeGUI.classes.service
 {
-    interface ProductInventoryService
+    interface ProductInventoryItemService
     {
-        List<InventoryEntity> getProductInventories(ProductEntity product);
-        void saveProductInventory(InventoryEntity inventory);
+        List<InventoryItemEntity> getProductInventories(ProductEntity product);
+        void saveProductInventory(InventoryItemEntity inventory);
     }
 }

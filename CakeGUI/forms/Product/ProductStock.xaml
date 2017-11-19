@@ -4,18 +4,24 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CakeGUI.forms"
+      xmlns:util="clr-namespace:CakeGUI.classes.util"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="ProductStock" Width="800" Height="600">
+      Title="ProductStock" Width="800" Height="600" Loaded="Page_Loaded">
+
+    <Page.Resources>
+        <util:AlertConverter x:Key="AlertConverter"/>
+    </Page.Resources>
 
     <Border Padding="10">
         <StackPanel HorizontalAlignment="Left" Height="580" VerticalAlignment="Top" Width="780">
-            <TextBlock TextWrapping="Wrap" Text="Stock Barang" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
-
+            <Label Content="Title" Name="lblSiteMap"/>
+            <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Stock Barang" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
+            <ComboBox x:Name="cmbType" SelectedValuePath="Id" DisplayMemberPath="Description" Margin="0, 10" HorizontalAlignment="Left" Width="100" SelectionChanged="cmbType_SelectionChanged"/>
             <Grid>
-                <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0,13,0,-554" ItemsSource="{Binding products}" IsReadOnly="True" >
+                <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0, 0 ,0,-554" ItemsSource="{Binding products}" IsReadOnly="True" LoadingRow="dataGrid_LoadingRow" >
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Product.Name}" HeaderStringFormat="" Header="Barang" Foreground="#FF1800FF">
+                        <DataGridTextColumn Binding="{Binding Product.Name}" HeaderStringFormat="" Header="Nama Barang" Foreground="#FF1800FF">
                             <DataGridTextColumn.CellStyle>
                                 <Style>
                                     <EventSetter Event="DataGridCell.MouseLeftButtonDown"
@@ -24,10 +30,74 @@
                             </DataGridTextColumn.CellStyle>
                         </DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Product.BarCode}" Header="Barcode"/>
-                        <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah (sisa)"/>
-                        <DataGridTextColumn Binding="{Binding ExpiredDate, StringFormat=\{0:yyyy-MM-dd\}}" Header="Kadaluarsa (terdekat)"/>
-                        <DataGridTextColumn Binding="{Binding BuyPrice}" Header="Harga Beli (rata-rata)"/>
-                        <DataGridTextColumn Binding="{Binding SellPrice}" Header="Harga Jual (yang berlaku)"/>
+                        <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah"/>
+                        <DataGridTemplateColumn Header="{Binding HeaderAlertDate}">
+                            <!--<DataGridTemplateColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="{Binding MyColor.Background}" />
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>-->
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="15"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ExpiredDate, StringFormat=\{0:yyyy-MM-dd\}}" Width="80" HorizontalAlignment="Left" />
+                                        <Label Grid.Row="0" Grid.Column="1" Background="{Binding AlertColor}" Height="20" Width="20"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!--<DataGridTextColumn Binding="{Binding ExpiredDate, StringFormat=\{0:yyyy-MM-dd\}}" Header="{Binding HeaderAlertDate}" />
+                        <DataGridTextColumn CanUserResize="False" Width="5">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background" Value="{Binding AlertColor}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>-->
+                        <DataGridTextColumn Binding="{Binding BuyPrice, StringFormat=\{0:n0\}}" Header="Harga Beli (rata-rata)" />
+                        <!--<DataGridTextColumn Binding="{Binding SellPrice.SellingPrice, StringFormat=\{0:n0\}}" Header="Harga Jual (yang berlaku)" Foreground="#FF1800FF">
+                            <DataGridTextColumn.CellStyle>
+                                <Style>
+                                    <EventSetter Event="DataGridCell.MouseLeftButtonDown"
+                                        Handler="SellPriceClicked" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>-->
+                        <DataGridTemplateColumn Header="Harga Jual (yang berlaku)">
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style>
+                                    <EventSetter Event="DataGridCell.MouseLeftButtonDown"
+                                        Handler="SellPriceClicked" />
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="15"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding SellPrice.SellingPrice, StringFormat=\{0:n0\}}" Width="60" TextAlignment="Right" HorizontalAlignment="Right" Foreground="#FF1800FF"/>
+                                        <Label Grid.Row="0" Grid.Column="1" Content="{Binding SellPrice.SaleText}" Background="{Binding SellPrice.SaleColor}" FontSize="9" VerticalContentAlignment="Stretch" Height="20" Width="40"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn CanUserResize="False" Width="5" />
                         <DataGridTextColumn Binding="{Binding Product.Alerts}" Header="Expiry Notification"/>
                     </DataGrid.Columns>
 

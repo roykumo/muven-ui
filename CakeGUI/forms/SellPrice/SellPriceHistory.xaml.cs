@@ -21,57 +21,59 @@ namespace CakeGUI.forms
     /// <summary>
     /// Interaction logic for ProductInventoryList.xaml
     /// </summary>
-    public partial class ProductInventoryList : Page
+    public partial class SellPriceHistory : Page
     {
         private static ProductService productService = ProductServiceRestImpl.Instance;
-
-        ProductInventoryItemService inventoryService = ProductInventoryItemServiceRestImpl.Instance;
+        private static SellPriceService sellPriceService = SellPriceServiceRestImpl.Instance;
 
         private CommonPage commonPage;
+        private decimal avgBuyPrice;
 
-        public ProductInventoryList()
+        public SellPriceHistory()
         {
             InitializeComponent();
             init();
         }
 
-        public ProductInventoryList(ProductEntity product)
+        public SellPriceHistory(ProductEntity product)
         {
             InitializeComponent();
             this.product = product;
             init();
         }
 
-        public ProductEntity product;
-        
-        public List<CakeGUI.classes.entity.InventoryItemEntity> inventories { get; set; }
-        
+        public ProductEntity product;     
+        public List<SellPrice> sellPrices { get; set; }
+
         private void init()
         {
             commonPage = new CommonPage();
-            commonPage.Title = "Info Barang";
+            commonPage.Title = "Harga Jual";
 
-            if (product != null)
+            loadData();
+        }
+
+        private void loadData()
+        {
+            this.dataGrid.ItemsSource = null;
+            if(product != null)
             {
-                inventories = inventoryService.getProductInventories(product);
-                dataGrid.Columns[3].Header = product.Type.Expiration ? "Expired Date" : "Aging Date";
-
-                this.dataGrid.ItemsSource = inventories;
-
-                lblProduct.Text = product.Name + " [" + product.BarCode + "]";
+                sellPrices = sellPriceService.getSellPrices(product);
+                this.dataGrid.ItemsSource = null;
+                this.dataGrid.ItemsSource = sellPrices;
             }
         }
-        private void EditProductClicked(object sender, RoutedEventArgs e)
+      
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            InventoryItemEntity cellContent = (InventoryItemEntity)dataGrid.SelectedItem;
-            //MessageBox.Show(cellContent.Product.Name);
+            GenericWindow windowAdd = new GenericWindow();
+            SellPriceMaintenance sellPricePage = new SellPriceMaintenance(product);
+            sellPricePage.SetParent(commonPage);
+            sellPricePage.setAvgBuyPrice(avgBuyPrice);
 
-            GenericWindow windowInventoryList = new GenericWindow();
-            InventoryMaintenance inventoryMaintenancePage = new InventoryMaintenance(cellContent);
-            inventoryMaintenancePage.SetParent(commonPage);
-
-            windowInventoryList.Content = inventoryMaintenancePage;
-            windowInventoryList.ShowDialog();
+            windowAdd.Content = sellPricePage;
+            windowAdd.Owner = (this.Tag as MainWindow);
+            windowAdd.ShowDialog();
             init();
         }
 
@@ -86,6 +88,12 @@ namespace CakeGUI.forms
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             lblSiteMap.Content = commonPage.TitleSiteMap;
+            lblTitle.Text = product.Name + " [" + product.BarCode + "]";
+        }
+
+        public void setAvgBuyPrice(decimal price)
+        {
+            avgBuyPrice = price;
         }
     }
 }
