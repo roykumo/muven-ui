@@ -26,7 +26,9 @@ namespace CakeGUI.forms
         private static ProductService productService = ProductServiceRestImpl.Instance;
 
         ProductInventoryItemService inventoryService = ProductInventoryItemServiceRestImpl.Instance;
-        
+
+        private CommonPage commonPage;
+
         public ProductInventoryList()
         {
             InitializeComponent();
@@ -46,6 +48,9 @@ namespace CakeGUI.forms
         
         private void init()
         {
+            commonPage = new CommonPage();
+            commonPage.Title = "Info Barang";
+
             if (product != null)
             {
                 inventories = inventoryService.getProductInventories(product);
@@ -63,10 +68,24 @@ namespace CakeGUI.forms
 
             GenericWindow windowInventoryList = new GenericWindow();
             InventoryMaintenance inventoryMaintenancePage = new InventoryMaintenance(cellContent);
+            inventoryMaintenancePage.SetParent(commonPage);
 
             windowInventoryList.Content = inventoryMaintenancePage;
             windowInventoryList.ShowDialog();
             init();
+        }
+
+        public void SetParent(CommonPage page)
+        {
+            if (commonPage != null)
+            {
+                commonPage.ParentPage = page;
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            lblSiteMap.Content = commonPage.TitleSiteMap;
         }
     }
 }

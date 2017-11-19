@@ -26,6 +26,8 @@ namespace CakeGUI.forms
         private static ProductService productService = ProductServiceRestImpl.Instance;
         private static ProductTypeService productTypeService = ProductTypeServiceRestImpl.Instance;
 
+        private CommonPage commonPage;
+
         public Product()
         {
             InitializeComponent();
@@ -50,6 +52,8 @@ namespace CakeGUI.forms
 
         private void init()
         {
+            commonPage = new CommonPage();
+            commonPage.Title = "Master Barang";
             productTypes = productTypeService.getProductTypes();
             cmbType.ItemsSource = productTypes;
 
@@ -121,11 +125,20 @@ namespace CakeGUI.forms
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-
+            //(this.Tag as MainWindow).setLabelTitle(commonPage.TitleSiteMap);
+            lblSiteMap.Content = commonPage.TitleSiteMap;
             if (product.Type != null)
             {
                 int idx = productTypes.FindIndex(t => t.Id == product.Type.Id);
                 cmbType.SelectedIndex = idx;
+            }
+        }
+
+        public void SetParent(CommonPage page)
+        {
+            if (commonPage != null)
+            {
+                commonPage.ParentPage = page;
             }
         }
     }

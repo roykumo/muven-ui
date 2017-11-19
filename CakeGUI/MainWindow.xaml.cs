@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CakeGUI.forms;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace CakeGUI
 {
@@ -25,12 +27,11 @@ namespace CakeGUI
         {
             InitializeComponent();
             mainFrame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
+            CommonPage = new CommonPage();
+            CommonPage.Title = "Home";
         }
-
-        ProductList productList = new ProductList();
-        Product product = new Product();
-        ProductStock productStock = new ProductStock();
-        NewInventory newInventory = new NewInventory();
+                
+        public CommonPage CommonPage { get; set; }
 
         private void ContextMenuClick(object sender, RoutedEventArgs e)
         {
@@ -71,23 +72,34 @@ namespace CakeGUI
             }
             mainFrame.Refresh();
         }
-
+        
         private void loadProductList()
         {
+            ProductList productList = new ProductList();
             productList.Tag = this;
+            productList.SetParent(CommonPage);
             this.mainFrame.Content = productList;
         }
 
         private void loadProductStock()
         {
+            ProductStock productStock = new ProductStock();
             productStock.Tag = this;
+            productStock.SetParent(CommonPage);
             this.mainFrame.Content = productStock;
         }
 
         private void loadNewInventory()
         {
+            NewInventory newInventory = new NewInventory();
             newInventory.Tag = this;
             this.mainFrame.Content = newInventory;
         }
+
+        public void setLabelTitle(string title)
+        {
+            //lblSiteMap.Content = title;
+        }
+        
     }
 }

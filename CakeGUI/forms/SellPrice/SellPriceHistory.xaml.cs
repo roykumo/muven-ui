@@ -26,6 +26,9 @@ namespace CakeGUI.forms
         private static ProductService productService = ProductServiceRestImpl.Instance;
         private static SellPriceService sellPriceService = SellPriceServiceRestImpl.Instance;
 
+        private CommonPage commonPage;
+        private decimal avgBuyPrice;
+
         public SellPriceHistory()
         {
             InitializeComponent();
@@ -44,6 +47,9 @@ namespace CakeGUI.forms
 
         private void init()
         {
+            commonPage = new CommonPage();
+            commonPage.Title = "Harga Jual";
+
             loadData();
         }
 
@@ -62,12 +68,32 @@ namespace CakeGUI.forms
         {
             GenericWindow windowAdd = new GenericWindow();
             SellPriceMaintenance sellPricePage = new SellPriceMaintenance(product);
+            sellPricePage.SetParent(commonPage);
+            sellPricePage.setAvgBuyPrice(avgBuyPrice);
 
             windowAdd.Content = sellPricePage;
             windowAdd.Owner = (this.Tag as MainWindow);
             windowAdd.ShowDialog();
             init();
         }
-        
+
+        public void SetParent(CommonPage page)
+        {
+            if (commonPage != null)
+            {
+                commonPage.ParentPage = page;
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            lblSiteMap.Content = commonPage.TitleSiteMap;
+            lblTitle.Text = product.Name + " [" + product.BarCode + "]";
+        }
+
+        public void setAvgBuyPrice(decimal price)
+        {
+            avgBuyPrice = price;
+        }
     }
 }

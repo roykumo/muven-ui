@@ -25,15 +25,27 @@ namespace CakeGUI.forms
         private ProductService productService = ProductServiceImpl.Instance;
         private SellPriceService sellPriceService = SellPriceServiceRestImpl.Instance;
         private SellPrice SellPrice { get; set; }
-        
+
+        private decimal AvgBuyPrice { get; set; }
+
+        private CommonPage commonPage;
+
+        private void iniCommonPage()
+        {
+            commonPage = new CommonPage();
+            commonPage.Title = "Penetapan";
+        }
+
         public SellPriceMaintenance()
         {
             InitializeComponent();
+            iniCommonPage();
         }
-        
+
         public SellPriceMaintenance(ProductEntity product)
         {
             InitializeComponent();
+            iniCommonPage();
             SellPrice = new SellPrice();
             SellPrice.Product = product;
             SellPrice.Date = DateTime.Now;
@@ -42,9 +54,6 @@ namespace CakeGUI.forms
             radioFalse.IsChecked = !SellPrice.Sale;
 
             dtExpired.SelectedDate = SellPrice.Date;
-            txtBuyPrice.Text = "";
-
-            lblTitle.Text = "Stock Barang"+ " > " + "Harga Jual ";
         }
         
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -68,6 +77,26 @@ namespace CakeGUI.forms
                 genericWindow.Close();
             }
         }
-        
+
+        public void SetParent(CommonPage page)
+        {
+            if (page != null)
+            {
+                commonPage.ParentPage = page;
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            lblSiteMap.Content = commonPage.TitleSiteMap;
+            lblTitle.Text = SellPrice.Product.Name + " [" + SellPrice.Product.BarCode + "]";
+            txtBuyPrice.Text = SellPrice.BuyPrice.ToString("0,0");
+        }
+
+        public void setAvgBuyPrice(decimal price)
+        {
+            AvgBuyPrice = price;
+            SellPrice.BuyPrice = AvgBuyPrice;
+        }
     }
 }

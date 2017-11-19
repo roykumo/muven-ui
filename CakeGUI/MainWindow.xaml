@@ -41,7 +41,8 @@
                 <MenuItem x:Name="RepackingOut" Header="_Repacking Keluar"/>
             </MenuItem>
         </Menu>
-        <Frame x:Name="mainFrame" Content="Frame" HorizontalAlignment="Left" Height="687" Margin="10,41,0,0" VerticalAlignment="Top" Width="998"/>
+        <!--<Label x:Name="lblSiteMap" Content="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,9.6,708.4" Height="30" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>-->
+        <Frame x:Name="mainFrame" Content="Frame" HorizontalAlignment="Left" Height="656" Margin="10,29,0,0" VerticalContentAlignment="Top" VerticalAlignment="Top" Width="998"/>
 
     </Grid>
 </Window>

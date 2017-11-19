@@ -26,12 +26,19 @@ namespace CakeGUI.forms
         private static ProductService productService = ProductServiceRestImpl.Instance;
         private static ProductTypeService productTypeService = ProductTypeServiceRestImpl.Instance;
 
+        private CommonPage commonPage;
+
         public ProductList()
         {
             InitializeComponent();
+
+            commonPage = new CommonPage();
+            commonPage.Title = "LIST Master Barang";
+            lblTItle.Text = commonPage.Title;
+
             init();
         }
-        
+
         public ProductEntity product;        
         public List<CakeGUI.classes.entity.ProductEntity> products { get; set; }
         public List<CakeGUI.classes.entity.ProductTypeEntity> productTypes { get; set; }
@@ -70,9 +77,8 @@ namespace CakeGUI.forms
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             GenericWindow windowAdd = new GenericWindow();
-            Product productPage = new Product();
 
-            windowAdd.Content = productPage;
+            windowAdd.Content = createProductPage(null);
             windowAdd.Owner = (this.Tag as MainWindow);
             windowAdd.ShowDialog();
             init();
@@ -84,9 +90,7 @@ namespace CakeGUI.forms
             //MessageBox.Show(cellContent.Product.Name);
 
             GenericWindow windowInventoryList = new GenericWindow();
-            Page productPage = new Product(cellContent);
-
-            windowInventoryList.Content = productPage;
+            windowInventoryList.Content = createProductPage(cellContent);
             windowInventoryList.ShowDialog();
             init();
         }
@@ -121,6 +125,37 @@ namespace CakeGUI.forms
                 //MessageBox.Show("change");
                 //lblNotif.Text = type.Expiration ? "Expire Notification" : "Aging Notification";
             }
+        }
+
+        public void SetParent(CommonPage page)
+        {
+            if(commonPage != null)
+            {
+                commonPage.ParentPage = page;
+            }
+        }
+        
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            //(this.Tag as MainWindow).setLabelTitle(commonPage.TitleSiteMap);
+            lblSiteMap.Content = commonPage.TitleSiteMap;
+        }
+
+        private  Product createProductPage(ProductEntity product)
+        {
+            Product productPage;
+            if (product == null)
+            {
+                productPage = new Product();
+            }
+            else
+            {
+                productPage = new Product(product);
+            }
+            productPage.SetParent(commonPage);
+            productPage.Tag = this.Tag;
+
+            return productPage;
         }
     }
 }

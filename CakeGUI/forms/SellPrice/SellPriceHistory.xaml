@@ -6,11 +6,12 @@
       xmlns:local="clr-namespace:CakeGUI.forms"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="ProductInventoryList" Width="800" Height="600">
+      Title="ProductInventoryList" Width="800" Height="600" Loaded="Page_Loaded">
 
     <Border Padding="10">
         <StackPanel HorizontalAlignment="Left" Height="580" VerticalAlignment="Top" Width="780">
-            <TextBlock TextWrapping="Wrap" Text="Harga Jual" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
+            <Label Content="Title" Name="lblSiteMap"/>
+            <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Harga Jual" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
             <Grid Height="30">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40" />
@@ -30,8 +31,8 @@
                 <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0,2,0,-554" ItemsSource="{Binding products}" IsReadOnly="True" Grid.ColumnSpan="2" >
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Date, StringFormat=\{0:yyyy-MM-dd\}}" HeaderStringFormat="" Header="Tanggal Penetapan"/>
-                        <DataGridTextColumn Binding="{Binding BuyPrice}" HeaderStringFormat="" Header="Harga Beli Rata2" />
-                        <DataGridTextColumn Binding="{Binding SellingPrice}" HeaderStringFormat="" Header="Harga Jual" />
+                        <DataGridTextColumn Binding="{Binding BuyPrice, StringFormat=\{0:n0\}}" HeaderStringFormat="" Header="Harga Beli Rata2" />
+                        <DataGridTextColumn Binding="{Binding SellingPrice, StringFormat=\{0:n0\}}" HeaderStringFormat="" Header="Harga Jual" />
                         <DataGridTextColumn Binding="{x:Null}" Header=""/>
                         <DataGridTextColumn Binding="{Binding Profit}" Header="Profit"/>
                         <DataGridTextColumn Binding="{Binding Remarks}" Header="Keterangan"/>

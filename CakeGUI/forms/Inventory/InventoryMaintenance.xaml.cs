@@ -24,16 +24,26 @@ namespace CakeGUI.forms
     {
         private static ProductService productService = ProductServiceImpl.Instance;
         private static ProductInventoryItemService inventoryService = ProductInventoryItemServiceRestImpl.Instance;
-        
+
+        private CommonPage commonPage;
+
+        private void initCommonPage()
+        {
+            commonPage = new CommonPage();
+            commonPage.Title = "Barang Masuk";
+        }
+
         public InventoryMaintenance()
         {
             InitializeComponent();
+            initCommonPage();
             inventory = new InventoryItemEntity();
         }
         
         public InventoryMaintenance(InventoryItemEntity inventory)
         {
             InitializeComponent();
+            initCommonPage();
             this.inventory = inventory;
             txtTransactionCode.Text = this.inventory.Inventory.TransactionCode;
             //txtTransactionCode.Text = this.inventory.TransactionCode;
@@ -44,7 +54,6 @@ namespace CakeGUI.forms
             //txtExpiredDate.Text = this.inventory.ExpiredDate;
             dtExpired.SelectedDate = this.inventory.ExpiredDate;
             txtRemarks.Text = this.inventory.Remarks;
-            lblTitle.Text = inventory.Product.Type.Code + " > " + inventory.Product.Name + " > Info Barang";
         }
 
         private InventoryItemEntity inventory;
@@ -71,6 +80,19 @@ namespace CakeGUI.forms
                 genericWindow.Close();
             }
         }
-        
+
+        public void SetParent(CommonPage page)
+        {
+            if (commonPage != null)
+            {
+                commonPage.ParentPage = page;
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            lblTitle.Text = inventory.Product.Type.Description + " > " + inventory.Product.Name + " > Info Barang";
+            lblSiteMap.Content = commonPage.TitleSiteMap + (string.IsNullOrEmpty(inventory.Id) ? "" : " > edit");
+        }
     }
 }

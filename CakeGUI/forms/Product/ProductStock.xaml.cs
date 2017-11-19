@@ -29,9 +29,16 @@ namespace CakeGUI.forms
         ProductStockService stockService = ProductStockServiceRestImpl.Instance;
         private List<ProductTypeEntity> productTypes = new List<ProductTypeEntity>();
 
+        private CommonPage commonPage;
+
         public ProductStock()
         {
             InitializeComponent();
+
+            commonPage = new CommonPage();
+            commonPage.Title = "Stock Barang";
+            lblSiteMap.Content = commonPage.Title;
+
             init();
         }
         
@@ -66,7 +73,8 @@ namespace CakeGUI.forms
             //MessageBox.Show(cellContent.Product.Name);
 
             GenericWindow windowInventoryList = new GenericWindow();
-            Page inventoryListPage = new ProductInventoryList(cellContent.Product);
+            ProductInventoryList inventoryListPage = new ProductInventoryList(cellContent.Product);
+            inventoryListPage.SetParent(commonPage);
 
             windowInventoryList.Content = inventoryListPage;
             windowInventoryList.ShowDialog();
@@ -77,7 +85,9 @@ namespace CakeGUI.forms
             ProductStockEntity cellContent = (ProductStockEntity)dataGrid.SelectedItem;
             
             GenericWindow windowSellPriceHistory = new GenericWindow();
-            Page sellPriceHistoryPage = new SellPriceHistory(cellContent.Product);
+            SellPriceHistory sellPriceHistoryPage = new SellPriceHistory(cellContent.Product);
+            sellPriceHistoryPage.SetParent(commonPage);
+            sellPriceHistoryPage.setAvgBuyPrice(cellContent.BuyPrice);
 
             windowSellPriceHistory.Content = sellPriceHistoryPage;
             windowSellPriceHistory.ShowDialog();
@@ -105,6 +115,14 @@ namespace CakeGUI.forms
             }
         }
 
+        public void SetParent(CommonPage page)
+        {
+            if (commonPage != null)
+            {
+                commonPage.ParentPage = page;
+            }
+        }
+
         private void dataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             /*try
@@ -122,6 +140,10 @@ namespace CakeGUI.forms
                 }
             }catch {  }*/
         }
-        
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            lblSiteMap.Content = commonPage.TitleSiteMap;
+        }
     }
 }
