@@ -12,15 +12,15 @@
         <StackPanel HorizontalAlignment="Left" Height="580" VerticalAlignment="Top" Width="780">
             <Label Content="Title" Name="lblSiteMap"/>
             <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Harga Jual" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
-            <Grid Height="30">
+            <Grid Height="25">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40" />
+                    <RowDefinition Height="25" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Content="Tambah Harga Jual" Grid.Column="1" Click="btnAdd_Click" HorizontalAlignment="Right" Width="139" VerticalAlignment="Center" Height="20"/>
+                <Button Content="Tambah Harga Jual" Grid.Column="1" FontSize="12" Click="btnAdd_Click" HorizontalAlignment="Right" Width="139" VerticalAlignment="Center" Height="25"/>
 
             </Grid>
             <Grid>

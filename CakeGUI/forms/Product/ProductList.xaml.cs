@@ -33,7 +33,7 @@ namespace CakeGUI.forms
             InitializeComponent();
 
             commonPage = new CommonPage();
-            commonPage.Title = "LIST Master Barang";
+            commonPage.Title = "List Master Barang";
             lblTItle.Text = commonPage.Title;
             
             init();
