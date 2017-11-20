@@ -74,7 +74,7 @@ namespace CakeGUI.forms
             windowAdd.Content = sellPricePage;
             windowAdd.Owner = (this.Tag as MainWindow);
             windowAdd.ShowDialog();
-            init();
+            loadData();
         }
 
         public void SetParent(CommonPage page)
