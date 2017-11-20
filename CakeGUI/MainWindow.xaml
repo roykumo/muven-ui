@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="Toko Bahan Kue - Muven" Height="768" Width="1024" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Menu x:Name="menuBar" Height="20" VerticalAlignment="Top" Margin="10,0,-0.4,0" RenderTransformOrigin="0.5,0.5">
+        <!--<Menu x:Name="menuBar" Height="20" VerticalAlignment="Top" Margin="10,0,-0.4,0" RenderTransformOrigin="0.5,0.5">
             <Menu.Resources>
                 <Style TargetType="{x:Type MenuItem}">
                     <EventSetter Event="Click" Handler="ContextMenuClick" />
@@ -23,7 +23,37 @@
                 </TransformGroup>
             </Menu.RenderTransform>
             <MenuItem Header="_File" x:Name="File">
-                <MenuItem x:Name="Exit" Header="_Exit"/>
+                <MenuItem x:Name="Exit" Header="_Exit">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon  Kind="ExitToApp" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_List Item" x:Name="ListItem">
+                <MenuItem x:Name="ProductStock" Header="_Stock Barang"/>
+                <MenuItem x:Name="Product" Header="_Master Barang"/>
+            </MenuItem>
+            <MenuItem Header="_Notification" x:Name="Notification">
+                <MenuItem x:Name="Alert" Header="_Expired / Aging Alert"/>
+                <MenuItem x:Name="SaleNotification" Header="_Sale Notification"/>
+            </MenuItem>
+            <MenuItem Header="_Stock In" x:Name="StockIn">
+                <MenuItem x:Name="Inventory" Header="_Pembelian"/>
+                <MenuItem x:Name="Repacking" Header="_Repacking"/>
+                <MenuItem x:Name="StockOpname" Header="_Stock Opname"/>
+            </MenuItem>
+            <MenuItem Header="_Stock Out" x:Name="StockOut">
+                <MenuItem x:Name="InventoryOut" Header="_Barang Keluar"/>
+                <MenuItem x:Name="RepackingOut" Header="_Repacking Keluar"/>
+            </MenuItem>
+        </Menu>-->
+        <Menu x:Name="mainMenu" IsMainMenu="True">
+            <MenuItem Header="_File" x:Name="File">
+                <MenuItem x:Name="Exit" Header="_Exit">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon  Kind="ExitToApp" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="_List Item" x:Name="ListItem">
                 <MenuItem x:Name="ProductStock" Header="_Stock Barang"/>

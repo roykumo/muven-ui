@@ -29,6 +29,36 @@ namespace CakeGUI
             mainFrame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
             CommonPage = new CommonPage();
             CommonPage.Title = "Home";
+            initMenu();
+        }
+
+        private void initMenu()
+        {
+            var actions = new Dictionary<string, Func<MenuItem, RoutedEventHandler>>()
+            {
+                { "Exit", mi => (s, e) => { closeApp(); }},
+                { "Product", mi => (s, e) => { loadProductList(); }},
+                { "ProductStock", mi => (s, e) => { loadProductStock(); }},
+                { "Inventory", mi => (s, e) => { loadNewInventory(); }}
+            };
+
+            foreach (MenuItem mi in mainMenu.Items)
+            {
+                if (actions.ContainsKey(mi.Name))
+                {
+                    mi.Click += actions[mi.Name](mi);
+                }
+                if(mi.Items!=null && !mi.Items.IsEmpty)
+                {
+                    foreach (MenuItem miChild in mi.Items)
+                    {
+                        if (actions.ContainsKey(miChild.Name))
+                        {
+                            miChild.Click += actions[miChild.Name](miChild);
+                        }
+                    }
+                }
+            }
         }
                 
         public CommonPage CommonPage { get; set; }
