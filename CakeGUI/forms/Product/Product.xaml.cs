@@ -123,6 +123,12 @@ namespace CakeGUI.forms
             }
         }
 
+        public void SetProductType(ProductTypeEntity productType)
+        {
+            cmbType.SelectedItem = productType;
+            product.Type = productType;
+        }
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             //(this.Tag as MainWindow).setLabelTitle(commonPage.TitleSiteMap);

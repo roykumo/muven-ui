@@ -35,7 +35,7 @@ namespace CakeGUI.forms
             commonPage = new CommonPage();
             commonPage.Title = "LIST Master Barang";
             lblTItle.Text = commonPage.Title;
-
+            
             init();
         }
 
@@ -147,6 +147,7 @@ namespace CakeGUI.forms
             if (product == null)
             {
                 productPage = new Product();
+                productPage.SetProductType((ProductTypeEntity)cmbType.SelectedItem);
             }
             else
             {
