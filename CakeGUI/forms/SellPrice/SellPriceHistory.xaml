@@ -33,8 +33,14 @@
                         <DataGridTextColumn Binding="{Binding Date, StringFormat=\{0:yyyy-MM-dd\}}" HeaderStringFormat="" Header="Tanggal Penetapan"/>
                         <DataGridTextColumn Binding="{Binding BuyPrice, StringFormat=\{0:n0\}}" HeaderStringFormat="" Header="Harga Beli Rata2" />
                         <DataGridTextColumn Binding="{Binding SellingPrice, StringFormat=\{0:n0\}}" HeaderStringFormat="" Header="Harga Jual" />
-                        <DataGridTextColumn Binding="{x:Null}" Header=""/>
                         <DataGridTextColumn Binding="{Binding Profit}" Header="Profit"/>
+                        <DataGridTemplateColumn Header="">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Grid.Row="0" Grid.Column="1" Content="{Binding SaleText}" Background="{Binding SaleColor}" FontSize="9" VerticalContentAlignment="Stretch" Height="20" Width="40"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn Binding="{Binding Remarks}" Header="Keterangan"/>
                     </DataGrid.Columns>
 
