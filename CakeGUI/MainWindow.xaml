@@ -69,8 +69,11 @@
                 <MenuItem x:Name="StockOpname" Header="_Stock Opname"/>
             </MenuItem>
             <MenuItem Header="_Stock Out" x:Name="StockOut">
-                <MenuItem x:Name="InventoryOut" Header="_Barang Keluar"/>
-                <MenuItem x:Name="RepackingOut" Header="_Repacking Keluar"/>
+                <!--<MenuItem x:Name="InventoryOut" Header="_Barang Keluar"/>
+                <MenuItem x:Name="RepackingOut" Header="_Repacking Keluar"/>-->
+                <MenuItem x:Name="Sell" Header="_Penjualan Barang"/>
+                <MenuItem x:Name="CashRegister" Header="_Cash Register"/>
+                <MenuItem x:Name="ProductDump" Header="_Pemusnahan Barang"/>
             </MenuItem>
         </Menu>
         <!--<Label x:Name="lblSiteMap" Content="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,9.6,708.4" Height="30" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>-->
