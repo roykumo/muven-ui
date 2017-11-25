@@ -12,7 +12,7 @@
         <StackPanel HorizontalAlignment="Left" Height="580" VerticalAlignment="Top" Width="780">
             <Label Content="Title" x:Name="lblSiteMap"/>
             <TextBlock x:Name="lblTItle" TextWrapping="Wrap" Text="List Master Barang" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
-            <Grid Height="30">
+            <Grid Height="40">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
@@ -26,6 +26,12 @@
             </Grid>
             <Grid>
                 <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0,2,0,-554" ItemsSource="{Binding products}" IsReadOnly="True" >
+                    <DataGrid.Resources>
+                        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="LightSkyBlue" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Type.Description}" HeaderStringFormat="" Header="Jenis"/>
                         <DataGridTextColumn Binding="{Binding Name}" HeaderStringFormat="" Header="Nama" />

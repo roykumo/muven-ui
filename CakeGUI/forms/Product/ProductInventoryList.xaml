@@ -15,6 +15,12 @@
 
             <Grid>
                 <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0,31,0,-554" ItemsSource="{Binding products}" IsReadOnly="True" >
+                    <DataGrid.Resources>
+                        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="LightSkyBlue" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Inventory.TransactionCode}" HeaderStringFormat="" Header="Kode Transaksi" Foreground="Black"/>
                         <DataGridTextColumn Binding="{Binding Inventory.Date, StringFormat=\{0:yyyy-MM-dd\}}" Header="Tanggal Barang Masuk"/>

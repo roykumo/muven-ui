@@ -20,6 +20,14 @@
             <ComboBox x:Name="cmbType" SelectedValuePath="Id" FontSize="16" DisplayMemberPath="Description" Margin="0, 10" HorizontalAlignment="Left" Width="100" SelectionChanged="cmbType_SelectionChanged"/>
             <Grid>
                 <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0, 0 ,0,-554" ItemsSource="{Binding products}" IsReadOnly="True" LoadingRow="dataGrid_LoadingRow" >
+                    <DataGrid.Resources>
+                        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="LightSkyBlue" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <!--<Setter Property="TextBlock.TextAlignment" Value="Center" />
+                            <Setter Property="TextBlock.TextWrapping" Value="WrapWithOverflow" />-->
+                        </Style>
+                    </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Product.Name}" HeaderStringFormat="" Header="Nama Barang" Foreground="#FF1800FF">
                             <DataGridTextColumn.CellStyle>
@@ -65,7 +73,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>-->
-                        <DataGridTextColumn Binding="{Binding BuyPrice, StringFormat=\{0:n0\}}" Header="Harga Beli (rata-rata)" />
+                        <DataGridTextColumn Binding="{Binding BuyPrice, StringFormat=\{0:n0\}}" Header="Harga Beli&#x0a;(rata-rata)" Width="100" />
                         <!--<DataGridTextColumn Binding="{Binding SellPrice.SellingPrice, StringFormat=\{0:n0\}}" Header="Harga Jual (yang berlaku)" Foreground="#FF1800FF">
                             <DataGridTextColumn.CellStyle>
                                 <Style>
@@ -74,7 +82,7 @@
                                 </Style>
                             </DataGridTextColumn.CellStyle>
                         </DataGridTextColumn>-->
-                        <DataGridTemplateColumn Header="Harga Jual (yang berlaku)">
+                        <DataGridTemplateColumn Header="Harga Jual&#x0a;(yang berlaku)" Width="110" >
                             <DataGridTemplateColumn.CellStyle>
                                 <Style>
                                     <EventSetter Event="DataGridCell.MouseLeftButtonDown"
