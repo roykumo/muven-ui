@@ -23,7 +23,7 @@ namespace CakeGUI.forms
     /// </summary>
     public partial class NewInventory : Page
     {
-        private static ProductService productService = ProductServiceImpl.Instance;
+        private static ProductService productService = ProductServiceRestImpl.Instance;
 
         ProductInventoryItemService inventoryService = ProductInventoryItemServiceRestImpl.Instance;
         

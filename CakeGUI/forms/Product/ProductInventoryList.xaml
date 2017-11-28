@@ -33,6 +33,7 @@
                                 <Style>
                                     <EventSetter Event="DataGridCell.MouseLeftButtonDown"
                                         Handler="EditProductClicked" />
+                                    <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
                                 </Style>
                             </DataGridTemplateColumn.CellStyle>
                             <DataGridTemplateColumn.CellTemplate>

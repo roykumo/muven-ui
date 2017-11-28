@@ -108,6 +108,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="forms\Notification\SaleNotification.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="forms\Product\Product.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -147,6 +151,7 @@
     <Compile Include="classes\entity\InventoryEntity.cs" />
     <Compile Include="classes\entity\InventoryItemEntity.cs" />
     <Compile Include="classes\entity\ProductEntity.cs" />
+    <Compile Include="classes\entity\SaleNotificationEntity.cs" />
     <Compile Include="classes\entity\ProductStockEntity.cs" />
     <Compile Include="classes\entity\ProductTypeEntity.cs" />
     <Compile Include="classes\entity\rest\CommonPaging.cs" />
@@ -157,6 +162,8 @@
     <Compile Include="classes\entity\SellPrice.cs" />
     <Compile Include="classes\service\ProductInventoryItemServiceRestImpl.cs" />
     <Compile Include="classes\service\ProductServiceRestImpl.cs" />
+    <Compile Include="classes\service\NotificationService.cs" />
+    <Compile Include="classes\service\NotificationServiceRestImpl.cs" />
     <Compile Include="classes\service\ProductStockServiceRestImpl.cs" />
     <Compile Include="classes\service\ProductTypeServiceRestImpl.cs" />
     <Compile Include="classes\service\SellPriceServiceRestImpl.cs" />
@@ -170,6 +177,7 @@
     <Compile Include="classes\service\ProductStockService.cs" />
     <Compile Include="classes\service\ProductInventoryItemServiceImpl.cs" />
     <Compile Include="classes\service\ProductStockServiceImpl.cs" />
+    <Compile Include="classes\util\MoneyToColorConverter.cs" />
     <Compile Include="classes\util\AlertConverter.cs" />
     <Compile Include="classes\util\IJsonSerializer.cs" />
     <Compile Include="classes\util\ISODateConverter.cs" />
@@ -190,6 +198,9 @@
     </Compile>
     <Compile Include="forms\Material\SampleMessageDialog.xaml.cs">
       <DependentUpon>SampleMessageDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\Notification\SaleNotification.xaml.cs">
+      <DependentUpon>SaleNotification.xaml</DependentUpon>
     </Compile>
     <Compile Include="forms\Product\Product.xaml.cs">
       <DependentUpon>Product.xaml</DependentUpon>

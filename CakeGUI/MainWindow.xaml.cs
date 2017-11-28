@@ -39,7 +39,8 @@ namespace CakeGUI
                 { "Exit", mi => (s, e) => { closeApp(); }},
                 { "Product", mi => (s, e) => { loadProductList(); }},
                 { "ProductStock", mi => (s, e) => { loadProductStock(); }},
-                { "Inventory", mi => (s, e) => { loadNewInventory(); }}
+                { "Inventory", mi => (s, e) => { loadNewInventory(); }},
+                { "SaleNotification", mi => (s, e) => { loadSaleNotification(); }}
             };
 
             foreach (MenuItem mi in mainMenu.Items)
@@ -124,6 +125,13 @@ namespace CakeGUI
             NewInventory newInventory = new NewInventory();
             newInventory.Tag = this;
             this.mainFrame.Content = newInventory;
+        }
+
+        private void loadSaleNotification()
+        {
+            SaleNotification saleNotification = new SaleNotification();
+            saleNotification.Tag = this;
+            this.mainFrame.Content = saleNotification;
         }
 
         public void setLabelTitle(string title)

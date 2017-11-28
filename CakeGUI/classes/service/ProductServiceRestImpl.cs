@@ -84,18 +84,12 @@ namespace CakeGUI.classes.service
 
         public ProductEntity getProductByBarcode(String barcode)
         {
-            /*if(mapProduct != null && mapProduct.Count > 0)
-            {
-                foreach(ProductEntity p in mapProduct.Values)
-                {
-                    if (p.BarCode.Equals(barcode))
-                    {
-                        return p;
-                    }
-                }
-                
-            }*/
-            return null;
+            var request = new RestRequest("product", Method.GET);
+            request.AddParameter("barcode", barcode);
+
+            IRestResponse<TCommonResponse<ProductEntity>> product = client.Execute<TCommonResponse<ProductEntity>>(request);
+
+            return product.Data.Data;
         }
 
         public List<ProductEntity> getProducts(ProductTypeEntity type)
