@@ -160,6 +160,8 @@
     <Compile Include="classes\entity\rest\CommonStatus.cs" />
     <Compile Include="classes\entity\rest\KeyValue.cs" />
     <Compile Include="classes\entity\SellPrice.cs" />
+    <Compile Include="classes\service\ProductInventoryServiceRestImpl.cs" />
+    <Compile Include="classes\service\ProductInventoryService.cs" />
     <Compile Include="classes\service\ProductInventoryItemServiceRestImpl.cs" />
     <Compile Include="classes\service\ProductServiceRestImpl.cs" />
     <Compile Include="classes\service\NotificationService.cs" />
@@ -182,6 +184,7 @@
     <Compile Include="classes\util\IJsonSerializer.cs" />
     <Compile Include="classes\util\ISODateConverter.cs" />
     <Compile Include="classes\util\JSONSerializer.cs" />
+    <Compile Include="classes\util\Utils.cs" />
     <Compile Include="forms\CommonPage.cs" />
     <Compile Include="forms\ICommonPage.cs" />
     <Compile Include="forms\GenericWindow.xaml.cs">

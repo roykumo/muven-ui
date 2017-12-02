@@ -17,6 +17,9 @@
                 <Setter Property="TextAlignment" Value="Right"/>
                 <Setter Property="Padding" Value="0 0 10 0"/>
             </Style>
+            <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
             <util:MoneyToColorConverter x:Key="moneyToColorConverter"/>
         </ResourceDictionary>
     </Application.Resources>

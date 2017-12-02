@@ -17,5 +17,10 @@ namespace CakeGUI.classes.entity
         [JsonProperty("date")]
         [JsonConverter(typeof(ISODateConverter))]
         public DateTime Date { get; set; }
+        [JsonProperty("totalPrice")]
+        public Decimal TotalPrice { get; set; }
+
+        [JsonProperty("items")]
+        public List<InventoryItemEntity> Items { get; set; }
     }
 }

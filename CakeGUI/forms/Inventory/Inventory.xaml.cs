@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CakeGUI.classes.service;
 using CakeGUI.classes.entity;
+using CakeGUI.classes.util;
 
 namespace CakeGUI.forms
 {
@@ -24,11 +25,32 @@ namespace CakeGUI.forms
     {
         private static ProductService productService = ProductServiceRestImpl.Instance;
         private static ProductInventoryItemService inventoryService = ProductInventoryItemServiceRestImpl.Instance;
-        
+        private ProductTypeEntity productType;
+        public ProductTypeEntity ProductType
+        {
+            set
+            {
+                productType = value;
+                if(productType!=null)
+                    lblExpired.Text = productType.Expiration ? "Expired Date" : "Aging Date";
+            }
+        }
+        private CommonPage commonPage;
+        public bool EditMode { get; set; }
+
+        private void init()
+        {
+            commonPage = new CommonPage();
+            commonPage.Title = "Add New";
+            lblSiteMap.Content = commonPage.Title;
+        }
+
         public Inventory()
         {
             InitializeComponent();
             inventory = new InventoryItemEntity();
+            dtExpired.SelectedDate = DateTime.Now;
+            init();
         }
 
         public Inventory(List<InventoryItemEntity> inventories)
@@ -36,6 +58,8 @@ namespace CakeGUI.forms
             InitializeComponent();
             inventory = new InventoryItemEntity();
             this.inventories = inventories;
+            dtExpired.SelectedDate = DateTime.Now;
+            init();
         }
 
         List<InventoryItemEntity> inventories;
@@ -55,6 +79,7 @@ namespace CakeGUI.forms
             dtExpired.SelectedDate = this.inventory.ExpiredDate;
             txtRemarks.Text = this.inventory.Remarks;
             lblTitle.Text += " (ubah)";
+            init();
         }
 
         private InventoryItemEntity inventory;
@@ -72,20 +97,25 @@ namespace CakeGUI.forms
             }
             else
             {
-                inventory.Product = product;
-                //inventory.TransactionCode = txtTransactionCode.Text;
-                //inventory.PurchaseDate = dtPurchase.SelectedDate.Value;
-                inventory.PurchasePrice = Int32.Parse(txtPurchasePrice.Text);
-                inventory.Quantity = Int32.Parse(txtQuantity.Text);
-                inventory.ExpiredDate = dtExpired.SelectedDate.Value;
-                inventory.Remarks = txtRemarks.Text;
+                MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    inventory.Product = product;
+                    //inventory.TransactionCode = txtTransactionCode.Text;
+                    //inventory.PurchaseDate = dtPurchase.SelectedDate.Value;
+                    inventory.PurchasePrice = Int32.Parse(txtPurchasePrice.Text);
+                    inventory.Quantity = Int32.Parse(txtQuantity.Text);
+                    inventory.ExpiredDate = dtExpired.SelectedDate.Value;
+                    inventory.Remarks = txtRemarks.Text;
 
-                //inventoryService.saveProductInventory(inventory);
-                inventories.Add(inventory);
+                    //inventoryService.saveProductInventory(inventory);
+                    if(inventories!=null)
+                        inventories.Add(inventory);
 
-                GenericWindow genericWindow = ((GenericWindow)this.Parent);
-                //((MainWindow)genericWindow.Owner).refreshFrame();
-                genericWindow.Close();
+                    GenericWindow genericWindow = ((GenericWindow)this.Parent);
+                    //((MainWindow)genericWindow.Owner).refreshFrame();
+                    genericWindow.Close();
+                }
             }
         }
 
@@ -97,18 +127,45 @@ namespace CakeGUI.forms
             }
             else
             {
-                product = productService.getProductByBarcode(txtBarcode.Text);
-                if (product == null)
+                ProductEntity p = productService.getProductByBarcode(txtBarcode.Text);
+                if (p == null || (productType!=null && !p.Type.Id.Equals(productType.Id)))
                 {
                     MessageBox.Show("Barang tidak ditemukan");
                     txtName.Text = "";
+                    product = null;
                 }
                 else
                 {
+                    product = p;
                     txtBarcode.Text = product.BarCode;
                     txtName.Text = product.Name;
                 }
             }
+        }
+
+        public void SetParent(CommonPage page)
+        {
+            if (commonPage != null)
+            {
+                commonPage.ParentPage = page;
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            //(this.Tag as MainWindow).setLabelTitle(commonPage.TitleSiteMap);
+            commonPage.Title = (EditMode ? "Edit" : "Add");
+            lblSiteMap.Content = commonPage.TitleSiteMap;
+        }
+
+        private void txtQuantity_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Utils.IsTextAllowed(e.Text);
+        }
+
+        private void txtPurchasePrice_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Utils.IsTextAllowed(e.Text);
         }
     }
 }

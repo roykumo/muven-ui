@@ -5,14 +5,15 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CakeGUI.forms"
       mc:Ignorable="d" 
-      d:DesignHeight="400" d:DesignWidth="300"
-      Title="Product" HorizontalAlignment="Center" VerticalAlignment="Center">
+      d:DesignHeight="400" d:DesignWidth="500"
+      Title="Product" HorizontalAlignment="Center" VerticalAlignment="Center" Loaded="Page_Loaded">
     <Border Padding="10">
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="380" Width="280">
-            <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Inventory Barang Masuk" TextDecorations="Underline" FontWeight="Bold" FontSize="18"/>
-            <Grid Margin="0 10" Height="200">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="380" Width="480" Margin="0.4,0.4,-0.4,-0.4">
+            <Label Content="Title" Name="lblSiteMap"/>
+            <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Pembelian" TextDecorations="Underline" FontWeight="Bold" FontSize="18"/>
+            <Grid Margin="0 10" Height="250">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -22,31 +23,30 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
-                    <RowDefinition Height="45"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Barcode" FontSize="14"/>
-                <TextBlock Grid.Row="1" Text="Barang" FontSize="14"/>
+                <TextBlock Grid.Row="0" Text="Barcode" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Text="Barang" FontSize="14" VerticalAlignment="Center"/>
                 <!--<TextBlock Grid.Row="2" Text="Kode Transaksi" FontSize="14"/>-->
-                <TextBlock Grid.Row="2" Text="Tanggal datang" FontSize="14"/>
-                <TextBlock Grid.Row="3" Text="Harga Beli Satuan" FontSize="14"/>
-                <TextBlock Grid.Row="4" Text="Jumlah" FontSize="14"/>
-                <TextBlock Grid.Row="5" Text="Expired Date" FontSize="14"/>
-                <TextBlock Grid.Row="6" Text="Keterangan" FontSize="14"/>
+                <!--<TextBlock Grid.Row="2" Text="Tanggal datang" FontSize="14"/>-->
+                <TextBlock Grid.Row="2" Text="Jumlah" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock x:Name="lblExpired" Grid.Row="3" Text="Expired Date" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="4" Text="Harga Beli Satuan" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="5" Text="Keterangan" FontSize="14" VerticalAlignment="Center"/>
 
-                <TextBox Grid.Column="1" Grid.Row="0" Name="txtBarcode" Height="20" Margin="0,3,58,2.6"/>
-                <Button Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Content="Cari" Margin="0,0,5,25.2" Click="btnSearch_Click" Grid.RowSpan="2" Width="48"/>
-                <TextBox Grid.Column="1" Grid.Row="1" Name="txtName" Height="20" IsEnabled="False" />
+                <TextBox Grid.Column="1" Grid.Row="0" Name="txtBarcode" Height="25" Margin="0.4,3,105,2.6"/>
+                <Button Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Height="25" Content="Cari" Click="btnSearch_Click" Width="95"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Name="txtName" Height="25" IsEnabled="False" />
                 <!--<TextBox Grid.Column="1" Grid.Row="2" Name="txtTransactionCode" Height="20"/>-->
-                <DatePicker Grid.Column="1" Grid.Row="2" Name="dtPurchase" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <!--<DatePicker Grid.Column="1" Grid.Row="2" Name="dtPurchase" HorizontalAlignment="Left" VerticalAlignment="Top"/>-->
                 <!--<TextBox Grid.Column="1" Grid.Row="3" Name="txtPurchaseDate" Height="20"/>-->
-                <TextBox Grid.Column="1" Grid.Row="3" Name="txtPurchasePrice" Height="20"/>
-                <TextBox Grid.Column="1" Grid.Row="4" Name="txtQuantity" Height="20"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Name="txtQuantity" Height="25" PreviewTextInput="txtQuantity_PreviewTextInput"/>
                 <!--<TextBox Grid.Column="1" Grid.Row="6" Name="txtExpiredDate" Height="20"/>-->
-                <DatePicker Grid.Column="1" Grid.Row="5" Name="dtExpired" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <TextBox Grid.Column="1" Grid.Row="6" Name="txtRemarks" Height="40"/>
+                <DatePicker Grid.Column="1" Grid.Row="3" Name="dtExpired" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,6.8,0,0"/>
+                <TextBox Grid.Column="1" Grid.Row="4" Name="txtPurchasePrice" Height="25" PreviewTextInput="txtPurchasePrice_PreviewTextInput"/>
+                <TextBox Grid.Column="1" Grid.Row="5" Name="txtRemarks" Height="40"/>
             </Grid>
 
-            <Grid Height="20" Margin="0 10">
+            <Grid Height="30" Margin="0 10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
