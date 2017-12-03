@@ -185,6 +185,7 @@ namespace CakeGUI.forms
                     InventoryEntity inventory = new InventoryEntity();
                     inventory.Date = date.SelectedDate.Value;
                     inventory.Items = inventories;
+                    inventory.TransactionCode = txtTransactionCode.Text;
                     inventory.TotalPrice = inventories.Sum(i => i.PurchasePrice * i.Quantity);
 
                     outInventory.InventoryIn = inventory;
