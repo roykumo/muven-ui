@@ -82,5 +82,10 @@ namespace CakeGUI.classes.service
         {
             throw new NotImplementedException();
         }
+
+        public SellPrice getCurrentSellPrice(ProductEntity product)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

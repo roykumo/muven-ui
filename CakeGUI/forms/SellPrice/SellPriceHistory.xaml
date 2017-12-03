@@ -20,7 +20,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Content="Tambah Harga Jual" Grid.Column="1" FontSize="12" Click="btnAdd_Click" HorizontalAlignment="Right" Width="139" VerticalAlignment="Center" Height="25"/>
+                <Button Content="Tambah Harga Jual" Height="20" Grid.Column="1" Click="btnAdd_Click" HorizontalAlignment="Right" Width="139" VerticalAlignment="Bottom" FontSize="10" />
 
             </Grid>
             <Grid>
@@ -37,9 +37,9 @@
                     </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Date, StringFormat=\{0:yyyy-MM-dd\}}" HeaderStringFormat="" Header="Tanggal Penetapan"/>
-                        <DataGridTextColumn Binding="{Binding BuyPrice, StringFormat=\{0:n0\}}" HeaderStringFormat="" Header="Harga Beli Rata2" />
-                        <DataGridTextColumn Binding="{Binding SellingPrice, StringFormat=\{0:n0\}}" HeaderStringFormat="" Header="Harga Jual" />
-                        <DataGridTextColumn Binding="{Binding Profit}" Header="Profit"/>
+                        <DataGridTextColumn Binding="{Binding BuyPrice, StringFormat=\{0:n0\}}" HeaderStringFormat="" Header="Harga Beli Rata2"  ElementStyle="{StaticResource TextRightAligned}"/>
+                        <DataGridTextColumn Binding="{Binding SellingPrice, StringFormat=\{0:n0\}}" HeaderStringFormat="" Header="Harga Jual"  ElementStyle="{StaticResource TextRightAligned}"/>
+                        <DataGridTextColumn Binding="{Binding Profit}" Header="Profit" ElementStyle="{StaticResource TextRightAligned}"/>
                         <DataGridTemplateColumn Header="">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

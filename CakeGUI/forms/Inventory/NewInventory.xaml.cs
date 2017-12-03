@@ -181,5 +181,14 @@ namespace CakeGUI.forms
             }
 
         }
+
+        public void SetParent(CommonPage page)
+        {
+            if (commonPage != null)
+            {
+                commonPage.ParentPage = page;
+                lblSiteMap.Content = commonPage.TitleSiteMap;
+            }
+        }
     }
 }

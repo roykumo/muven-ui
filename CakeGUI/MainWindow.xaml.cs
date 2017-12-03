@@ -27,8 +27,6 @@ namespace CakeGUI
         {
             InitializeComponent();
             mainFrame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
-            CommonPage = new CommonPage();
-            CommonPage.Title = "Home";
             initMenu();
         }
 
@@ -40,7 +38,9 @@ namespace CakeGUI
                 { "Product", mi => (s, e) => { loadProductList(); }},
                 { "ProductStock", mi => (s, e) => { loadProductStock(); }},
                 { "Inventory", mi => (s, e) => { loadNewInventory(); }},
-                { "SaleNotification", mi => (s, e) => { loadSaleNotification(); }}
+                { "SaleNotification", mi => (s, e) => { loadSaleNotification(); }},
+                { "Repacking", mi => (s, e) => { loadInventoryOut("RP"); }},
+                { "StockOpname", mi => (s, e) => { loadInventoryOut("SO"); }}
             };
 
             foreach (MenuItem mi in mainMenu.Items)
@@ -62,8 +62,6 @@ namespace CakeGUI
             }
         }
                 
-        public CommonPage CommonPage { get; set; }
-
         private void ContextMenuClick(object sender, RoutedEventArgs e)
         {
             string menuName = ((MenuItem)sender).Name;
@@ -106,32 +104,58 @@ namespace CakeGUI
         
         private void loadProductList()
         {
+            CommonPage commonPage = new CommonPage();
+            commonPage.Title = "List Item";
+
             ProductList productList = new ProductList();
             productList.Tag = this;
-            productList.SetParent(CommonPage);
+            productList.SetParent(commonPage);
             this.mainFrame.Content = productList;
         }
 
         private void loadProductStock()
         {
+            CommonPage commonPage = new CommonPage();
+            commonPage.Title = "List Item";
+
             ProductStock productStock = new ProductStock();
             productStock.Tag = this;
-            productStock.SetParent(CommonPage);
+            productStock.SetParent(commonPage);
             this.mainFrame.Content = productStock;
         }
 
         private void loadNewInventory()
         {
+            CommonPage commonPage = new CommonPage();
+            commonPage.Title = "Stock In";
+
             NewInventory newInventory = new NewInventory();
+            newInventory.SetParent(commonPage);
             newInventory.Tag = this;
             this.mainFrame.Content = newInventory;
         }
 
         private void loadSaleNotification()
         {
+            CommonPage commonPage = new CommonPage();
+            commonPage.Title = "Notification";
+
             SaleNotification saleNotification = new SaleNotification();
+            saleNotification.SetParent(commonPage);
             saleNotification.Tag = this;
             this.mainFrame.Content = saleNotification;
+        }
+
+        private void loadInventoryOut(string type)
+        {
+            CommonPage commonPage = new CommonPage();
+            commonPage.Title = "Stock In";
+
+            InventoryOut inventoryOut = new InventoryOut(type);
+            inventoryOut.Tag = this;
+            inventoryOut.SetParent(commonPage);
+
+            this.mainFrame.Content = inventoryOut;
         }
 
         public void setLabelTitle(string title)

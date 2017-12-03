@@ -12,5 +12,6 @@ namespace CakeGUI.classes.service
         List<SellPrice> getSellPrices(ProductEntity product);
         SellPrice getSellPrice(string id);
         void saveSellPrice(SellPrice sellPrice);
+        SellPrice getCurrentSellPrice(ProductEntity product);
     }
 }

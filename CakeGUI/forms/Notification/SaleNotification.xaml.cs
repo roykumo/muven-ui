@@ -35,7 +35,7 @@ namespace CakeGUI.forms
             InitializeComponent();
 
             commonPage = new CommonPage();
-            commonPage.Title = "Notification";
+            commonPage.Title = "Sale Notification";
             lblSiteMap.Content = commonPage.Title;
 
             init();
@@ -107,6 +107,7 @@ namespace CakeGUI.forms
             if (commonPage != null)
             {
                 commonPage.ParentPage = page;
+                lblSiteMap.Content = commonPage.TitleSiteMap;
             }
         }
 

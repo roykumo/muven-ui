@@ -73,5 +73,18 @@ namespace CakeGUI.classes.service
 
             SellPrice savedSellPrice = response.Data.Data;
         }
+
+        public SellPrice getCurrentSellPrice(ProductEntity product)
+        {
+            List<SellPrice> list = getSellPrices(product);
+            if(list==null || list.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return list.OrderByDescending(m => m.Date).FirstOrDefault();
+            }
+        }
     }
 }

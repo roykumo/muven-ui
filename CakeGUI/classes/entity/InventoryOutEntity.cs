@@ -1,0 +1,28 @@
+﻿using CakeGUI.classes.util;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CakeGUI.classes.entity
+{
+    public class InventoryOutEntity
+    {
+        [JsonProperty("id")]
+        public String Id { get; set; }
+        [JsonProperty("date")]
+        [JsonConverter(typeof(ISODateConverter))]
+        public DateTime Date { get; set; }
+        [JsonProperty("totalPrice")]
+        public Decimal TotalPrice { get; set; }
+        [JsonProperty("type")]
+        public string Type { get; set; }
+        [JsonProperty("inventoryIn")]
+        public InventoryEntity InventoryIn { get; set; }
+
+        [JsonProperty("items")]
+        public List<InventoryItemOutEntity> Items { get; set; }
+    }
+}

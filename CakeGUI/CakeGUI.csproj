@@ -104,6 +104,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="forms\Inventory\Out\InventoryItemOut.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="forms\Inventory\Out\InventoryOut.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="forms\Material\SampleMessageDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -148,6 +156,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="classes\entity\InventoryItemOutEntity.cs" />
+    <Compile Include="classes\entity\InventoryOutEntity.cs" />
     <Compile Include="classes\entity\InventoryEntity.cs" />
     <Compile Include="classes\entity\InventoryItemEntity.cs" />
     <Compile Include="classes\entity\ProductEntity.cs" />
@@ -160,6 +170,8 @@
     <Compile Include="classes\entity\rest\CommonStatus.cs" />
     <Compile Include="classes\entity\rest\KeyValue.cs" />
     <Compile Include="classes\entity\SellPrice.cs" />
+    <Compile Include="classes\service\ProductInventoryOutService.cs" />
+    <Compile Include="classes\service\ProductInventoryOutServiceRestImpl.cs" />
     <Compile Include="classes\service\ProductInventoryServiceRestImpl.cs" />
     <Compile Include="classes\service\ProductInventoryService.cs" />
     <Compile Include="classes\service\ProductInventoryItemServiceRestImpl.cs" />
@@ -198,6 +210,12 @@
     </Compile>
     <Compile Include="forms\Inventory\NewInventory.xaml.cs">
       <DependentUpon>NewInventory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\Inventory\Out\InventoryItemOut.xaml.cs">
+      <DependentUpon>InventoryItemOut.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\Inventory\Out\InventoryOut.xaml.cs">
+      <DependentUpon>InventoryOut.xaml</DependentUpon>
     </Compile>
     <Compile Include="forms\Material\SampleMessageDialog.xaml.cs">
       <DependentUpon>SampleMessageDialog.xaml</DependentUpon>

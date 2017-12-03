@@ -39,7 +39,7 @@
                             </DataGridTextColumn.CellStyle>
                         </DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Product.BarCode}" Header="Barcode"/>
-                        <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah"/>
+                        <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah" ElementStyle="{StaticResource TextRightAligned}"/>
                         <DataGridTemplateColumn Header="{Binding HeaderAlertDate}">
                             <!--<DataGridTemplateColumn.CellStyle>
                                 <Style TargetType="DataGridCell">

@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CakeGUI"
         mc:Ignorable="d"
-        Title="Toko Bahan Kue - Muven" Height="768" Width="1024" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Toko Bahan Kue - Muven" Height="820" Width="1024" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <!--<Menu x:Name="menuBar" Height="20" VerticalAlignment="Top" Margin="10,0,-0.4,0" RenderTransformOrigin="0.5,0.5">
             <Menu.Resources>
@@ -78,7 +78,7 @@
         </Menu>
         <!--<Label x:Name="lblSiteMap" Content="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,9.6,708.4" Height="30" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>-->
         <materialDesign:Card Margin="10,29,9.6,-0.6">
-            <Frame x:Name="mainFrame" Content="Frame" HorizontalAlignment="Left" Height="630" Margin="10,10,0,0" VerticalContentAlignment="Top" VerticalAlignment="Top" Width="961"/>
+            <Frame x:Name="mainFrame" Content="Frame" HorizontalAlignment="Left" Height="720" Margin="10,0,0,0" VerticalContentAlignment="Top" VerticalAlignment="Top" Width="961"/>
         </materialDesign:Card>
     </Grid>
 </Window>
