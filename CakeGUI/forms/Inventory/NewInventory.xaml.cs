@@ -126,6 +126,7 @@ namespace CakeGUI.forms
                     inventoryService.saveProductInventory(inventory);
 
                     inventories.Clear();
+                    loadData();
                     txtTransactionCode.Text = "";
                     txtTotalBuyPrice.Text = "";
                     date.SelectedDate = DateTime.Now;
