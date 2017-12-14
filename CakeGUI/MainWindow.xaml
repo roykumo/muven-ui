@@ -55,25 +55,26 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="_List Item" x:Name="ListItem">
+            <MenuItem Header="_Daftar Barang" x:Name="ListItem">
                 <MenuItem x:Name="ProductStock" Header="_Stock Barang"/>
                 <MenuItem x:Name="Product" Header="_Master Barang"/>
             </MenuItem>
-            <MenuItem Header="_Notification" x:Name="Notification">
-                <MenuItem x:Name="Alert" Header="_Expired / Aging Alert"/>
-                <MenuItem x:Name="SaleNotification" Header="_Sale Notification"/>
+            <MenuItem Header="_Ringkasan Laporan" x:Name="Notification">
+                <MenuItem x:Name="Alert" Header="_Notifikasi Status Barang"/>
+                <MenuItem x:Name="SaleNotification" Header="_Catatan Masuk/Keluar Barang"/>
+                <MenuItem x:Name="FinancialReports" Header="_Laporan Keuangan"/>
             </MenuItem>
             <MenuItem Header="_Stock In" x:Name="StockIn">
-                <MenuItem x:Name="Inventory" Header="_Pembelian"/>
+                <MenuItem x:Name="Inventory" Header="_Barang Masuk"/>
                 <MenuItem x:Name="Repacking" Header="_Repacking"/>
                 <MenuItem x:Name="StockOpname" Header="_Stock Opname"/>
             </MenuItem>
             <MenuItem Header="_Stock Out" x:Name="StockOut">
                 <!--<MenuItem x:Name="InventoryOut" Header="_Barang Keluar"/>
                 <MenuItem x:Name="RepackingOut" Header="_Repacking Keluar"/>-->
-                <MenuItem x:Name="Sell" Header="_Penjualan Barang"/>
+                <MenuItem x:Name="Sell" Header="_Penjualan Online/Grosir"/>
                 <MenuItem x:Name="CashRegister" Header="_Cash Register"/>
-                <MenuItem x:Name="ProductDump" Header="_Pemusnahan Barang"/>
+                <MenuItem x:Name="ProductDump" Header="_Penghapusan"/>
             </MenuItem>
         </Menu>
         <!--<Label x:Name="lblSiteMap" Content="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,9.6,708.4" Height="30" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>-->
