@@ -113,6 +113,23 @@ namespace CakeGUI.classes.service
             return products.Data.Paging.Data;
         }
 
+        public List<ProductEntity> getProducts(List<KeyValue> listFilter)
+        {
+            var request = new RestRequest("product/list/filter", Method.GET);
+            client.AddHandler("application/json", util.JsonSerializer.Default);
+            request.JsonSerializer = util.JsonSerializer.Default;
+
+            if (listFilter != null && listFilter.Count>0)
+            {
+                string strListFilter = JsonConvert.SerializeObject(listFilter);
+                request.AddQueryParameter("field", strListFilter);
+            }
+
+            IRestResponse<TCommonResponsePaging<ProductEntity>> products = client.Execute<TCommonResponsePaging<ProductEntity>>(request);
+
+            return products.Data.Paging.Data;
+        }
+
         public List<ProductStockEntity> getStocks(ProductTypeEntity type)
         {
             var request = new RestRequest("product/stock", Method.GET);

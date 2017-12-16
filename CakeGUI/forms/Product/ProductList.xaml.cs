@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CakeGUI.classes.service;
 using CakeGUI.classes.entity;
+using CakeGUI.classes.entity.rest;
 
 namespace CakeGUI.forms
 {
@@ -33,7 +34,7 @@ namespace CakeGUI.forms
             InitializeComponent();
 
             commonPage = new CommonPage();
-            commonPage.Title = "List Master Barang";
+            commonPage.Title = "Master Barang";
             lblTItle.Text = commonPage.Title;
             
             init();
@@ -63,14 +64,28 @@ namespace CakeGUI.forms
         private void loadData()
         {
             this.dataGrid.ItemsSource = null;
-            if (cmbType.SelectedItem == null)
+
+            List<KeyValue> listFilter = new List<KeyValue>();
+
+
+            if (cmbType.SelectedItem != null)
             {
-                products = productService.getProducts();
+                KeyValue keyValue = new KeyValue();
+                keyValue.Key = "productType";
+                keyValue.Value = ((ProductTypeEntity)cmbType.SelectedItem).Id;
+                listFilter.Add(keyValue);
             }
-            else
+
+            if (!string.IsNullOrEmpty(txtBarcode.Text))
             {
-                products = productService.getProducts((ProductTypeEntity)cmbType.SelectedItem);
+                KeyValue keyValueBarcode = new KeyValue();
+                keyValueBarcode.Key = "code";
+                keyValueBarcode.Value = txtBarcode.Text;
+                listFilter.Add(keyValueBarcode);
             }
+
+            products = productService.getProducts(listFilter);
+            
             this.dataGrid.ItemsSource = products;
         }
       
@@ -82,6 +97,20 @@ namespace CakeGUI.forms
             windowAdd.Owner = (this.Tag as MainWindow);
             windowAdd.ShowDialog();
             init();
+        }
+
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            ProductTypeEntity type = (ProductTypeEntity)cmbType.SelectedItem;
+            if (type != null)
+            {
+                dataGrid.Columns[4].Header = type.Expiration ? "Notifikasi Kadaluarsa" : "Notifikasi Aging";
+            }
+            else
+            {
+                dataGrid.Columns[4].Header = "Expired / Aging";
+            }
+            loadData();
         }
 
         private void EditProductClicked(object sender, RoutedEventArgs e)
@@ -118,7 +147,7 @@ namespace CakeGUI.forms
             if (type != null)
             {
                 //dataGrid.Columns[3].Header = type.Expiration ? "Expired Date" : "Aging Date";
-                dataGrid.Columns[3].Header = type.Expiration ? "Expiry Notif" : "Aging Notif";
+                dataGrid.Columns[4].Header = type.Expiration ? "Notifikasi Kadaluarsa" : "Notifikasi Aging";
                 loadData();
                 /*dataGrid.ItemsSource = null;
                 dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type != null && string.Equals(x.Product.Type.Id, type.Id));*/

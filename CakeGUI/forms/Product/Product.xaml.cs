@@ -40,11 +40,13 @@ namespace CakeGUI.forms
         {
             InitializeComponent();
             this.product = product;
+            txtCode.Text = this.product.Code;
             txtBarcode.Text = this.product.BarCode;
             txtName.Text = this.product.Name;
             txtExpiryRed.Text = this.product.AlertRed.ToString();
             txtExpiryYellow.Text = this.product.AlertYellow.ToString();
             txtExpiryGreen.Text = this.product.AlertGreen.ToString();
+            txtExpiryBlue.Text = this.product.AlertBlue.ToString();
             lblTitle.Text += " (ubah)";
             //product.Type = productTypeService.getProductType("2");
             init();
@@ -53,7 +55,7 @@ namespace CakeGUI.forms
         private void init()
         {
             commonPage = new CommonPage();
-            commonPage.Title = "Master Barang";
+            commonPage.Title = (this.product!=null && !string.IsNullOrEmpty(this.product.Id)) ? "Edit Barang" : "Penambahan Barang" ;
             productTypes = productTypeService.getProductTypes();
             cmbType.ItemsSource = productTypes;
 
@@ -89,6 +91,7 @@ namespace CakeGUI.forms
                 MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan Barang?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
+                    product.Code = txtCode.Text;
                     product.BarCode = txtBarcode.Text;
                     product.Name = txtName.Text;
                     product.AlertRed = Int32.Parse(txtExpiryRed.Text);
@@ -119,7 +122,7 @@ namespace CakeGUI.forms
             ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
             if (type != null)
             {
-                lblNotif.Text = type.Expiration ? "Expire Notification" : "Aging Notification";
+                lblNotif.Text = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
             }
         }
 

@@ -109,7 +109,7 @@ namespace CakeGUI
 
             ProductList productList = new ProductList();
             productList.Tag = this;
-            productList.SetParent(commonPage);
+            //productList.SetParent(commonPage);
             this.mainFrame.Content = productList;
         }
 
@@ -120,7 +120,7 @@ namespace CakeGUI
 
             ProductStock productStock = new ProductStock();
             productStock.Tag = this;
-            productStock.SetParent(commonPage);
+            //productStock.SetParent(commonPage);
             this.mainFrame.Content = productStock;
         }
 

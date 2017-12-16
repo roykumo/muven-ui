@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CakeGUI.classes.entity;
+using CakeGUI.classes.entity.rest;
+
 namespace CakeGUI.classes.service
 {
     public class ProductServiceImpl : ProductService
@@ -130,6 +132,11 @@ namespace CakeGUI.classes.service
         }
 
         public List<ProductStockEntity> getStocks(ProductTypeEntity type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ProductEntity> getProducts(List<KeyValue> listFilter)
         {
             throw new NotImplementedException();
         }

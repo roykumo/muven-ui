@@ -14,6 +14,8 @@ namespace CakeGUI.classes.entity
         //[DeserializeAs(Name = "id"), SerializeAs(Name ="id")]
         [JsonProperty("id")]
         public String Id { get; set; }
+        [JsonProperty("code")]
+        public String Code { get; set; }
         //[DeserializeAs(Name = "barcode"), SerializeAs(Name ="barcode")]
         [JsonProperty("barcode")]
         public String BarCode { get; set; }
@@ -32,9 +34,11 @@ namespace CakeGUI.classes.entity
         //[DeserializeAs(Name = "alertGreen"), SerializeAs(Name = "alertGreen")]
         [JsonProperty("alertGreen")]
         public int AlertGreen { get; set; }
+        [JsonProperty("alertBlue")]
+        public int AlertBlue { get; set; }
         public String Alerts
         {
-            get { return AlertRed + "/" + AlertYellow + "/" + AlertGreen; }
+            get { return AlertRed + "/" + AlertYellow + "/" + AlertGreen + "/" + AlertBlue; }
         }
     }
 }
