@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:CakeGUI.forms"
       xmlns:system="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
-      d:DesignHeight="400" d:DesignWidth="300"
+      d:DesignHeight="400" d:DesignWidth="370"
       Title="Product" HorizontalAlignment="Center" VerticalAlignment="Center" Loaded="Page_Loaded">
     <Page.Resources>
         <system:Boolean x:Key="True">True</system:Boolean>
@@ -17,7 +17,7 @@
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="380" Width="350">
             <Label Content="Title" Name="lblSiteMap" FontSize="10"/>
             <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Penetapan Harga Jual" TextDecorations="Underline" FontWeight="Bold" FontSize="18"/>
-            <Grid Margin="0 10" Height="160">
+            <Grid Margin="0 10" Height="180">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="4*"/>
@@ -28,20 +28,23 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Tanggal Penetapan" FontSize="14" VerticalAlignment="Bottom"/>
                 <TextBlock Grid.Row="1" Text="Harga Beli Rata2" FontSize="14" VerticalAlignment="Bottom"/>
                 <!--<TextBlock Grid.Row="2" Text="Kode Transaksi" FontSize="14"/>-->
                 <TextBlock Grid.Row="2" Text="Harga Jual" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="3" Text="Sale" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="4" Text="Keterangan" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="3" Text="Profit" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="4" Text="Sale Status" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="5" Text="Keterangan" FontSize="14" VerticalAlignment="Bottom"/>
                 
                 <DatePicker Grid.Column="1" Grid.Row="0" Name="dtExpired" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False"/>
                 <TextBox Grid.Column="1" Grid.Row="1" x:Name="txtBuyPrice" Height="30" IsEnabled="False" />
-                <TextBox Grid.Column="1" Grid.Row="2" Name="txtSellPrice" Height="30"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Name="txtSellPrice" Height="30" TextChanged="txtSellPrice_TextChanged"/>
+                <TextBox Grid.Column="1" Text="{Binding Profit}" Grid.Row="3" Name="txtProfit" Height="30" IsEnabled="False"/>
                 <!--<RadioButton Grid.Column="1" Grid.Row="3" Height="20"/>-->
                 
-                <RadioButton x:Name="radioTrue" GroupName="BooleanGroup" Grid.Column="1" Grid.Row="2"
+                <RadioButton x:Name="radioTrue" GroupName="BooleanGroup" Grid.Column="1" Grid.Row="3"
                     Height="30" VerticalContentAlignment="Bottom"
                     IsChecked="{Binding SellPrice.Sale, Converter={StaticResource RadioButtonCheckedConverter},
                     ConverterParameter={StaticResource True}}" Grid.RowSpan="3">
@@ -49,14 +52,14 @@
                     
                 </RadioButton>
 
-                <RadioButton x:Name="radioFalse" GroupName="BooleanGroup" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center"
+                <RadioButton x:Name="radioFalse" GroupName="BooleanGroup" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center"
                     Height="30" VerticalContentAlignment="Bottom"
                     IsChecked="{Binding !SellPrice.Sale, Converter={StaticResource RadioButtonCheckedConverter},
                     ConverterParameter={StaticResource False}}" Grid.RowSpan="3" Width="62">
                     <TextBlock TextWrapping="Wrap" Text="Tidak" />
                 </RadioButton>
                 
-                <TextBox Grid.Column="1" Grid.Row="4" Name="txtRemarks" Height="30"/>
+                <TextBox Grid.Column="1" Grid.Row="5" Name="txtRemarks" Height="30"/>
             </Grid>
 
             <Grid Height="35" Margin="0 10">
@@ -64,7 +67,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Content="Simpan" Margin="0 0 5 0" Click="btnSave_Click"/>
+                <Button Content="Pasang Harga" Margin="0 0 5 0" Click="btnSave_Click"/>
                 <Button Grid.Column="1" Content="Batal" Margin="5 0 0 0" Click="btnCancel_Click"/>
             </Grid>
         </StackPanel>

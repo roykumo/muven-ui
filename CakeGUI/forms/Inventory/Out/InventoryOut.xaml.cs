@@ -70,6 +70,7 @@ namespace CakeGUI.forms
                 {
                     commonPage.Title = "Stock Opname";
                 }
+                dataGridIn.Columns[4].Header = type.Equals("RP") ? "Harga Jual" : "Harga Beli Satuan";
             }
 
             lblTitle.Text = commonPage.Title;
@@ -149,7 +150,7 @@ namespace CakeGUI.forms
             ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
             if (type != null)
             {
-                dataGridIn.Columns[3].Header = type.Expiration ? "Expired Date" : "Aging Date";
+                dataGridIn.Columns[3].Header = type.Expiration ? "Tanggal Kadaluarsa" : "Tanggal Aging";
                 loadData();
             }
         }

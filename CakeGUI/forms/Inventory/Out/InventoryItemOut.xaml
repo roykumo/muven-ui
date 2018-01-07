@@ -29,34 +29,37 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Barcode" FontSize="14" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="1" Text="Barang" FontSize="14" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="2" Text="Harga Beli Satuan" FontSize="14" VerticalAlignment="Center"/>
-                <TextBlock x:Name="lblExpired" Grid.Row="3" Text="Harga Jual" FontSize="14" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="4" Text="Sale" FontSize="14" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="5" Text="Jumlah" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Text="Nama Barang" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="2" Text="Jumlah" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="3" Text="Harga Beli Rata-rata" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock x:Name="lblExpired" Grid.Row="4" Text="Harga Jual" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="5" Text="Sale" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="6" Text="Keterangan" FontSize="14" VerticalAlignment="Center"/>
 
-                <TextBox Grid.Column="1" Grid.Row="0" Name="txtBarcode" Height="25" Margin="0.4,3,105,2.6"/>
-                <Button Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Height="25" Content="Cari" Click="btnSearch_Click" Width="95"/>
-                <TextBox Grid.Column="1" Grid.Row="1" Name="txtName" Height="25" IsEnabled="False" />
-                <TextBox Grid.Column="1" Grid.Row="2" Name="txtPurchasePrice" Height="25" IsEnabled="False"/>
-                <TextBox Grid.Column="1" Grid.Row="3" Name="txtSellingPrice" Height="25" IsEnabled="False"/>
-                <RadioButton x:Name="radioTrue" GroupName="BooleanGroup" Grid.Column="1" Grid.Row="4" IsEnabled="False"
+                <TextBox Grid.Column="1" Grid.Row="0" Name="txtBarcode" Margin="0.4,3,105,2.6"/>
+                <Button Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Content="Cari" Click="btnSearch_Click" Width="95"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Name="txtName" IsEnabled="False" />
+                <TextBox Grid.Column="1" Grid.Row="2" Name="txtQuantity" PreviewTextInput="txtQuantity_PreviewTextInput"/>
+                <TextBox Grid.Column="1" Grid.Row="3" Name="txtPurchasePrice" IsEnabled="False"/>
+                <TextBox Grid.Column="1" Grid.Row="4" Name="txtSellingPrice" IsEnabled="False"/>
+                <RadioButton x:Name="radioTrue" GroupName="BooleanGroup" Grid.Column="1" Grid.Row="5" IsEnabled="False"
                     Height="30" VerticalContentAlignment="Center"
                     >
                     <!--IsChecked="{Binding SellPrice.Sale, Converter={StaticResource RadioButtonCheckedConverter},
                     ConverterParameter={StaticResource True}}" >-->
                     <TextBlock TextWrapping="Wrap" Text="Ya" />
                 </RadioButton>
-                <RadioButton x:Name="radioFalse" GroupName="BooleanGroup" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" IsEnabled="False"
+                <RadioButton x:Name="radioFalse" GroupName="BooleanGroup" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" IsEnabled="False"
                     Height="30" VerticalContentAlignment="Center"
                     >
                     <!--IsChecked="{Binding !SellPrice.Sale, Converter={StaticResource RadioButtonCheckedConverter},
                     ConverterParameter={StaticResource False}}" Width="62">-->
                     <TextBlock TextWrapping="Wrap" Text="Tidak" />
                 </RadioButton>
-                <TextBox Grid.Column="1" Grid.Row="5" Name="txtQuantity" Height="25" PreviewTextInput="txtQuantity_PreviewTextInput"/>
+                <TextBox Grid.Column="1" Grid.Row="6" Name="txtRemarks"/>
             </Grid>
 
             <Grid Height="30" Margin="0 10">

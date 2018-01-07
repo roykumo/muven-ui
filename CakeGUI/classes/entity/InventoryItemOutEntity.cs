@@ -21,7 +21,27 @@ namespace CakeGUI.classes.entity
         public Decimal PurchasePrice { get; set; }
         [JsonProperty("sellPrice")]
         public SellPrice SellPrice { get; set; }
+        [JsonProperty("remarks")]
+        public String Remarks { get; set; }
         [JsonProperty("inventoryOut")]
         public InventoryOutEntity InventoryOut { get; set; }
+
+
+        public Decimal Price
+        {
+            get
+            {
+                if (InventoryOut.Type.Equals("RP")){
+                    return PurchasePrice;
+                }
+                else
+                {
+                    if (SellPrice != null)
+                        return SellPrice.SellingPrice;
+                    else
+                        return 0;
+                }
+            }
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace CakeGUI.forms
     /// <summary>
     /// Interaction logic for ProductInventoryList.xaml
     /// </summary>
-    public partial class ProductInventoryList : Page
+    public partial class InventoryHistory : Page
     {
         private static ProductService productService = ProductServiceRestImpl.Instance;
 
@@ -29,13 +29,13 @@ namespace CakeGUI.forms
 
         private CommonPage commonPage;
 
-        public ProductInventoryList()
+        public InventoryHistory()
         {
             InitializeComponent();
             init();
         }
 
-        public ProductInventoryList(ProductEntity product)
+        public InventoryHistory(ProductEntity product)
         {
             InitializeComponent();
             this.product = product;
@@ -49,11 +49,11 @@ namespace CakeGUI.forms
         private void init()
         {
             commonPage = new CommonPage();
-            commonPage.Title = "Detail";
+            commonPage.Title = "Riwayat Harga Beli";
 
             if (product != null)
             {
-                inventories = inventoryService.getProductInventories(product, true);
+                inventories = inventoryService.getProductInventories(product, false);
                 dataGrid.Columns[4].Header = product.Type.Expiration ? "Tanggal Kadaluarsa" : "Aging";
 
                 this.dataGrid.ItemsSource = inventories;

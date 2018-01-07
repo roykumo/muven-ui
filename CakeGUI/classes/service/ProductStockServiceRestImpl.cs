@@ -12,9 +12,9 @@ namespace CakeGUI.classes.service
         private static ProductService productService = ProductServiceRestImpl.Instance;
         private static SellPriceService sellPriceService = SellPriceServiceImpl.Instance;
 
-        public List<ProductStockEntity> getProductStock(ProductTypeEntity type)
+        public List<ProductStockEntity> getProductStock(ProductTypeEntity type, string barcode)
         {
-            return productService.getStocks(type);
+            return productService.getStocks(type, barcode);
         }
 
         private static ProductStockServiceRestImpl instance;

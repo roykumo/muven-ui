@@ -131,7 +131,7 @@ namespace CakeGUI.classes.service
             throw new NotImplementedException();
         }
 
-        public List<ProductStockEntity> getStocks(ProductTypeEntity type)
+        public List<ProductStockEntity> getStocks(ProductTypeEntity type, string barcode)
         {
             throw new NotImplementedException();
         }

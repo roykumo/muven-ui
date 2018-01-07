@@ -1,4 +1,4 @@
-﻿<Page x:Class="CakeGUI.forms.ProductStock"
+﻿<Page x:Class="CakeGUI.forms.StatusNotification"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -58,13 +58,44 @@
                             </DataGridTextColumn.CellStyle>
                         </DataGridTextColumn>
                         <!--<DataGridTextColumn Binding="{Binding Product.BarCode}" Header="Barcode"/>-->
-                        <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah Total" ElementStyle="{StaticResource TextRightAligned}"/>
-                        <DataGridTemplateColumn Header="{Binding HeaderAlertDate}">
-                            <!--<DataGridTemplateColumn.CellStyle>
-                                <Style TargetType="DataGridCell">
-                                    <Setter Property="Background" Value="{Binding MyColor.Background}" />
+                        <!--<DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah Total" ElementStyle="{StaticResource TextRightAligned}"/>-->
+                        <DataGridTemplateColumn Header="Jumlah Total">
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style>
+                                    <EventSetter Event="DataGridCell.MouseLeftButtonDown" Handler="StockClicked" />
+                                    <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
                                 </Style>
-                            </DataGridTemplateColumn.CellStyle>-->
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding QuantityRedCount}" FontWeight="Bold" Width="20" TextAlignment="Right" Padding="0 0 2 0"/>
+                                        <Label Grid.Row="0" Grid.Column="1" Background="Red" Width="20"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding QuantityYellowCount}" FontWeight="Bold" Width="20" TextAlignment="Right" Padding="0 0 2 0"/>
+                                        <Label Grid.Row="0" Grid.Column="3" Background="Yellow" Width="20"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding QuantityGreenCount}" FontWeight="Bold" Width="20" TextAlignment="Right" Padding="0 0 2 0"/>
+                                        <Label Grid.Row="0" Grid.Column="5" Background="Green" Width="20"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="6" Text="{Binding QuantityBlueCount}" FontWeight="Bold" Width="20" TextAlignment="Right" Padding="0 0 2 0"/>
+                                        <Label Grid.Row="0" Grid.Column="7" Background="Blue" Width="20"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Binding="{Binding Product.Alerts}" Header="Batasan Kadaluarsa"/>
+                        <!--<DataGridTemplateColumn Header="{Binding HeaderAlertDate}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -73,26 +104,14 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <!--<RowDefinition Height="15"/>-->
+
                                         </Grid.RowDefinitions>
                                         <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ExpiredDate, StringFormat=\{0:MMM-yy\}}" Width="80" TextAlignment="Right" />
                                         <Label Grid.Row="0" Grid.Column="1" Background="{Binding AlertColor}" Width="20"/>
                                     </Grid>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <!--<DataGridTextColumn Binding="{Binding ExpiredDate, StringFormat=\{0:yyyy-MM-dd\}}" Header="{Binding HeaderAlertDate}" />
-                        <DataGridTextColumn CanUserResize="False" Width="5">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="{x:Type TextBlock}">
-                                    <Style.Triggers>
-                                        <Trigger Property="Text" Value="">
-                                            <Setter Property="Background" Value="{Binding AlertColor}"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>-->
+                        </DataGridTemplateColumn>-->
                         <DataGridTextColumn Binding="{Binding BuyPrice, StringFormat=\{0:n0\}}" Header="Harga Beli&#x0a;Rata-rata" Width="100" ElementStyle="{StaticResource TextRightAligned}" Foreground="#FF1800FF">
                             <DataGridTextColumn.CellStyle>
                                 <Style>
@@ -136,7 +155,8 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn CanUserResize="False" Width="5" />
-                        <DataGridTextColumn Binding="{Binding Product.Alerts}" Header="Expiry Notification"/>
+                        <!--<DataGridTextColumn Binding="{Binding Product.Alerts}" Header="Expiry Notification"/>-->
+                        <DataGridTextColumn Binding="{Binding SellPrice.Remarks}" Header="Keterangan Harga Jual"/>
                     </DataGrid.Columns>
 
                 </DataGrid>

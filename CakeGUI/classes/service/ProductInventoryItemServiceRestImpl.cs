@@ -32,7 +32,7 @@ namespace CakeGUI.classes.service
 
         private RestClient client = new RestClient("http://localhost:8908");
 
-        public List<InventoryItemEntity> getProductInventories(ProductEntity product)
+        public List<InventoryItemEntity> getProductInventories(ProductEntity product, bool currentQuantity)
         {
             var request = new RestRequest("inventoryItem/list/filter", Method.GET);
             client.AddHandler("application/json", util.JsonSerializer.Default);
@@ -50,6 +50,60 @@ namespace CakeGUI.classes.service
 
             IRestResponse<TCommonResponsePaging<InventoryItemEntity>> products = client.Execute<TCommonResponsePaging<InventoryItemEntity>>(request);
 
+            List<InventoryItemEntity> listInventory = products.Data.Paging.Data;
+
+            if(listInventory != null && listInventory.Count > 0 && currentQuantity)
+            {
+                List<InventoryItemOutEntity> listOut = getInventoryItemOut(product);
+                if(listOut!=null && listOut.Count > 0)
+                {
+                    int count = listOut.Sum(o=>o.Quantity);
+                    foreach (InventoryItemEntity item in listInventory)
+                    {
+                        if (count > 0)
+                        {
+                            if(item.Quantity < count)
+                            {
+                                item.Quantity = 0; //kurang item dengan kadaluarsa terdekat dengan itemOut
+                                count -= item.Quantity;
+                            }
+                            else
+                            {
+                                item.Quantity -= count; 
+                                count = 0;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                listInventory.RemoveAll(i => i.Quantity == 0);
+            }
+
+            return listInventory;
+        }
+
+        private List<InventoryItemOutEntity> getInventoryItemOut(ProductEntity product)
+        {
+            var request = new RestRequest("inventoryItem/out/list/filter", Method.GET);
+            client.AddHandler("application/json", util.JsonSerializer.Default);
+            request.JsonSerializer = util.JsonSerializer.Default;
+
+            List<KeyValue> listFilter = new List<KeyValue>();
+            KeyValue keyValue = new KeyValue();
+            keyValue.Key = "inventory.product";
+            keyValue.Value = product.Id;
+            listFilter.Add(keyValue);
+
+            string strListFilter = JsonConvert.SerializeObject(listFilter);
+
+            request.AddQueryParameter("field", strListFilter);
+
+            IRestResponse<TCommonResponsePaging<InventoryItemOutEntity>> products = client.Execute<TCommonResponsePaging<InventoryItemOutEntity>>(request);
+            
             return products.Data.Paging.Data;
         }
 

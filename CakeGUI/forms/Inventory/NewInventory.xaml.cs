@@ -38,8 +38,8 @@ namespace CakeGUI.forms
             InitializeComponent();
             init();
         }
-
-        private DateTime trxDate = DateTime.Now;
+        
+        public DateTime TrxDate { get; set; }
         public List<CakeGUI.classes.entity.InventoryItemEntity> inventories { get; set; }
         
         private void init()
@@ -55,7 +55,9 @@ namespace CakeGUI.forms
             cmbType.ItemsSource = productTypes;
             cmbType.SelectedIndex = 0;
 
-            date.SelectedDate = DateTime.Now;
+            TrxDate = DateTime.Now;
+            date.SelectedDate = TrxDate;
+            date.Text = TrxDate.ToString("yyyy/MM/dd");
 
             loadData();
         }
@@ -95,14 +97,18 @@ namespace CakeGUI.forms
             ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
             if (type != null)
             {
-                dataGrid.Columns[3].Header = type.Expiration ? "Expired Date" : "Aging Date";
+                dataGrid.Columns[3].Header = type.Expiration ? "Tanggal Kadaluarsa" : "Tanggal Aging";
                 loadData();
             }
         }
 
         private void btnConfirm_Click(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(txtTransactionCode.Text))
+            if (String.IsNullOrEmpty(txtSupplier.Text))
+            {
+                MessageBox.Show("Supplier harus diisi!");
+            }
+            else if (String.IsNullOrEmpty(txtTransactionCode.Text))
             {
                 MessageBox.Show("Kode transaksi harus diisi!");
             }else if (String.IsNullOrEmpty(txtTotalBuyPrice.Text))
@@ -114,11 +120,21 @@ namespace CakeGUI.forms
             }
             else
             {
-                MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Selesaikan Pembelian?", "Konfirmasi Beli", System.Windows.MessageBoxButton.YesNo);
+                string confirmation = "Jenis Barang \t\t: " + (cmbType.SelectedItem as ProductTypeEntity).Description+"\n\r";
+                confirmation += "Nomor Invoice \t\t: " + txtInvoice.Text + "\n\r";
+                confirmation += "Supplier \t\t\t: " + txtSupplier.Text + "\n\r";
+                confirmation += "Kode Transaksi \t\t: " + txtTransactionCode.Text + "\n\r";
+                confirmation += "Tanggal Barang Masuk \t: " + date.SelectedDate.Value.ToString("yyyy/MM/dd") + "\n\r";
+                confirmation += "\n\rTotal Pembayaran \t\t: " + decimal.Parse(txtTotalBuyPrice.Text).ToString("0,0") + "\n\r";
+                confirmation += "\n\rSelesaikan pembelian?";
+
+                MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show(confirmation, "Konfirmasi Beli", System.Windows.MessageBoxButton.YesNo,MessageBoxImage.Question);
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
                     InventoryEntity inventory = new InventoryEntity();
                     inventory.TransactionCode = txtTransactionCode.Text;
+                    inventory.Invoice = txtInvoice.Text;
+                    inventory.Supplier = txtSupplier.Text;
                     inventory.Date = date.SelectedDate.Value;
                     inventory.TotalPrice = Int32.Parse(txtTotalBuyPrice.Text);
                     inventory.Items = inventories;
@@ -128,7 +144,10 @@ namespace CakeGUI.forms
                     inventories.Clear();
                     loadData();
                     txtTransactionCode.Text = "";
+                    txtInvoice.Text = "";
+                    txtSupplier.Text = "";
                     txtTotalBuyPrice.Text = "";
+                    txtTotalBuyPriceRemark.Text = "";
                     date.SelectedDate = DateTime.Now;
                     
                     MessageBox.Show("Pembelian berhasil disimpan");
@@ -141,6 +160,8 @@ namespace CakeGUI.forms
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin batalkan Pembelian?", "Konfirmasi Batal", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
             {
+                (this.Tag as MainWindow).loadProductStock();
+
                 inventories.Clear();
                 txtTotalBuyPrice.Text = "";
                 loadData();

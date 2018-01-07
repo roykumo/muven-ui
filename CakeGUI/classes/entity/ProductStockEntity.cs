@@ -41,7 +41,7 @@ namespace CakeGUI.classes.entity
                         int dateDiff = (ExpiredDate - DateTime.Now).Days;
                         if (dateDiff > Product.AlertGreen)
                         {
-                            return new SolidColorBrush(Colors.Transparent);
+                            return new SolidColorBrush(Colors.Blue);
                         }
                         else if (dateDiff > Product.AlertYellow)
                         {
@@ -62,11 +62,11 @@ namespace CakeGUI.classes.entity
                         int dateDiff = ((ExpiredDate.Year - now.Year) * 12 )+(ExpiredDate.Month - now.Month);
                         if (dateDiff > Product.AlertGreen)
                         {
-                            return new SolidColorBrush(Colors.Transparent);
+                            return new SolidColorBrush(Colors.Blue);
                         }
                         else if (dateDiff > Product.AlertYellow)
                         {
-                            return new SolidColorBrush(Colors.Transparent);
+                            return new SolidColorBrush(Colors.Green);
                         }
                         else if (dateDiff > Product.AlertRed)
                         {

@@ -45,7 +45,9 @@ namespace CakeGUI.forms
             InitializeComponent();
             initCommonPage();
             this.inventory = inventory;
+            txtInvoice.Text = this.inventory.Inventory.Invoice;
             txtTransactionCode.Text = this.inventory.Inventory.TransactionCode;
+            txtSupplier.Text = this.inventory.Inventory.Supplier;
             //txtTransactionCode.Text = this.inventory.TransactionCode;
             //txtPurchaseDate.Text = this.inventory.PurchaseDate;
             txtDate.Text = this.inventory.Inventory.Date.ToShortDateString();
@@ -68,6 +70,7 @@ namespace CakeGUI.forms
             if (messageBoxResult == MessageBoxResult.Yes)
             {
                 //inventory.TransactionCode = txtTransactionCode.Text;
+                inventory.Inventory.Invoice = txtInvoice.Text;
                 inventory.PurchasePrice = Int32.Parse(txtPurchasePrice.Text);
                 inventory.Quantity = Int32.Parse(txtQuantity.Text);
                 inventory.ExpiredDate = dtExpired.SelectedDate.Value;
@@ -91,7 +94,7 @@ namespace CakeGUI.forms
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            lblTitle.Text = inventory.Product.Type.Description + " > " + inventory.Product.Name + " > Info Barang";
+            lblTitle.Text = inventory.Product.Name;
             lblSiteMap.Content = commonPage.TitleSiteMap + (string.IsNullOrEmpty(inventory.Id) ? "" : " > edit");
         }
     }

@@ -40,5 +40,18 @@ namespace CakeGUI.classes.service
 
             return products.Data.Data;
         }
+
+        public List<StatusNotificationEntity> getStatusNotification(ProductTypeEntity type)
+        {
+            var request = new RestRequest("notification/status", Method.GET);
+            client.AddHandler("application/json", util.JsonSerializer.Default);
+            request.JsonSerializer = util.JsonSerializer.Default;
+
+            request.AddQueryParameter("type", type.Id);
+
+            IRestResponse<TCommonResponse<List<StatusNotificationEntity>>> products = client.Execute<TCommonResponse<List<StatusNotificationEntity>>>(request);
+
+            return products.Data.Data;
+        }
     }
 }

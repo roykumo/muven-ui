@@ -12,8 +12,12 @@ namespace CakeGUI.classes.entity
     {
         [JsonProperty("id")]
         public String Id { get; set; }
+        [JsonProperty("invoice")]
+        public String Invoice { get; set; }
         [JsonProperty("transactionCode")]
         public String TransactionCode { get; set; }
+        [JsonProperty("supplier")]
+        public String Supplier { get; set; }
         [JsonProperty("date")]
         [JsonConverter(typeof(ISODateConverter))]
         public DateTime Date { get; set; }

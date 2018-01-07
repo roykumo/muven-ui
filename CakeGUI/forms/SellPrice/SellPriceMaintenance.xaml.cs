@@ -42,6 +42,14 @@ namespace CakeGUI.forms
             iniCommonPage();
         }
 
+        public Decimal Profit
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(txtSellPrice.Text) ? new decimal(0) : decimal.Parse(txtSellPrice.Text)) - AvgBuyPrice;
+            }
+        }
+
         public SellPriceMaintenance(ProductEntity product)
         {
             InitializeComponent();
@@ -97,6 +105,11 @@ namespace CakeGUI.forms
         {
             AvgBuyPrice = price;
             SellPrice.BuyPrice = AvgBuyPrice;
+        }
+
+        private void txtSellPrice_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtProfit.Text = Profit.ToString("0,0");
         }
     }
 }

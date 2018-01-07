@@ -112,11 +112,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="forms\Inventory\InventoryHistory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="forms\Material\SampleMessageDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="forms\Notification\StatusNotification.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="forms\Notification\SaleNotification.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="forms\Product\ProductCategory.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -125,6 +137,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="forms\Product\ProductInventoryList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="forms\Product\ProductCategoryList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -161,6 +177,8 @@
     <Compile Include="classes\entity\InventoryEntity.cs" />
     <Compile Include="classes\entity\InventoryItemEntity.cs" />
     <Compile Include="classes\entity\ProductEntity.cs" />
+    <Compile Include="classes\entity\ProductCategoryEntity.cs" />
+    <Compile Include="classes\entity\StatusNotificationEntity.cs" />
     <Compile Include="classes\entity\SaleNotificationEntity.cs" />
     <Compile Include="classes\entity\ProductStockEntity.cs" />
     <Compile Include="classes\entity\ProductTypeEntity.cs" />
@@ -175,10 +193,12 @@
     <Compile Include="classes\service\ProductInventoryServiceRestImpl.cs" />
     <Compile Include="classes\service\ProductInventoryService.cs" />
     <Compile Include="classes\service\ProductInventoryItemServiceRestImpl.cs" />
+    <Compile Include="classes\service\ProductCategoryServiceRestImpl.cs" />
     <Compile Include="classes\service\ProductServiceRestImpl.cs" />
     <Compile Include="classes\service\NotificationService.cs" />
     <Compile Include="classes\service\NotificationServiceRestImpl.cs" />
     <Compile Include="classes\service\ProductStockServiceRestImpl.cs" />
+    <Compile Include="classes\service\ProductCategoryService.cs" />
     <Compile Include="classes\service\ProductTypeServiceRestImpl.cs" />
     <Compile Include="classes\service\SellPriceServiceRestImpl.cs" />
     <Compile Include="classes\service\SellPriceServiceImpl.cs" />
@@ -217,17 +237,29 @@
     <Compile Include="forms\Inventory\Out\InventoryOut.xaml.cs">
       <DependentUpon>InventoryOut.xaml</DependentUpon>
     </Compile>
+    <Compile Include="forms\Inventory\InventoryHistory.xaml.cs">
+      <DependentUpon>InventoryHistory.xaml</DependentUpon>
+    </Compile>
     <Compile Include="forms\Material\SampleMessageDialog.xaml.cs">
       <DependentUpon>SampleMessageDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="forms\Notification\StatusNotification.xaml.cs">
+      <DependentUpon>StatusNotification.xaml</DependentUpon>
+    </Compile>
     <Compile Include="forms\Notification\SaleNotification.xaml.cs">
       <DependentUpon>SaleNotification.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\Product\ProductCategory.xaml.cs">
+      <DependentUpon>ProductCategory.xaml</DependentUpon>
     </Compile>
     <Compile Include="forms\Product\Product.xaml.cs">
       <DependentUpon>Product.xaml</DependentUpon>
     </Compile>
     <Compile Include="forms\Product\ProductInventoryList.xaml.cs">
       <DependentUpon>ProductInventoryList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\Product\ProductCategoryList.xaml.cs">
+      <DependentUpon>ProductCategoryList.xaml</DependentUpon>
     </Compile>
     <Compile Include="forms\Product\ProductStock.xaml.cs">
       <DependentUpon>ProductStock.xaml</DependentUpon>
@@ -277,6 +309,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="muven.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

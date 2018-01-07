@@ -100,7 +100,7 @@ namespace CakeGUI.classes.service
 
         }
 
-        public List<InventoryItemEntity> getProductInventories(ProductEntity product)
+        public List<InventoryItemEntity> getProductInventories(ProductEntity product, bool currentQuantity)
         {
             if(inventories == null)
             {

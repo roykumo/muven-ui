@@ -17,6 +17,6 @@ namespace CakeGUI.classes.service
         void saveProduct(ProductEntity product);
         bool deleteProduct(ProductEntity product);
         ProductEntity getProductByBarcode(string barcode);
-        List<ProductStockEntity> getStocks(ProductTypeEntity type);
+        List<ProductStockEntity> getStocks(ProductTypeEntity type, string barcode);
     }
 }

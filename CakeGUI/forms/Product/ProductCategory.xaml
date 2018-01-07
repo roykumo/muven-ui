@@ -1,0 +1,48 @@
+﻿<Page x:Class="CakeGUI.forms.ProductCategory"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CakeGUI.forms"
+      mc:Ignorable="d" 
+      d:DesignHeight="420" d:DesignWidth="370"
+      Title="Product" HorizontalAlignment="Center" VerticalAlignment="Center" Loaded="Page_Loaded">
+    <Border Padding="10">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="400" Width="350">
+            <Label Content="TItle" Name="lblSiteMap" FontWeight="Bold"/>
+            <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Master Barang" TextDecorations="Underline" FontWeight="Bold" FontSize="18" Visibility="Hidden"/>
+            <Grid Margin="0 10" Height="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Jenis" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="1" Text="Induk" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="2" Text="Kode" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="3" Text="Deskripsi" FontSize="14" VerticalAlignment="Bottom"/>
+
+                <ComboBox Grid.Column="1" Grid.Row="0" Name="cmbType" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Id" SelectedValue="productCategory.Type.Id" DisplayMemberPath="Description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100" SelectionChanged="cmbType_SelectionChanged"/>
+                <ComboBox Grid.Column="1" Grid.Row="1" Name="cmbParent" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Id" SelectedValue="productCategory.Parent.Id" DisplayMemberPath="Description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Name="txtCode" FontSize="14" Height="35"/>
+                <TextBox Grid.Column="1" Grid.Row="3" Name="txtDescription" FontSize="14" Height="35"/>
+
+            </Grid>
+
+            <Grid Height="40" Margin="0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Simpan" Margin="0 0 5 0" Click="btnSave_Click"/>
+                <Button Grid.Column="1" Content="Batal" Margin="5 0 0 0" Click="btnCancel_Click"/>
+            </Grid>
+        </StackPanel>
+    </Border>
+
+</Page>

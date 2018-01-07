@@ -1,4 +1,4 @@
-﻿<Page x:Class="CakeGUI.forms.ProductInventoryList"
+﻿<Page x:Class="CakeGUI.forms.InventoryHistory"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -27,25 +27,11 @@
                         <DataGridTextColumn Binding="{Binding Inventory.Invoice}" HeaderStringFormat="" Header="Nomor Invoice" Foreground="Black"/>
                         <DataGridTextColumn Binding="{Binding Inventory.TransactionCode}" HeaderStringFormat="" Header="Kode Transaksi" Foreground="Black"/>
                         <DataGridTextColumn Binding="{Binding Inventory.Date, StringFormat=\{0:yyyy-MM-dd\}}" Header="Tanggal Barang Masuk"/>
-                        <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah Sisa" ElementStyle="{StaticResource TextRightAligned}"/>
+                        <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah saat masuk" ElementStyle="{StaticResource TextRightAligned}"/>
                         <DataGridTextColumn Binding="{Binding ExpiredDate, StringFormat=\{0:MMM-yy\}}" Header="Expired Date" ElementStyle="{StaticResource TextRightAligned}"/>
                         <DataGridTextColumn Binding="{Binding PurchasePrice, StringFormat=\{0:n0\}}" Header="Harga Beli Satuan" ElementStyle="{StaticResource TextRightAligned}"/>
                         <DataGridTextColumn Binding="{Binding Inventory.Supplier}" Header="Supplier"/>
-                        <DataGridTextColumn Binding="{Binding Remarks}" Header="Keterangan"/>
-                        <DataGridTemplateColumn>
-                            <DataGridTemplateColumn.CellStyle>
-                                <Style>
-                                    <EventSetter Event="DataGridCell.MouseLeftButtonDown"
-                                        Handler="EditProductClicked" />
-                                    <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTemplateColumn.CellStyle>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Label Content="ubah" Foreground="#FF1800FF"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                        
                     </DataGrid.Columns>
 
                 </DataGrid>

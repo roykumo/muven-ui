@@ -32,7 +32,7 @@ namespace CakeGUI.forms
             {
                 productType = value;
                 if(productType!=null)
-                    lblExpired.Text = productType.Expiration ? "Expired Date" : "Aging Date";
+                    lblExpired.Text = productType.Expiration ? "Tanggal Kadaluarsa" : "Tanggal Aging";
             }
         }
         private CommonPage commonPage;

@@ -36,11 +36,13 @@ namespace CakeGUI
             {
                 { "Exit", mi => (s, e) => { closeApp(); }},
                 { "Product", mi => (s, e) => { loadProductList(); }},
+                { "ProductCategory", mi => (s, e) => { loadProductCategory(); }},
                 { "ProductStock", mi => (s, e) => { loadProductStock(); }},
                 { "Inventory", mi => (s, e) => { loadNewInventory(); }},
                 { "SaleNotification", mi => (s, e) => { loadSaleNotification(); }},
                 { "Repacking", mi => (s, e) => { loadInventoryOut("RP"); }},
-                { "StockOpname", mi => (s, e) => { loadInventoryOut("SO"); }}
+                { "StockOpname", mi => (s, e) => { loadInventoryOut("SO"); }},
+                { "Alert", mi => (s, e) => { loadAlertNotification(); }}
             };
 
             foreach (MenuItem mi in mainMenu.Items)
@@ -113,7 +115,18 @@ namespace CakeGUI
             this.mainFrame.Content = productList;
         }
 
-        private void loadProductStock()
+        private void loadProductCategory()
+        {
+            CommonPage commonPage = new CommonPage();
+            commonPage.Title = "List Item";
+
+            ProductCategoryList productCategoryList = new ProductCategoryList();
+            productCategoryList.Tag = this;
+            //productList.SetParent(commonPage);
+            this.mainFrame.Content = productCategoryList;
+        }
+
+        public void loadProductStock()
         {
             CommonPage commonPage = new CommonPage();
             commonPage.Title = "List Item";
@@ -156,6 +169,17 @@ namespace CakeGUI
             inventoryOut.SetParent(commonPage);
 
             this.mainFrame.Content = inventoryOut;
+        }
+
+        private void loadAlertNotification()
+        {
+            CommonPage commonPage = new CommonPage();
+            commonPage.Title = "Alert Notification";
+
+            StatusNotification statusNotification = new StatusNotification();
+            statusNotification.SetParent(commonPage);
+            statusNotification.Tag = this;
+            this.mainFrame.Content = statusNotification;
         }
 
         public void setLabelTitle(string title)

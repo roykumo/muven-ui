@@ -21,17 +21,17 @@ namespace CakeGUI.forms
     /// <summary>
     /// Interaction logic for ProductStock.xaml
     /// </summary>
-    public partial class ProductStock : Page
+    public partial class StatusNotification : Page
     {
         private static ProductService productService = ProductServiceRestImpl.Instance;
         private static ProductTypeService productTypeService = ProductTypeServiceRestImpl.Instance;
 
-        ProductStockService stockService = ProductStockServiceRestImpl.Instance;
+        NotificationService notificationService = NotificationServiceRestImpl.Instance;
         private List<ProductTypeEntity> productTypes = new List<ProductTypeEntity>();
 
         private CommonPage commonPage;
 
-        public ProductStock()
+        public StatusNotification()
         {
             InitializeComponent();
 
@@ -42,7 +42,7 @@ namespace CakeGUI.forms
             init();
         }
         
-        public List<CakeGUI.classes.entity.ProductStockEntity> productStocks { get; set; }
+        public List<CakeGUI.classes.entity.StatusNotificationEntity> productStocks { get; set; }
         public classes.entity.ProductEntity product { get; set; }
 
         private void init()
@@ -62,15 +62,27 @@ namespace CakeGUI.forms
 
         private void loadData()
         {
-            productStocks = stockService.getProductStock((ProductTypeEntity)cmbType.SelectedItem, txtBarcode.Text);
+            productStocks = notificationService.getStatusNotification((ProductTypeEntity)cmbType.SelectedItem);
             dataGrid.ItemsSource = null;
             dataGrid.ItemsSource = productStocks;
         }
 
         private void ProductNameClicked(object sender, MouseButtonEventArgs e)
         {
-            ProductStockEntity cellContent = (ProductStockEntity)dataGrid.SelectedItem;
+            StatusNotificationEntity cellContent = (StatusNotificationEntity)dataGrid.SelectedItem;
             //MessageBox.Show(cellContent.Product.Name);
+
+            GenericWindow windowInventoryList = new GenericWindow();
+            ProductInventoryList inventoryListPage = new ProductInventoryList(cellContent.Product);
+            inventoryListPage.SetParent(commonPage);
+
+            windowInventoryList.Content = inventoryListPage;
+            windowInventoryList.ShowDialog();
+        }
+
+        private void StockClicked(object sender, MouseButtonEventArgs e)
+        {
+            StatusNotificationEntity cellContent = (StatusNotificationEntity)dataGrid.SelectedItem;
 
             GenericWindow windowInventoryList = new GenericWindow();
             ProductInventoryList inventoryListPage = new ProductInventoryList(cellContent.Product);
@@ -82,7 +94,7 @@ namespace CakeGUI.forms
 
         private void BuyPriceClicked(object sender, MouseButtonEventArgs e)
         {
-            ProductStockEntity cellContent = (ProductStockEntity)dataGrid.SelectedItem;
+            StatusNotificationEntity cellContent = (StatusNotificationEntity)dataGrid.SelectedItem;
             //MessageBox.Show(cellContent.Product.Name);
 
             GenericWindow windowInventoryList = new GenericWindow();
@@ -95,7 +107,7 @@ namespace CakeGUI.forms
 
         private void SellPriceClicked(object sender, MouseButtonEventArgs e)
         {
-            ProductStockEntity cellContent = (ProductStockEntity)dataGrid.SelectedItem;
+            StatusNotificationEntity cellContent = (StatusNotificationEntity)dataGrid.SelectedItem;
             
             GenericWindow windowSellPriceHistory = new GenericWindow();
             SellPriceHistory sellPriceHistoryPage = new SellPriceHistory(cellContent.Product);
@@ -119,8 +131,8 @@ namespace CakeGUI.forms
             ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
             if (type != null)
             {
-                dataGrid.Columns[2].Header = type.Expiration ? "Kadaluarsa (Tercepat)" : "Aging";
-                dataGrid.Columns[6].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
+                dataGrid.Columns[2].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
+                //dataGrid.Columns[6].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
                 loadData();
                 //dataGrid.ItemsSource = null;
                 //dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type!=null && string.Equals(x.Product.Type.Id, type.Id));
@@ -142,7 +154,7 @@ namespace CakeGUI.forms
             /*try
             {
                 DataGridRow gridRow = e.Row;
-                ProductStockEntity stock = (ProductStockEntity)gridRow.Item;
+                StatusNotificationEntity stock = (StatusNotificationEntity)gridRow.Item;
 
                 dataGrid.Columns[4].CellStyle = new Style(typeof(DataGridCell));
                 dataGrid.Columns[4].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(stock != null ? stock.AlertColor : Colors.Transparent)));
@@ -165,15 +177,16 @@ namespace CakeGUI.forms
             ProductTypeEntity type = cmbType.SelectedItem as ProductTypeEntity;
             if (type != null)
             {
-                dataGrid.Columns[2].Header = type.Expiration ? "Kadaluarsa (Tercepat)" : "Aging";
-                dataGrid.Columns[6].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
+                dataGrid.Columns[2].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
+                //dataGrid.Columns[6].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
             }
             else
             {
                 dataGrid.Columns[2].Header = "Expired / Aging Date";
-                dataGrid.Columns[6].Header = "Expiry / Aging Notif";
+                //dataGrid.Columns[6].Header = "Expiry / Aging Notif";
             }
             loadData();
         }
+        
     }
 }

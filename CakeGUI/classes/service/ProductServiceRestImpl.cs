@@ -130,13 +130,17 @@ namespace CakeGUI.classes.service
             return products.Data.Paging.Data;
         }
 
-        public List<ProductStockEntity> getStocks(ProductTypeEntity type)
+        public List<ProductStockEntity> getStocks(ProductTypeEntity type, string barcode)
         {
             var request = new RestRequest("product/stock", Method.GET);
             client.AddHandler("application/json", util.JsonSerializer.Default);
             request.JsonSerializer = util.JsonSerializer.Default;
 
             request.AddQueryParameter("type", type.Id);
+            if (!string.IsNullOrEmpty(barcode))
+            {
+                request.AddQueryParameter("code", barcode);
+            }
 
             IRestResponse<TCommonResponse<List<ProductStockEntity>>> products = client.Execute<TCommonResponse<List<ProductStockEntity>>>(request);
 

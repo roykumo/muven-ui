@@ -49,6 +49,7 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Product.BarCode}" ClipboardContentBinding="{x:Null}" Header="BarCode"  />
                                 <DataGridTextColumn Binding="{Binding Product.Name}" HeaderStringFormat="" Header="Nama Barang" Foreground="Black"  />
+                                <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah"  ElementStyle="{StaticResource TextRightAligned}"  />
                                 <DataGridTextColumn Binding="{Binding PurchasePrice, StringFormat=\{0:n0\}}" Header="Harga Beli Rata2" TextBlock.TextAlignment="Center"  Width="115" ElementStyle="{StaticResource TextRightAligned}"  />
                                 <DataGridTextColumn Binding="{Binding SellPrice.SellingPrice, StringFormat=\{0:n0\}}" Header="Harga Jual" TextBlock.TextAlignment="Center"  Width="90" ElementStyle="{StaticResource TextRightAligned}"  />
                                 <DataGridTemplateColumn Header="">
@@ -58,7 +59,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah"  ElementStyle="{StaticResource TextRightAligned}"  />
+                                <DataGridTextColumn Binding="{Binding Remarks}" Header="Keterangan"  />
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellStyle>
                                         <Style>
@@ -130,8 +131,8 @@
                                 <DataGridTextColumn Binding="{Binding Product.BarCode}" ClipboardContentBinding="{x:Null}" Header="BarCode"  />
                                 <DataGridTextColumn Binding="{Binding Product.Name}" HeaderStringFormat="" Header="Nama Barang" Foreground="Black"  />
                                 <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah"  ElementStyle="{StaticResource TextRightAligned}"  />
-                                <DataGridTextColumn Binding="{Binding ExpiredDate, StringFormat=\{0:yyyy-MM-dd\}}" Header="Expired Date"  />
-                                <DataGridTextColumn Binding="{Binding PurchasePrice, StringFormat=\{0:n0\}}" Header="Harga Beli Satuan" TextBlock.TextAlignment="Center"  Width="120" ElementStyle="{StaticResource TextRightAligned}"  />
+                                <DataGridTextColumn Binding="{Binding ExpiredDate, StringFormat=\{0:MMM-yy\}}" Header="Expired Date" ElementStyle="{StaticResource TextRightAligned}"  />
+                                <DataGridTextColumn Binding="{Binding Price, StringFormat=\{0:n0\}}" Header="Harga Beli Satuan" TextBlock.TextAlignment="Center"  Width="120" ElementStyle="{StaticResource TextRightAligned}"  />
                                 <DataGridTextColumn Binding="{Binding Remarks}" Header="Keterangan"  />
                                 <!--<DataGridTextColumn Binding="{Binding PurchaseDate, StringFormat=\{0:yyyy-MM-dd\}}" Header="Tanggal Barang Masuk"/>-->
                                 <DataGridTemplateColumn>

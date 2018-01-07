@@ -51,7 +51,7 @@ namespace CakeGUI.forms
         {
             if (product != null)
             {
-                List<ProductStockEntity> listStock = productService.getStocks(product.Type);
+                List<ProductStockEntity> listStock = productService.getStocks(product.Type, "");
                 if(listStock!=null || listStock.Count > 0)
                 {
                     ProductStockEntity stock = listStock.Find(p => p.Product.Id == product.Id);
@@ -108,6 +108,7 @@ namespace CakeGUI.forms
             if (outInventory != null)
                 this.SellPrice = outInventory.SellPrice;
 
+            txtRemarks.Text = this.outInventory.Remarks;
             txtBarcode.Text = this.outInventory.Product.BarCode;
             txtName.Text = this.outInventory.Product.Name;
             txtPurchasePrice.Text = this.outInventory.PurchasePrice.ToString();
@@ -138,6 +139,7 @@ namespace CakeGUI.forms
                     outInventory.PurchasePrice = decimal.Parse(!string.IsNullOrEmpty(txtPurchasePrice.Text) ? txtPurchasePrice.Text : "0");
                     outInventory.Quantity = Int32.Parse(!string.IsNullOrEmpty(txtQuantity.Text) ? txtQuantity.Text : "0");
                     outInventory.SellPrice = SellPrice;
+                    outInventory.Remarks = txtRemarks.Text;
                     
                     if(outInventories!=null)
                         outInventories.Add(outInventory);

@@ -48,7 +48,7 @@ namespace CakeGUI.forms
         private void init()
         {
             commonPage = new CommonPage();
-            commonPage.Title = "Harga Jual";
+            commonPage.Title = "Penetapan Harga Jual";
 
             loadData();
         }

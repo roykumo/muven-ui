@@ -1,4 +1,4 @@
-﻿<Page x:Class="CakeGUI.forms.ProductList"
+﻿<Page x:Class="CakeGUI.forms.ProductCategoryList"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -43,15 +43,14 @@
                     </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Type.Description}" HeaderStringFormat="" Header="Jenis"/>
-                        <DataGridTextColumn Binding="{Binding Code}" HeaderStringFormat="" Header="Barcode 1" />
-                        <DataGridTextColumn Binding="{Binding BarCode}" HeaderStringFormat="" Header="Barcode 2" />
-                        <DataGridTextColumn Binding="{Binding Name}" HeaderStringFormat="" Header="Nama Barang" />
-                        <DataGridTextColumn Binding="{Binding Alerts}" Header="Expiry / Aging Notif"/>
+                        <DataGridTextColumn Binding="{Binding Parent.Description}" HeaderStringFormat="" Header="Induk" />
+                        <DataGridTextColumn Binding="{Binding Code}" HeaderStringFormat="" Header="Kode" />
+                        <DataGridTextColumn Binding="{Binding Description}" HeaderStringFormat="" Header="Deskripsi" />
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellStyle>
                                 <Style>
                                     <EventSetter Event="DataGridCell.MouseLeftButtonDown"
-                                        Handler="EditProductClicked" />
+                                        Handler="EditProductCategoryClicked" />
                                     <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
                                 </Style>
                             </DataGridTemplateColumn.CellStyle>
@@ -65,7 +64,7 @@
                             <DataGridTemplateColumn.CellStyle>
                                 <Style>
                                     <EventSetter Event="DataGridCell.MouseLeftButtonDown"
-                                        Handler="DeleteProductClicked" />
+                                        Handler="DeleteProductCategoryClicked" />
                                     <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
                                 </Style>
                             </DataGridTemplateColumn.CellStyle>

@@ -5,13 +5,13 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CakeGUI.forms"
       mc:Ignorable="d" 
-      d:DesignHeight="400" d:DesignWidth="300"
-      Title="Product" HorizontalAlignment="Center" VerticalAlignment="Center" Loaded="Page_Loaded">
+      d:DesignHeight="400"
+      Title="Product" HorizontalAlignment="Center" VerticalAlignment="Center" Loaded="Page_Loaded" Width="500">
     <Border Padding="10">
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="380" Width="350">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="380" Width="480">
             <Label Content="TItle" Name="lblSiteMap" FontSize="10"/>
             <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Inventory Barang Masuk" TextDecorations="Underline" FontWeight="Bold" FontSize="18"/>
-            <Grid Margin="0 10" Height="210">
+            <Grid Margin="0 10" Height="240">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="4*"/>
@@ -23,21 +23,27 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Kode Transaksi" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="1" Text="Tgl Barang Masuk" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="0" Text="Nomor Invoice" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="1" Text="Kode Transaksi" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="2" Text="Tgl Barang Masuk" FontSize="14" VerticalAlignment="Bottom"/>
                 <!--<TextBlock Grid.Row="2" Text="Kode Transaksi" FontSize="14"/>-->
-                <TextBlock Grid.Row="2" Text="Jumlah" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="3" Text="Expired Date" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="4" Text="Harga Beli Satuan" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="5" Text="Keterangan" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="3" Text="Jumlah" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="4" Text="Expired Date" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="5" Text="Harga Beli Satuan" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="6" Text="Supplier" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="7" Text="Keterangan" FontSize="14" VerticalAlignment="Bottom"/>
 
-                <TextBox Grid.Column="1" Grid.Row="0" Name="txtTransactionCode" Margin="0,3,58,2.6" IsEnabled="False"/>
-                <TextBox Grid.Column="1" Grid.Row="1" x:Name="txtDate" IsEnabled="False" />
-                <TextBox Grid.Column="1" Grid.Row="2" Name="txtQuantity"/>
-                <DatePicker Grid.Column="1" Grid.Row="3" Name="dtExpired" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <TextBox Grid.Column="1" Grid.Row="4" Name="txtPurchasePrice"/>
-                <TextBox Grid.Column="1" Grid.Row="5" Name="txtRemarks"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Name="txtInvoice" Margin="0,3,58,2.6" />
+                <TextBox Grid.Column="1" Grid.Row="1" Name="txtTransactionCode" Margin="0,3,58,2.6" IsEnabled="False"/>
+                <TextBox Grid.Column="1" Grid.Row="2" x:Name="txtDate" IsEnabled="False" />
+                <TextBox Grid.Column="1" Grid.Row="3" Name="txtQuantity"/>
+                <DatePicker Grid.Column="1" Grid.Row="4" Name="dtExpired" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <TextBox Grid.Column="1" Grid.Row="5" Name="txtPurchasePrice"/>
+                <TextBox Grid.Column="1" Grid.Row="6" Name="txtSupplier" IsEnabled="False"/>
+                <TextBox Grid.Column="1" Grid.Row="7" Name="txtRemarks"/>
             </Grid>
 
             <Grid Height="35" Margin="0 10">
