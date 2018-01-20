@@ -33,6 +33,10 @@ namespace CakeGUI.forms
             InitializeComponent();
             product = new ProductEntity();
             //product.Type = productTypeService.getProductType("2");
+            txtExpiryRed.Text = "0";
+            txtExpiryYellow.Text = "30";
+            txtExpiryGreen.Text = "60";
+            txtExpiryBlue.Text = "180";
             init();
         }
 

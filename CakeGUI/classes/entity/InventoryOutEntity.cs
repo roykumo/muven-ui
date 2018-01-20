@@ -21,6 +21,12 @@ namespace CakeGUI.classes.entity
         public string Type { get; set; }
         [JsonProperty("inventoryIn")]
         public InventoryEntity InventoryIn { get; set; }
+        [JsonProperty("remarks")]
+        public string Remarks { get; set; }
+        [JsonProperty("transactionCode")]
+        public string TransactionCode { get; set; }
+        [JsonProperty("payment")]
+        public PaymentEntity Payment { get; set; }
 
         [JsonProperty("items")]
         public List<InventoryItemOutEntity> Items { get; set; }

@@ -21,7 +21,7 @@ namespace CakeGUI.forms
     /// <summary>
     /// Interaction logic for Inventory.xaml
     /// </summary>
-    public partial class InventoryItemOut : Page
+    public partial class AddItemOut : Page
     {
         private static ProductService productService = ProductServiceRestImpl.Instance;
         private static ProductInventoryOutService inventoryOutService = ProductInventoryOutServiceRestImpl.Instance;
@@ -38,13 +38,17 @@ namespace CakeGUI.forms
         private CommonPage commonPage;
         public bool EditMode { get; set; }
         public SellPrice SellPrice { get; set; }
+        public bool IsJoinSameProduct = true;
 
         private void init()
         {
             commonPage = new CommonPage();
             commonPage.Title = "Add New";
             lblSiteMap.Content = commonPage.Title;
+            txtQuantity.Text = "1";
+
             loadLatestPurchasePrice();
+            loadCurrentSellPrice();
         }
 
         private void loadLatestPurchasePrice()
@@ -57,7 +61,7 @@ namespace CakeGUI.forms
                     ProductStockEntity stock = listStock.Find(p => p.Product.Id == product.Id);
                     if (stock != null)
                     {
-                        txtPurchasePrice.Text = stock.BuyPrice.ToString();
+                        //txtPurchasePrice.Text = stock.BuyPrice.ToString();
                     }
                 }
             }
@@ -68,54 +72,57 @@ namespace CakeGUI.forms
             if (product != null)
             {
                 SellPrice = sellPriceService.getCurrentSellPrice(product);
-                if (SellPrice == null)
-                {
-                    txtSellingPrice.Text = "";
-                    radioFalse.IsChecked = false;
-                    radioTrue.IsChecked = false;
-                }
-                else
-                {
-                    txtSellingPrice.Text = SellPrice.SellingPrice.ToString();
-                    radioTrue.IsChecked = SellPrice.Sale;
-                    radioFalse.IsChecked = !SellPrice.Sale;
-                }
             }
         }
 
-        public InventoryItemOut()
+        public AddItemOut()
         {
             InitializeComponent();
             outInventory = new InventoryItemOutEntity();
             init();
-            DataObject.AddPastingHandler(txtBarcode, onPaste);
         }
 
-        public InventoryItemOut(List<InventoryItemOutEntity> outInventories)
+        public AddItemOut(string barcode, List<InventoryItemOutEntity> outInventories)
+        {
+            InitializeComponent();
+            outInventory = new InventoryItemOutEntity();
+            this.outInventories = outInventories;
+
+            this.product = productService.getProductByBarcode(barcode);
+            if (this.product != null)
+            {
+                List<ProductStockEntity> stock = productService.getStocks(this.product.Type, barcode);
+                if (stock == null || stock.Count == 0)
+                {
+                    MessageBox.Show("Barang tidak ada stock!");
+                    btnSave.IsEnabled = false;
+                    txtQuantity.IsEnabled = false;
+                }
+                else
+                {
+                    txtBarcode.Text = this.product.BarCode;
+                    txtName.Text = this.product.Name;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Barang tidak ditemukan");
+                btnSave.IsEnabled = false;
+            }
+
+            init();
+        }
+
+        public AddItemOut(List<InventoryItemOutEntity> outInventories)
         {
             InitializeComponent();
             outInventory = new InventoryItemOutEntity();
             this.outInventories = outInventories;
             init();
-            DataObject.AddPastingHandler(txtBarcode, onPaste);
-        }
-
-        bool isPaste = false;
-        private void onPaste(object sender, DataObjectPastingEventArgs e)
-        {
-            var istext = e.SourceDataObject.GetDataPresent(DataFormats.UnicodeText, true);
-            if (!istext) return;
-
-            var text = e.SourceDataObject.GetData(DataFormats.UnicodeText) as string;
-
-            isPaste = true;
-
-            //new task(()=> { openwindowadditem(text); }).start();
-
         }
 
         List<InventoryItemOutEntity> outInventories;
-        public InventoryItemOut(InventoryItemOutEntity outInventory)
+        public AddItemOut(InventoryItemOutEntity outInventory)
         {
             InitializeComponent();
             this.outInventory = outInventory;
@@ -123,11 +130,10 @@ namespace CakeGUI.forms
 
             if (outInventory != null)
                 this.SellPrice = outInventory.SellPrice;
-
-            txtRemarks.Text = this.outInventory.Remarks;
+            
             txtBarcode.Text = this.outInventory.Product.BarCode;
             txtName.Text = this.outInventory.Product.Name;
-            txtPurchasePrice.Text = this.outInventory.PurchasePrice.ToString();
+            //txtPurchasePrice.Text = this.outInventory.PurchasePrice.ToString();
             txtQuantity.Text = this.outInventory.Quantity.ToString();
             lblTitle.Text += " (ubah)";
             init();
@@ -144,24 +150,56 @@ namespace CakeGUI.forms
         {
             if (product == null)
             {
-                MessageBox.Show("Harus pilih barang dulu!");
+                MessageBox.Show("Tidak ada barang!");
             }
             else
             {
-                MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
-                if (messageBoxResult == MessageBoxResult.Yes)
+                if (string.IsNullOrEmpty(txtQuantity.Text))
                 {
-                    outInventory.Product = product;
-                    outInventory.PurchasePrice = decimal.Parse(!string.IsNullOrEmpty(txtPurchasePrice.Text) ? txtPurchasePrice.Text : "0");
-                    outInventory.Quantity = Int32.Parse(!string.IsNullOrEmpty(txtQuantity.Text) ? txtQuantity.Text : "0");
-                    outInventory.SellPrice = SellPrice;
-                    outInventory.Remarks = txtRemarks.Text;
-                    
-                    if(outInventories!=null)
-                        outInventories.Add(outInventory);
+                    MessageBox.Show("Isi jumlah barang!");
+                }
+                else
+                {
+                    //MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
+                    //if (messageBoxResult == MessageBoxResult.Yes)
+                    //{
+                        outInventory.Product = product;
+                        //outInventory.PurchasePrice = decimal.Parse(!string.IsNullOrEmpty(txtPurchasePrice.Text) ? txtPurchasePrice.Text : "0");
+                        outInventory.Quantity = Int32.Parse(!string.IsNullOrEmpty(txtQuantity.Text) ? txtQuantity.Text : "0");
+                        outInventory.SellPrice = SellPrice;
+                        if (SellPrice != null)
+                        {
+                            outInventory.SellPriceTrx = SellPrice.SellingPrice;
+                        }
 
-                    GenericWindow genericWindow = ((GenericWindow)this.Parent);
-                    genericWindow.Close();
+                        if (outInventories != null)
+                        {
+                            if (IsJoinSameProduct)
+                            {
+                                InventoryItemOutEntity checkItem = outInventories.Find(o => o.Product.Id == this.product.Id);
+                                if (checkItem == null)
+                                {
+                                    outInventories.Add(outInventory);
+                                }
+                                else
+                                {
+                                    checkItem.Quantity += outInventory.Quantity;
+                                }
+                            }
+                            else
+                            {
+                                outInventories.Add(outInventory);
+                            }
+                        }
+                        else
+                        {
+                            outInventories = new List<InventoryItemOutEntity>();
+                            outInventories.Add(outInventory);
+                        }
+
+                        GenericWindow genericWindow = ((GenericWindow)this.Parent);
+                        genericWindow.Close();
+                    //}
                 }
             }
         }
@@ -204,12 +242,6 @@ namespace CakeGUI.forms
         {
             commonPage.Title = (EditMode ? "Edit" : "Add");
             lblSiteMap.Content = commonPage.TitleSiteMap;
-            if (SellPrice != null)
-            {
-                txtSellingPrice.Text = SellPrice.SellingPrice.ToString();
-                radioFalse.IsChecked = !SellPrice.Sale;
-                radioTrue.IsChecked = SellPrice.Sale;
-            }
         }
 
         private void txtQuantity_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -221,43 +253,6 @@ namespace CakeGUI.forms
         {
             e.Handled = !Utils.IsTextAllowed(e.Text);
         }
-
-        public string LabelTitle {
-            set
-            {
-                this.lblTitle.Text = value;
-            }
-        }
-
-
-        private void txtBarcode_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (isPaste)
-            {
-                openWindowAddItem(txtBarcode.Text);
-            }
-            isPaste = false;
-        }
-
-        private void openWindowAddItem(string barcode)
-        {
-            isPaste = false;
-            ProductEntity p = productService.getProductByBarcode(barcode);
-            if (p == null || (productType != null && !p.Type.Id.Equals(productType.Id)))
-            {
-                MessageBox.Show("Barang tidak ditemukan");
-                txtName.Text = "";
-                product = null;
-            }
-            else
-            {
-                product = p;
-                txtBarcode.Text = product.BarCode;
-                txtName.Text = product.Name;
-            }
-            loadLatestPurchasePrice();
-            loadCurrentSellPrice();
-
-        }
+        
     }
 }

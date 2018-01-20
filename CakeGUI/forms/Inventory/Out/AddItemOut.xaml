@@ -1,0 +1,51 @@
+﻿<Page x:Class="CakeGUI.forms.AddItemOut"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CakeGUI.forms"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="500"
+      Title="Product" HorizontalAlignment="Center" VerticalAlignment="Center" Loaded="Page_Loaded">
+    <Page.Resources>
+        <system:Boolean x:Key="True">True</system:Boolean>
+        <system:Boolean x:Key="False">False</system:Boolean>
+        <local:RadioButtonCheckedConverter x:Key="RadioButtonCheckedConverter"/>
+    </Page.Resources>
+    <Border Padding="10">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="380" Width="480" Margin="0.4,0.4,-0.4,-0.4">
+            <Label Content="Title" Name="lblSiteMap"/>
+            <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Tambah Barang" TextDecorations="Underline" FontWeight="Bold" FontSize="18"/>
+            <Grid Margin="0 10" Height="90">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Barcode" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Text="Nama Barang" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="2" Text="Jumlah" FontSize="14" VerticalAlignment="Center"/>
+                
+                <TextBox Grid.Column="1" Grid.Row="0" Name="txtBarcode" Margin="0.4,3,105,2.6" IsEnabled="False"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Name="txtName" IsEnabled="False" />
+                <TextBox Grid.Column="1" Grid.Row="2" Name="txtQuantity" PreviewTextInput="txtQuantity_PreviewTextInput"/>
+                
+            </Grid>
+
+            <Grid Height="30" Margin="0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="btnSave" Content="Simpan" Margin="0 0 5 0" Click="btnSave_Click"/>
+                <Button Grid.Column="1" Content="Batal" Margin="5 0 0 0" Click="btnCancel_Click"/>
+            </Grid>
+        </StackPanel>
+    </Border>
+
+</Page>

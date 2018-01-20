@@ -59,6 +59,8 @@ namespace CakeGUI.forms
             date.SelectedDate = TrxDate;
             date.Text = TrxDate.ToString("yyyy/MM/dd");
 
+            txtTransactionCode.Text = inventoryService.getTrxCode("PU", null);
+
             loadData();
         }
 
@@ -163,6 +165,7 @@ namespace CakeGUI.forms
                 (this.Tag as MainWindow).loadProductStock();
 
                 inventories.Clear();
+                txtTransactionCode.Text = inventoryService.getTrxCode("PU", null);
                 txtTotalBuyPrice.Text = "";
                 loadData();
             }

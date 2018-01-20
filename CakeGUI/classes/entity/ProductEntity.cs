@@ -40,5 +40,13 @@ namespace CakeGUI.classes.entity
         {
             get { return AlertRed + "/" + AlertYellow + "/" + AlertGreen + "/" + AlertBlue; }
         }
+
+        public ProductEntity()
+        {
+            AlertRed = 0;
+            AlertYellow = 30;
+            AlertGreen = 60;
+            AlertBlue = 180;
+        }
     }
 }

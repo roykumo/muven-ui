@@ -39,7 +39,7 @@
                 <TextBlock Grid.Row="5" Text="Sale" FontSize="14" VerticalAlignment="Center"/>
                 <TextBlock Grid.Row="6" Text="Keterangan" FontSize="14" VerticalAlignment="Center"/>
 
-                <TextBox Grid.Column="1" Grid.Row="0" Name="txtBarcode" Margin="0.4,3,105,2.6"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Name="txtBarcode" Margin="0.4,3,105,2.6" TextChanged="txtBarcode_TextChanged"/>
                 <Button Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Content="Cari" Click="btnSearch_Click" Width="95"/>
                 <TextBox Grid.Column="1" Grid.Row="1" Name="txtName" IsEnabled="False" />
                 <TextBox Grid.Column="1" Grid.Row="2" Name="txtQuantity" PreviewTextInput="txtQuantity_PreviewTextInput"/>

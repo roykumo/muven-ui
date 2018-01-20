@@ -62,15 +62,17 @@ namespace CakeGUI.forms
             commonPage = new CommonPage();
             if (type != null)
             {
-                if (type.Equals("RP"))
+                if (type.Equals("RE"))
                 {
                     commonPage.Title = "Repacking";
+                    txtSupplier.Text = "REPACKING";
                 }
-                else if (type.Equals("SO"))
+                else if (type.Equals("ST"))
                 {
                     commonPage.Title = "Stock Opname";
+                    txtSupplier.Text = "STOCK OPNAME";
                 }
-                dataGridIn.Columns[4].Header = type.Equals("RP") ? "Harga Jual" : "Harga Beli Satuan";
+                dataGridIn.Columns[4].Header = type.Equals("RE") ? "Harga Jual" : "Harga Beli Satuan";
             }
 
             lblTitle.Text = commonPage.Title;
@@ -94,6 +96,7 @@ namespace CakeGUI.forms
             cmbType.ItemsSource = productTypes;
             cmbType.SelectedIndex = 0;
 
+            txtTransactionCode.Text = inventoryService.getTrxCode(type, null);
             date.SelectedDate = DateTime.Now;
             dateOut.SelectedDate = DateTime.Now;
 
@@ -188,6 +191,7 @@ namespace CakeGUI.forms
                     inventory.Items = inventories;
                     inventory.TransactionCode = txtTransactionCode.Text;
                     inventory.TotalPrice = inventories.Sum(i => i.PurchasePrice * i.Quantity);
+                    inventory.Supplier = txtSupplier.Text;
 
                     outInventory.InventoryIn = inventory;
 
@@ -198,10 +202,11 @@ namespace CakeGUI.forms
                     outInventories.Clear();
                     loadDataOut();
                     txtTransactionCode.Text = "";
+                    txtTransactionCode.Text = inventoryService.getTrxCode(type, null);
                     date.SelectedDate = DateTime.Now;
                     dateOut.SelectedDate = DateTime.Now;
 
-                    MessageBox.Show((type.Equals("RP") ?"Repacking" : "Stock Opname") +" berhasil disimpan");
+                    MessageBox.Show((type.Equals("RE") ?"Repacking" : "Stock Opname") +" berhasil disimpan");
                 }
             }
         }
@@ -213,6 +218,7 @@ namespace CakeGUI.forms
             {
                 inventories.Clear();
                 outInventories.Clear();
+                txtTransactionCode.Text = inventoryService.getTrxCode(type, null);
                 txtTransactionCode.Text = "";
                 loadData();
                 loadDataOut();

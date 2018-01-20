@@ -104,7 +104,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="forms\Inventory\Out\Damage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="forms\Inventory\Out\CashRegister.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="forms\Inventory\Out\Payment.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="forms\Inventory\Out\SellPriceOverride.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="forms\Inventory\Out\AddItemOut.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="forms\Inventory\Out\InventoryItemOut.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="forms\Inventory\Out\OnlineTransaction.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -176,6 +200,7 @@
     <Compile Include="classes\entity\InventoryOutEntity.cs" />
     <Compile Include="classes\entity\InventoryEntity.cs" />
     <Compile Include="classes\entity\InventoryItemEntity.cs" />
+    <Compile Include="classes\entity\PaymentEntity.cs" />
     <Compile Include="classes\entity\ProductEntity.cs" />
     <Compile Include="classes\entity\ProductCategoryEntity.cs" />
     <Compile Include="classes\entity\StatusNotificationEntity.cs" />
@@ -231,8 +256,26 @@
     <Compile Include="forms\Inventory\NewInventory.xaml.cs">
       <DependentUpon>NewInventory.xaml</DependentUpon>
     </Compile>
+    <Compile Include="forms\Inventory\Out\Damage.xaml.cs">
+      <DependentUpon>Damage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\Inventory\Out\CashRegister.xaml.cs">
+      <DependentUpon>CashRegister.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\Inventory\Out\Payment.xaml.cs">
+      <DependentUpon>Payment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\Inventory\Out\SellPriceOverride.xaml.cs">
+      <DependentUpon>SellPriceOverride.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\Inventory\Out\AddItemOut.xaml.cs">
+      <DependentUpon>AddItemOut.xaml</DependentUpon>
+    </Compile>
     <Compile Include="forms\Inventory\Out\InventoryItemOut.xaml.cs">
       <DependentUpon>InventoryItemOut.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\Inventory\Out\OnlineTransaction.xaml.cs">
+      <DependentUpon>OnlineTransaction.xaml</DependentUpon>
     </Compile>
     <Compile Include="forms\Inventory\Out\InventoryOut.xaml.cs">
       <DependentUpon>InventoryOut.xaml</DependentUpon>

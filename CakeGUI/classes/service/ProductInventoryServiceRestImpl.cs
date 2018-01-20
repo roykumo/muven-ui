@@ -46,5 +46,15 @@ namespace CakeGUI.classes.service
             
         }
 
+        public string getTrxCode(string type, string date)
+        {
+            var request = new RestRequest("inventory/maxTrxNumber", Method.GET);
+            
+            request.AddParameter("type", type);
+
+            IRestResponse<TCommonResponse<int>> product = client.Execute<TCommonResponse<int>>(request);
+
+            return DateTime.Now.ToString("yyyyMMdd") + "_" + type + product.Data.Data.ToString().PadLeft(2, '0');
+        }
     }
 }

@@ -62,18 +62,19 @@
             </MenuItem>
             <MenuItem Header="_Ringkasan Laporan" x:Name="Notification">
                 <MenuItem x:Name="Alert" Header="_Notifikasi Status Barang"/>
+                <MenuItem x:Name="TransactionList" Header="_Daftar Transaksi"/>
                 <MenuItem x:Name="SaleNotification" Header="_Catatan Masuk/Keluar Barang"/>
-                <MenuItem x:Name="FinancialReports" Header="_Laporan Keuangan"/>
+                <MenuItem x:Name="SellingReports" Header="_Laporan Penjualan"/>
             </MenuItem>
-            <MenuItem Header="_Stock In" x:Name="StockIn">
-                <MenuItem x:Name="Inventory" Header="_Barang Masuk"/>
+            <MenuItem Header="_Barang Masuk" x:Name="StockIn">
+                <MenuItem x:Name="Inventory" Header="_Pembelian"/>
                 <MenuItem x:Name="Repacking" Header="_Repacking"/>
                 <MenuItem x:Name="StockOpname" Header="_Stock Opname"/>
             </MenuItem>
-            <MenuItem Header="_Stock Out" x:Name="StockOut">
+            <MenuItem Header="_Barang Keluar" x:Name="StockOut">
                 <!--<MenuItem x:Name="InventoryOut" Header="_Barang Keluar"/>
                 <MenuItem x:Name="RepackingOut" Header="_Repacking Keluar"/>-->
-                <MenuItem x:Name="Sell" Header="_Penjualan Online/Grosir"/>
+                <MenuItem x:Name="OnlineTransaction" Header="_Penjualan Online/Grosir"/>
                 <MenuItem x:Name="CashRegister" Header="_Cash Register"/>
                 <MenuItem x:Name="ProductDump" Header="_Penghapusan"/>
             </MenuItem>

@@ -28,7 +28,16 @@ namespace CakeGUI
             InitializeComponent();
             mainFrame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
             initMenu();
+            commonPageOut.Title = "Barang Keluar";
+            commonPageIn.Title = "Barang Masuk";
+            commonPageReport.Title = "Ringkasan Laporan";
+            commonPageItem.Title = "Daftar Barang";
         }
+
+        CommonPage commonPageOut = new CommonPage();
+        CommonPage commonPageIn = new CommonPage();
+        CommonPage commonPageReport = new CommonPage();
+        CommonPage commonPageItem = new CommonPage();
 
         private void initMenu()
         {
@@ -40,8 +49,11 @@ namespace CakeGUI
                 { "ProductStock", mi => (s, e) => { loadProductStock(); }},
                 { "Inventory", mi => (s, e) => { loadNewInventory(); }},
                 { "SaleNotification", mi => (s, e) => { loadSaleNotification(); }},
-                { "Repacking", mi => (s, e) => { loadInventoryOut("RP"); }},
-                { "StockOpname", mi => (s, e) => { loadInventoryOut("SO"); }},
+                { "Repacking", mi => (s, e) => { loadInventoryOut("RE"); }},
+                { "StockOpname", mi => (s, e) => { loadInventoryOut("ST"); }},
+                { "CashRegister", mi => (s, e) => { loadCashRegister(); }},
+                { "ProductDump", mi => (s, e) => { loadProductDump(); }},                
+                { "OnlineTransaction", mi => (s, e) => { loadOnlineTransaction(); }},
                 { "Alert", mi => (s, e) => { loadAlertNotification(); }}
             };
 
@@ -106,78 +118,85 @@ namespace CakeGUI
         
         private void loadProductList()
         {
-            CommonPage commonPage = new CommonPage();
-            commonPage.Title = "List Item";
-
             ProductList productList = new ProductList();
             productList.Tag = this;
-            //productList.SetParent(commonPage);
+            productList.SetParent(commonPageItem);
             this.mainFrame.Content = productList;
         }
 
         private void loadProductCategory()
         {
-            CommonPage commonPage = new CommonPage();
-            commonPage.Title = "List Item";
-
             ProductCategoryList productCategoryList = new ProductCategoryList();
             productCategoryList.Tag = this;
-            //productList.SetParent(commonPage);
+            productCategoryList.SetParent(commonPageItem);
             this.mainFrame.Content = productCategoryList;
         }
 
         public void loadProductStock()
         {
-            CommonPage commonPage = new CommonPage();
-            commonPage.Title = "List Item";
-
             ProductStock productStock = new ProductStock();
             productStock.Tag = this;
-            //productStock.SetParent(commonPage);
+            productStock.SetParent(commonPageItem);
             this.mainFrame.Content = productStock;
         }
 
         private void loadNewInventory()
         {
-            CommonPage commonPage = new CommonPage();
-            commonPage.Title = "Stock In";
-
             NewInventory newInventory = new NewInventory();
-            newInventory.SetParent(commonPage);
+            newInventory.SetParent(commonPageIn);
             newInventory.Tag = this;
             this.mainFrame.Content = newInventory;
         }
 
         private void loadSaleNotification()
         {
-            CommonPage commonPage = new CommonPage();
-            commonPage.Title = "Notification";
-
             SaleNotification saleNotification = new SaleNotification();
-            saleNotification.SetParent(commonPage);
+            saleNotification.SetParent(commonPageReport);
             saleNotification.Tag = this;
             this.mainFrame.Content = saleNotification;
         }
 
         private void loadInventoryOut(string type)
         {
-            CommonPage commonPage = new CommonPage();
-            commonPage.Title = "Stock In";
-
             InventoryOut inventoryOut = new InventoryOut(type);
             inventoryOut.Tag = this;
-            inventoryOut.SetParent(commonPage);
+            inventoryOut.SetParent(commonPageIn);
 
             this.mainFrame.Content = inventoryOut;
         }
 
+        private void loadOnlineTransaction()
+        {
+            OnlineTransaction onlineTrx = new OnlineTransaction("SA");
+            onlineTrx.Tag = this;
+            onlineTrx.SetParent(commonPageOut);
+
+            this.mainFrame.Content = onlineTrx;
+        }
+
+        private void loadCashRegister()
+        {
+
+            CashRegister cashRegister = new CashRegister("CR");
+            cashRegister.Tag = this;
+            cashRegister.SetParent(commonPageOut);
+
+            this.mainFrame.Content = cashRegister;
+        }
+
+        private void loadProductDump()
+        {
+            Damage cashRegister = new Damage("EX");
+            cashRegister.Tag = this;
+            cashRegister.SetParent(commonPageOut);
+
+            this.mainFrame.Content = cashRegister;
+        }
+
         private void loadAlertNotification()
         {
-            CommonPage commonPage = new CommonPage();
-            commonPage.Title = "Alert Notification";
-
             StatusNotification statusNotification = new StatusNotification();
-            statusNotification.SetParent(commonPage);
+            statusNotification.SetParent(commonPageReport);
             statusNotification.Tag = this;
             this.mainFrame.Content = statusNotification;
         }

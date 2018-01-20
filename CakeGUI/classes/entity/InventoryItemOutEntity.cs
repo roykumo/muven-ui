@@ -19,14 +19,16 @@ namespace CakeGUI.classes.entity
         public Int32 Quantity { get; set; }
         [JsonProperty("purchasePrice")]
         public Decimal PurchasePrice { get; set; }
+        [JsonProperty("sellPriceTrx")]
+        public Decimal SellPriceTrx { get; set; }
         [JsonProperty("sellPrice")]
         public SellPrice SellPrice { get; set; }
         [JsonProperty("remarks")]
         public String Remarks { get; set; }
         [JsonProperty("inventoryOut")]
         public InventoryOutEntity InventoryOut { get; set; }
-
-
+        
+        [JsonIgnore]
         public Decimal Price
         {
             get
