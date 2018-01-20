@@ -47,112 +47,160 @@ namespace CakeGUI.forms
 
         private void init()
         {
-            if (productTypes == null)
+            try
             {
-                productTypes = productTypeService.getProductTypes();
-            }
+                if (productTypes == null)
+                {
+                    productTypes = productTypeService.getProductTypes();
+                }
 
-            if (productTypes.Count > 0)
+                if (productTypes.Count > 0)
+                {
+                    cmbType.ItemsSource = productTypes;
+                    cmbType.SelectedItem = 0;
+                }
+
+                loadData();
+            }
+            catch (Exception ex)
             {
-                cmbType.ItemsSource = productTypes;
-                cmbType.SelectedItem = 0;
+                MessageBox.Show("failed init : "+ex.Message);
             }
-
-            loadData();
         }
 
         private void loadData()
         {
-            this.dataGrid.ItemsSource = null;
-
-            List<KeyValue> listFilter = new List<KeyValue>();
-
-
-            if (cmbType.SelectedItem != null)
+            try
             {
-                KeyValue keyValue = new KeyValue();
-                keyValue.Key = "productType";
-                keyValue.Value = ((ProductTypeEntity)cmbType.SelectedItem).Id;
-                listFilter.Add(keyValue);
-            }
+                this.dataGrid.ItemsSource = null;
 
-            if (!string.IsNullOrEmpty(txtBarcode.Text))
+                List<KeyValue> listFilter = new List<KeyValue>();
+
+
+                if (cmbType.SelectedItem != null)
+                {
+                    KeyValue keyValue = new KeyValue();
+                    keyValue.Key = "productType";
+                    keyValue.Value = ((ProductTypeEntity)cmbType.SelectedItem).Id;
+                    listFilter.Add(keyValue);
+                }
+
+                if (!string.IsNullOrEmpty(txtBarcode.Text))
+                {
+                    KeyValue keyValueBarcode = new KeyValue();
+                    keyValueBarcode.Key = "code";
+                    keyValueBarcode.Value = txtBarcode.Text;
+                    listFilter.Add(keyValueBarcode);
+                }
+
+                products = productService.getProducts(listFilter);
+
+                this.dataGrid.ItemsSource = products;
+            }
+            catch (Exception ex)
             {
-                KeyValue keyValueBarcode = new KeyValue();
-                keyValueBarcode.Key = "code";
-                keyValueBarcode.Value = txtBarcode.Text;
-                listFilter.Add(keyValueBarcode);
+                MessageBox.Show("failed loadData : "+ex.Message);
             }
-
-            products = productService.getProducts(listFilter);
-            
-            this.dataGrid.ItemsSource = products;
         }
       
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            GenericWindow windowAdd = new GenericWindow();
+            try
+            {
+                GenericWindow windowAdd = new GenericWindow();
 
-            windowAdd.Content = createProductPage(null);
-            windowAdd.Owner = (this.Tag as MainWindow);
-            windowAdd.ShowDialog();
-            init();
+                windowAdd.Content = createProductPage(null);
+                windowAdd.Owner = (this.Tag as MainWindow);
+                windowAdd.ShowDialog();
+                init();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed add : "+ex.Message);
+            }
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            ProductTypeEntity type = (ProductTypeEntity)cmbType.SelectedItem;
-            if (type != null)
+            try
             {
-                dataGrid.Columns[4].Header = type.Expiration ? "Notifikasi Kadaluarsa" : "Notifikasi Aging";
+                ProductTypeEntity type = (ProductTypeEntity)cmbType.SelectedItem;
+                if (type != null)
+                {
+                    dataGrid.Columns[4].Header = type.Expiration ? "Notifikasi Kadaluarsa" : "Notifikasi Aging";
+                }
+                else
+                {
+                    dataGrid.Columns[4].Header = "Expired / Aging";
+                }
+                loadData();
             }
-            else
+            catch (Exception ex)
             {
-                dataGrid.Columns[4].Header = "Expired / Aging";
+                MessageBox.Show("failed search : "+ex.Message);
             }
-            loadData();
         }
 
         private void EditProductClicked(object sender, RoutedEventArgs e)
         {
-            ProductEntity cellContent = (ProductEntity)dataGrid.SelectedItem;
-            //MessageBox.Show(cellContent.Product.Name);
+            try
+            {
+                ProductEntity cellContent = (ProductEntity)dataGrid.SelectedItem;
+                //MessageBox.Show(cellContent.Product.Name);
 
-            GenericWindow windowInventoryList = new GenericWindow();
-            windowInventoryList.Content = createProductPage(cellContent);
-            windowInventoryList.ShowDialog();
-            init();
+                GenericWindow windowInventoryList = new GenericWindow();
+                windowInventoryList.Content = createProductPage(cellContent);
+                windowInventoryList.ShowDialog();
+                init();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed edit : "+ex.Message);
+            }
         }
         private void DeleteProductClicked(object sender, RoutedEventArgs e)
         {
-            ProductEntity cellContent = (ProductEntity)dataGrid.SelectedItem;
-            if (cellContent != null)
+            try
             {
-                MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin hapus Barang?", "Konfirmasi Hapus", System.Windows.MessageBoxButton.YesNo);
-                if (messageBoxResult == MessageBoxResult.Yes)
+                ProductEntity cellContent = (ProductEntity)dataGrid.SelectedItem;
+                if (cellContent != null)
                 {
-                    if (productService.deleteProduct(cellContent))
+                    MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin hapus Barang?", "Konfirmasi Hapus", System.Windows.MessageBoxButton.YesNo);
+                    if (messageBoxResult == MessageBoxResult.Yes)
                     {
-                        MessageBox.Show("Barang berhasil dihapus");
-                        init();
+                        if (productService.deleteProduct(cellContent))
+                        {
+                            MessageBox.Show("Barang berhasil dihapus");
+                            init();
+                        }
                     }
                 }
             }
-            
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed delete : "+ex.Message);
+            }
         }
 
         private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
-            if (type != null)
+            try
             {
-                //dataGrid.Columns[3].Header = type.Expiration ? "Expired Date" : "Aging Date";
-                dataGrid.Columns[4].Header = type.Expiration ? "Notifikasi Kadaluarsa" : "Notifikasi Aging";
-                loadData();
-                /*dataGrid.ItemsSource = null;
-                dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type != null && string.Equals(x.Product.Type.Id, type.Id));*/
-                //MessageBox.Show("change");
-                //lblNotif.Text = type.Expiration ? "Expire Notification" : "Aging Notification";
+                ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
+                if (type != null)
+                {
+                    //dataGrid.Columns[3].Header = type.Expiration ? "Expired Date" : "Aging Date";
+                    dataGrid.Columns[4].Header = type.Expiration ? "Notifikasi Kadaluarsa" : "Notifikasi Aging";
+                    loadData();
+                    /*dataGrid.ItemsSource = null;
+                    dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type != null && string.Equals(x.Product.Type.Id, type.Id));*/
+                    //MessageBox.Show("change");
+                    //lblNotif.Text = type.Expiration ? "Expire Notification" : "Aging Notification";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed combo change : "+ex.Message);
             }
         }
 

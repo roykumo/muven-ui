@@ -40,6 +40,32 @@ namespace CakeGUI.classes.service
 
             IRestResponse<TCommonResponse<InventoryOutEntity>> response = client.Execute<TCommonResponse<InventoryOutEntity>>(request);
 
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + response.StatusCode + " - " + response.ErrorMessage);
+            }
+            else
+            {
+                if (response.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (response.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (response.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + response.Data.ResponseStatus.ResponseCode + " - " + response.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
+
             InventoryOutEntity savedProduct = response.Data.Data;            
         }
 

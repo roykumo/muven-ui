@@ -46,7 +46,15 @@ namespace CakeGUI.forms
         {
             get
             {
-                return (string.IsNullOrEmpty(txtSellPrice.Text) ? new decimal(0) : decimal.Parse(txtSellPrice.Text)) - AvgBuyPrice;
+                try
+                {
+                    return (string.IsNullOrEmpty(txtSellPrice.Text) ? new decimal(0) : decimal.Parse(txtSellPrice.Text)) - AvgBuyPrice;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("failed calculate profit: "+ex.Message);
+                    return 0;
+                }
             }
         }
 
@@ -66,23 +74,37 @@ namespace CakeGUI.forms
         
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            ((GenericWindow)this.Parent).Close();
+            try
+            {
+                ((GenericWindow)this.Parent).Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed cancel : "+ex.Message);
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan Harga Jual?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
-            if (messageBoxResult == MessageBoxResult.Yes)
+            try
             {
-                SellPrice.SellingPrice = decimal.Parse(txtSellPrice.Text);
-                SellPrice.Sale = (bool)radioTrue.IsChecked;
-                SellPrice.Remarks = txtRemarks.Text;
+                MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan Harga Jual?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    SellPrice.SellingPrice = decimal.Parse(txtSellPrice.Text);
+                    SellPrice.Sale = (bool)radioTrue.IsChecked;
+                    SellPrice.Remarks = txtRemarks.Text;
 
-                sellPriceService.saveSellPrice(SellPrice);
+                    sellPriceService.saveSellPrice(SellPrice);
 
-                GenericWindow genericWindow = ((GenericWindow)this.Parent);
-                //((MainWindow)genericWindow.Owner).refreshFrame();
-                genericWindow.Close();
+                    GenericWindow genericWindow = ((GenericWindow)this.Parent);
+                    //((MainWindow)genericWindow.Owner).refreshFrame();
+                    genericWindow.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed save : "+ex.Message);
             }
         }
 

@@ -46,56 +46,77 @@ namespace CakeGUI.forms
 
         private void init()
         {
-            if (productTypes == null)
+            try
             {
-                productTypes = productTypeService.getProductTypes();
-            }
+                if (productTypes == null)
+                {
+                    productTypes = productTypeService.getProductTypes();
+                }
 
-            if (productTypes.Count > 0)
+                if (productTypes.Count > 0)
+                {
+                    cmbType.ItemsSource = productTypes;
+                    cmbType.SelectedItem = 0;
+                }
+
+                loadData();
+            }
+            catch (Exception e)
             {
-                cmbType.ItemsSource = productTypes;
-                cmbType.SelectedItem = 0;
+                MessageBox.Show("failed init : "+e.Message);
             }
-
-            loadData();
         }
 
         private void loadData()
         {
-            this.dataGrid.ItemsSource = null;
-
-            List<KeyValue> listFilter = new List<KeyValue>();
-
-
-            if (cmbType.SelectedItem != null)
+            try
             {
-                KeyValue keyValue = new KeyValue();
-                keyValue.Key = "productType";
-                keyValue.Value = ((ProductTypeEntity)cmbType.SelectedItem).Id;
-                listFilter.Add(keyValue);
-            }
+                this.dataGrid.ItemsSource = null;
 
-            if (!string.IsNullOrEmpty(txtBarcode.Text))
+                List<KeyValue> listFilter = new List<KeyValue>();
+
+
+                if (cmbType.SelectedItem != null)
+                {
+                    KeyValue keyValue = new KeyValue();
+                    keyValue.Key = "productType";
+                    keyValue.Value = ((ProductTypeEntity)cmbType.SelectedItem).Id;
+                    listFilter.Add(keyValue);
+                }
+
+                if (!string.IsNullOrEmpty(txtBarcode.Text))
+                {
+                    KeyValue keyValueBarcode = new KeyValue();
+                    keyValueBarcode.Key = "code";
+                    keyValueBarcode.Value = txtBarcode.Text;
+                    listFilter.Add(keyValueBarcode);
+                }
+
+                productCategories = productCategoryService.getProductCategories(listFilter);
+
+                this.dataGrid.ItemsSource = productCategories;
+            }
+            catch (Exception e)
             {
-                KeyValue keyValueBarcode = new KeyValue();
-                keyValueBarcode.Key = "code";
-                keyValueBarcode.Value = txtBarcode.Text;
-                listFilter.Add(keyValueBarcode);
+                MessageBox.Show("failed loadData : "+e.Message);
             }
-
-            productCategories = productCategoryService.getProductCategories(listFilter);
-            
-            this.dataGrid.ItemsSource = productCategories;
         }
       
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            GenericWindow windowAdd = new GenericWindow();
+            try
+            {
+                GenericWindow windowAdd = new GenericWindow();
 
-            windowAdd.Content = createProductCategoryPage(null);
-            windowAdd.Owner = (this.Tag as MainWindow);
-            windowAdd.ShowDialog();
-            init();
+                windowAdd.Content = createProductCategoryPage(null);
+                windowAdd.Owner = (this.Tag as MainWindow);
+                windowAdd.ShowDialog();
+                init();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed add : "+ex.Message);
+            }
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
@@ -107,44 +128,64 @@ namespace CakeGUI.forms
 
         private void EditProductCategoryClicked(object sender, RoutedEventArgs e)
         {
-            ProductCategoryEntity cellContent = (ProductCategoryEntity)dataGrid.SelectedItem;
-            //MessageBox.Show(cellContent.Product.Name);
+            try
+            {
+                ProductCategoryEntity cellContent = (ProductCategoryEntity)dataGrid.SelectedItem;
+                //MessageBox.Show(cellContent.Product.Name);
 
-            GenericWindow windowInventoryList = new GenericWindow();
-            windowInventoryList.Content = createProductCategoryPage(cellContent);
-            windowInventoryList.ShowDialog();
-            init();
+                GenericWindow windowInventoryList = new GenericWindow();
+                windowInventoryList.Content = createProductCategoryPage(cellContent);
+                windowInventoryList.ShowDialog();
+                init();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed edit : "+ex.Message);
+            }
         }
         private void DeleteProductCategoryClicked(object sender, RoutedEventArgs e)
         {
-            ProductCategoryEntity cellContent = (ProductCategoryEntity)dataGrid.SelectedItem;
-            if (cellContent != null)
+            try
             {
-                MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin hapus Barang?", "Konfirmasi Hapus", System.Windows.MessageBoxButton.YesNo);
-                if (messageBoxResult == MessageBoxResult.Yes)
+                ProductCategoryEntity cellContent = (ProductCategoryEntity)dataGrid.SelectedItem;
+                if (cellContent != null)
                 {
-                    if (productCategoryService.deleteProductCategory(cellContent))
+                    MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin hapus Barang?", "Konfirmasi Hapus", System.Windows.MessageBoxButton.YesNo);
+                    if (messageBoxResult == MessageBoxResult.Yes)
                     {
-                        MessageBox.Show("Barang berhasil dihapus");
-                        init();
+                        if (productCategoryService.deleteProductCategory(cellContent))
+                        {
+                            MessageBox.Show("Barang berhasil dihapus");
+                            init();
+                        }
                     }
                 }
             }
-            
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed delete : "+ex.Message);
+            }
         }
 
         private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
-            if (type != null)
+            try
             {
-                //dataGrid.Columns[3].Header = type.Expiration ? "Expired Date" : "Aging Date";
-                dataGrid.Columns[4].Header = type.Expiration ? "Notifikasi Kadaluarsa" : "Notifikasi Aging";
-                loadData();
-                /*dataGrid.ItemsSource = null;
-                dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type != null && string.Equals(x.Product.Type.Id, type.Id));*/
-                //MessageBox.Show("change");
-                //lblNotif.Text = type.Expiration ? "Expire Notification" : "Aging Notification";
+                ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
+                if (type != null)
+                {
+                    //dataGrid.Columns[3].Header = type.Expiration ? "Expired Date" : "Aging Date";
+                    dataGrid.Columns[4].Header = type.Expiration ? "Notifikasi Kadaluarsa" : "Notifikasi Aging";
+                    loadData();
+                    /*dataGrid.ItemsSource = null;
+                    dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type != null && string.Equals(x.Product.Type.Id, type.Id));*/
+                    //MessageBox.Show("change");
+                    //lblNotif.Text = type.Expiration ? "Expire Notification" : "Aging Notification";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed combo change : "+ex.Message);
             }
         }
 

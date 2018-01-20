@@ -58,11 +58,17 @@ namespace CakeGUI.forms
 
         private void init()
         {
-            commonPage = new CommonPage();
-            commonPage.Title = (this.product!=null && !string.IsNullOrEmpty(this.product.Id)) ? "Edit Barang" : "Penambahan Barang" ;
-            productTypes = productTypeService.getProductTypes();
-            cmbType.ItemsSource = productTypes;
-
+            try
+            {
+                commonPage = new CommonPage();
+                commonPage.Title = (this.product != null && !string.IsNullOrEmpty(this.product.Id)) ? "Edit Barang" : "Penambahan Barang";
+                productTypes = productTypeService.getProductTypes();
+                cmbType.ItemsSource = productTypes;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("failed init : "+e.Message);
+            }
         }
         
         private ProductEntity product;
@@ -82,58 +88,73 @@ namespace CakeGUI.forms
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            ((GenericWindow)this.Parent).Close();
-            
+            try
+            {
+                ((GenericWindow)this.Parent).Close();
+            }catch(Exception ex)
+            {
+                MessageBox.Show("failed cancel : "+ex.Message);
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (cmbType.SelectedIndex >= 0)
+            try
             {
-                product.Type = (ProductTypeEntity)cmbType.SelectedItem;
-
-                MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan Barang?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
-                if (messageBoxResult == MessageBoxResult.Yes)
+                if (cmbType.SelectedIndex >= 0)
                 {
-                    product.Code = txtCode.Text;
-                    product.BarCode = txtBarcode.Text;
-                    product.Name = txtName.Text;
-                    product.AlertRed = Int32.Parse(txtExpiryRed.Text);
-                    product.AlertYellow = Int32.Parse(txtExpiryYellow.Text);
-                    product.AlertGreen = Int32.Parse(txtExpiryGreen.Text);
+                    product.Type = (ProductTypeEntity)cmbType.SelectedItem;
 
-                    productService.saveProduct(product);
+                    MessageBoxResult messageBoxResult = MessageBox.Show("Konfirmasi?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                    {
+                        product.Code = txtCode.Text;
+                        product.BarCode = txtBarcode.Text;
+                        product.Name = txtName.Text;
+                        product.AlertRed = Int32.Parse(txtExpiryRed.Text);
+                        product.AlertYellow = Int32.Parse(txtExpiryYellow.Text);
+                        product.AlertGreen = Int32.Parse(txtExpiryGreen.Text);
 
-                    MessageBox.Show("Barang berhasil disimpan");
+                        productService.saveProduct(product);
+                        
+                        GenericWindow genericWindow = ((GenericWindow)this.Parent);
+                        //((MainWindow)genericWindow.Owner).refreshFrame();
+                        genericWindow.Close();
 
-                    GenericWindow genericWindow = ((GenericWindow)this.Parent);
-                    //((MainWindow)genericWindow.Owner).refreshFrame();
-                    genericWindow.Close();
-                    
+
+                    }
 
                 }
-
-            }
-            else
+                else
+                {
+                    MessageBox.Show("Pilih jenis Barang!");
+                }
+            }catch(Exception ex)
             {
-                MessageBox.Show("Pilih jenis Barang!");
+                MessageBox.Show("failed save : "+ex.Message);
             }
-
         }
 
         private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
-            if (type != null)
+            try
             {
-                lblNotif.Text = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
+                ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
+                if (type != null)
+                {
+                    lblNotif.Text = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
+                }
+            }catch(Exception ex)
+            {
+                MessageBox.Show("failed combo change : "+ex.Message);
             }
         }
 
         public void SetProductType(ProductTypeEntity productType)
         {
             cmbType.SelectedItem = productType;
-            product.Type = productType;
+            if(product!=null)
+                product.Type = productType;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

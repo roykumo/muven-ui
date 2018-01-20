@@ -56,172 +56,222 @@ namespace CakeGUI.forms
 
         private void init()
         {
-            CommonPage parent = new CommonPage();
-            parent.Title = "Stock In";
-
-            commonPage = new CommonPage();
-            if (type != null)
+            try
             {
-                if (type.Equals("RE"))
+                CommonPage parent = new CommonPage();
+                parent.Title = "Stock In";
+
+                commonPage = new CommonPage();
+                if (type != null)
                 {
-                    commonPage.Title = "Repacking";
-                    txtSupplier.Text = "REPACKING";
+                    if (type.Equals("RE"))
+                    {
+                        commonPage.Title = "Repacking";
+                        txtSupplier.Text = "REPACKING";
+                    }
+                    else if (type.Equals("ST"))
+                    {
+                        commonPage.Title = "Stock Opname";
+                        txtSupplier.Text = "STOCK OPNAME";
+                    }
+                    dataGridIn.Columns[4].Header = type.Equals("RE") ? "Harga Jual" : "Harga Beli Satuan";
                 }
-                else if (type.Equals("ST"))
-                {
-                    commonPage.Title = "Stock Opname";
-                    txtSupplier.Text = "STOCK OPNAME";
-                }
-                dataGridIn.Columns[4].Header = type.Equals("RE") ? "Harga Jual" : "Harga Beli Satuan";
+
+                lblTitle.Text = commonPage.Title;
+
+                commonPage.ParentPage = parent;
+                lblSiteMap.Content = commonPage.Title;
+
+                commonPageIn = new CommonPage();
+                commonPageIn.Title = "Barang Masuk";
+                commonPageIn.ParentPage = commonPage;
+
+                commonPageOut = new CommonPage();
+                commonPageOut.Title = "Barang Keluar";
+                commonPageOut.ParentPage = commonPage;
+
+                //lblTitle.Text += trxDate.ToString("yyyy-MM-dd");
+                inventories = new List<InventoryItemEntity>();
+                outInventories = new List<InventoryItemOutEntity>();
+
+                productTypes = productTypeService.getProductTypes();
+                cmbType.ItemsSource = productTypes;
+                cmbType.SelectedIndex = 0;
+
+                txtTransactionCode.Text = inventoryService.getTrxCode(type, null);
+                date.SelectedDate = DateTime.Now;
+                dateOut.SelectedDate = DateTime.Now;
+
+                loadData();
             }
-
-            lblTitle.Text = commonPage.Title;
-
-            commonPage.ParentPage = parent;
-            lblSiteMap.Content = commonPage.Title;
-
-            commonPageIn = new CommonPage();
-            commonPageIn.Title = "Barang Masuk";
-            commonPageIn.ParentPage = commonPage;
-
-            commonPageOut = new CommonPage();
-            commonPageOut.Title = "Barang Keluar";
-            commonPageOut.ParentPage = commonPage;
-
-            //lblTitle.Text += trxDate.ToString("yyyy-MM-dd");
-            inventories = new List<InventoryItemEntity>();
-            outInventories = new List<InventoryItemOutEntity>();
-
-            productTypes = productTypeService.getProductTypes();
-            cmbType.ItemsSource = productTypes;
-            cmbType.SelectedIndex = 0;
-
-            txtTransactionCode.Text = inventoryService.getTrxCode(type, null);
-            date.SelectedDate = DateTime.Now;
-            dateOut.SelectedDate = DateTime.Now;
-
-            loadData();
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed init : "+ex.Message);
+            }
         }
 
         private void loadData()
         {
-            this.dataGridIn.ItemsSource = null;
-            this.dataGridIn.ItemsSource = inventories;
-            
+            try
+            {
+                this.dataGridIn.ItemsSource = null;
+                this.dataGridIn.ItemsSource = inventories;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed loadData : "+ex.Message);
+            }
         }
 
         private void loadDataOut()
         {
-            this.dataGridOut.ItemsSource = null;
-            this.dataGridOut.ItemsSource = outInventories;
+            try
+            {
+                this.dataGridOut.ItemsSource = null;
+                this.dataGridOut.ItemsSource = outInventories;
 
-            if (outInventories != null && outInventories.Count > 0)
-            {
-                cmbType.IsEnabled = false;
-                //txtTotalBuyPrice.Text = inventories.Sum(i => i.PurchasePrice).ToString();
+                if (outInventories != null && outInventories.Count > 0)
+                {
+                    cmbType.IsEnabled = false;
+                    //txtTotalBuyPrice.Text = inventories.Sum(i => i.PurchasePrice).ToString();
+                }
+                else
+                {
+                    cmbType.IsEnabled = true;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                cmbType.IsEnabled = true;
+                MessageBox.Show("failed loadDataOut : "+ex.Message);
             }
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            if (cmbType.SelectedIndex == -1)
+            try
             {
-                MessageBox.Show("Pilih jenis barang dulu!");
-                cmbType.Focus();
-            }
-            else
-            {
-                GenericWindow windowAdd = new GenericWindow();
-                Inventory inventoryPage = new Inventory(inventories);
-                inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
-                inventoryPage.SetParent(commonPageIn);
-                inventoryPage.Tag = this;
+                if (cmbType.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Pilih jenis barang dulu!");
+                    cmbType.Focus();
+                }
+                else
+                {
+                    GenericWindow windowAdd = new GenericWindow();
+                    Inventory inventoryPage = new Inventory(inventories);
+                    inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
+                    inventoryPage.SetParent(commonPageIn);
+                    inventoryPage.Tag = this;
 
-                windowAdd.Content = inventoryPage;
-                windowAdd.Owner = (this.Tag as MainWindow);
-                windowAdd.ShowDialog();
-                loadData();
+                    windowAdd.Content = inventoryPage;
+                    windowAdd.Owner = (this.Tag as MainWindow);
+                    windowAdd.ShowDialog();
+                    loadData();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed add : "+ex.Message);
             }
         }
 
         private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
-            if (type != null)
+            try
             {
-                dataGridIn.Columns[3].Header = type.Expiration ? "Tanggal Kadaluarsa" : "Tanggal Aging";
-                loadData();
+                ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
+                if (type != null)
+                {
+                    dataGridIn.Columns[3].Header = type.Expiration ? "Tanggal Kadaluarsa" : "Tanggal Aging";
+                    loadData();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed combo change : "+ex.Message);
             }
         }
 
         private void btnConfirm_Click(object sender, RoutedEventArgs e)
         {
-            //if (String.IsNullOrEmpty(txtTransactionCode.Text))
-            //{
-            //    MessageBox.Show("Kode transaksi harus diisi!");
-            //}else if (String.IsNullOrEmpty(txtTotalBuyPrice.Text))
-            if (inventories.Count == 0 && outInventories.Count ==0)
+            try
             {
-                MessageBox.Show("Input barang keluar / masuk dulu!");
-            }else if(cmbType.SelectedIndex== -1)
-            {
-                MessageBox.Show("Pilih jenis barang dulu!");
-                cmbType.Focus();
-            }else if (string.IsNullOrEmpty(txtTransactionCode.Text))
-            {
-                MessageBox.Show("Kode Transaksi harus diisi");
-                txtTransactionCode.Focus();
-            }
-            else
-            {
-                MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Selesaikan Pembelian?", "Konfirmasi Beli", System.Windows.MessageBoxButton.YesNo);
-                if (messageBoxResult == MessageBoxResult.Yes)
+                //if (String.IsNullOrEmpty(txtTransactionCode.Text))
+                //{
+                //    MessageBox.Show("Kode transaksi harus diisi!");
+                //}else if (String.IsNullOrEmpty(txtTotalBuyPrice.Text))
+                if (inventories.Count == 0 && outInventories.Count == 0)
                 {
-                    InventoryOutEntity outInventory = new InventoryOutEntity();
-                    outInventory.Date = dateOut.SelectedDate.Value;
-                    outInventory.Items = outInventories;
-                    outInventory.Type = type;
-
-                    InventoryEntity inventory = new InventoryEntity();
-                    inventory.Date = date.SelectedDate.Value;
-                    inventory.Items = inventories;
-                    inventory.TransactionCode = txtTransactionCode.Text;
-                    inventory.TotalPrice = inventories.Sum(i => i.PurchasePrice * i.Quantity);
-                    inventory.Supplier = txtSupplier.Text;
-
-                    outInventory.InventoryIn = inventory;
-
-                    inventoryOutService.saveProductInventory(outInventory);
-
-                    inventories.Clear();
-                    loadData();
-                    outInventories.Clear();
-                    loadDataOut();
-                    txtTransactionCode.Text = "";
-                    txtTransactionCode.Text = inventoryService.getTrxCode(type, null);
-                    date.SelectedDate = DateTime.Now;
-                    dateOut.SelectedDate = DateTime.Now;
-
-                    MessageBox.Show((type.Equals("RE") ?"Repacking" : "Stock Opname") +" berhasil disimpan");
+                    MessageBox.Show("Input barang keluar / masuk dulu!");
                 }
+                else if (cmbType.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Pilih jenis barang dulu!");
+                    cmbType.Focus();
+                }
+                else if (string.IsNullOrEmpty(txtTransactionCode.Text))
+                {
+                    MessageBox.Show("Kode Transaksi harus diisi");
+                    txtTransactionCode.Focus();
+                }
+                else
+                {
+                    MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Selesaikan Pembelian?", "Konfirmasi Beli", System.Windows.MessageBoxButton.YesNo);
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                    {
+                        InventoryOutEntity outInventory = new InventoryOutEntity();
+                        outInventory.Date = dateOut.SelectedDate.Value;
+                        outInventory.Items = outInventories;
+                        outInventory.Type = type;
+
+                        InventoryEntity inventory = new InventoryEntity();
+                        inventory.Date = date.SelectedDate.Value;
+                        inventory.Items = inventories;
+                        inventory.TransactionCode = txtTransactionCode.Text;
+                        inventory.TotalPrice = inventories.Sum(i => i.PurchasePrice * i.Quantity);
+                        inventory.Supplier = txtSupplier.Text;
+
+                        outInventory.InventoryIn = inventory;
+
+                        inventoryOutService.saveProductInventory(outInventory);
+
+                        inventories.Clear();
+                        loadData();
+                        outInventories.Clear();
+                        loadDataOut();
+                        txtTransactionCode.Text = "";
+                        txtTransactionCode.Text = inventoryService.getTrxCode(type, null);
+                        date.SelectedDate = DateTime.Now;
+                        dateOut.SelectedDate = DateTime.Now;
+
+                        MessageBox.Show((type.Equals("RE") ? "Repacking" : "Stock Opname") + " berhasil disimpan");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed confirm : " +ex.Message);
             }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin batalkan Pembelian?", "Konfirmasi Batal", System.Windows.MessageBoxButton.YesNo);
-            if (messageBoxResult == MessageBoxResult.Yes)
+            try
             {
-                inventories.Clear();
-                outInventories.Clear();
-                txtTransactionCode.Text = inventoryService.getTrxCode(type, null);
-                txtTransactionCode.Text = "";
-                loadData();
-                loadDataOut();
+                MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin batalkan Pembelian?", "Konfirmasi Batal", System.Windows.MessageBoxButton.YesNo);
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    inventories.Clear();
+                    outInventories.Clear();
+                    txtTransactionCode.Text = inventoryService.getTrxCode(type, null);
+                    txtTransactionCode.Text = "";
+                    loadData();
+                    loadDataOut();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed cancel : "+ex.Message);
             }
         }
 
@@ -232,75 +282,110 @@ namespace CakeGUI.forms
 
         private void EditItemClicked(object sender, RoutedEventArgs e)
         {
-            InventoryItemEntity cellContent = (InventoryItemEntity)dataGridIn.SelectedItem;
-            //MessageBox.Show(cellContent.Product.Name);
+            try
+            {
+                InventoryItemEntity cellContent = (InventoryItemEntity)dataGridIn.SelectedItem;
+                //MessageBox.Show(cellContent.Product.Name);
 
-            GenericWindow windowAdd = new GenericWindow();
-            Inventory inventoryPage = new Inventory(cellContent);
-            inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
-            inventoryPage.SetParent(commonPage);
-            inventoryPage.Tag = this;
+                GenericWindow windowAdd = new GenericWindow();
+                Inventory inventoryPage = new Inventory(cellContent);
+                inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
+                inventoryPage.SetParent(commonPage);
+                inventoryPage.Tag = this;
 
-            windowAdd.Content = inventoryPage;
-            windowAdd.Owner = (this.Tag as MainWindow);
-            windowAdd.ShowDialog();
-            loadData();
+                windowAdd.Content = inventoryPage;
+                windowAdd.Owner = (this.Tag as MainWindow);
+                windowAdd.ShowDialog();
+                loadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed edit : "+ex.Message);
+            }
         }
         private void DeleteItemClicked(object sender, RoutedEventArgs e)
         {
-            InventoryItemEntity cellContent = (InventoryItemEntity)dataGridIn.SelectedItem;
-            if (cellContent != null)
+            try
             {
-                MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin hapus Barang?", "Konfirmasi Hapus", System.Windows.MessageBoxButton.YesNo);
-                if (messageBoxResult == MessageBoxResult.Yes)
+                InventoryItemEntity cellContent = (InventoryItemEntity)dataGridIn.SelectedItem;
+                if (cellContent != null)
                 {
-                    inventories.Remove(cellContent);
-                    loadData();
+                    MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin hapus Barang?", "Konfirmasi Hapus", System.Windows.MessageBoxButton.YesNo);
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                    {
+                        inventories.Remove(cellContent);
+                        loadData();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed delete : "+ex.Message);
             }
         }
 
         private void btnAddOut_Click(object sender, RoutedEventArgs e)
         {
-            GenericWindow windowAdd = new GenericWindow();
-            InventoryItemOut inventoryPage = new InventoryItemOut(outInventories);
-            inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
-            
-            inventoryPage.SetParent(commonPageOut);
-            inventoryPage.Tag = this;
+            try
+            {
+                GenericWindow windowAdd = new GenericWindow();
+                InventoryItemOut inventoryPage = new InventoryItemOut(outInventories);
+                inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
 
-            windowAdd.Content = inventoryPage;
-            windowAdd.Owner = (this.Tag as MainWindow);
-            windowAdd.ShowDialog();
-            loadDataOut();
+                inventoryPage.SetParent(commonPageOut);
+                inventoryPage.Tag = this;
+
+                windowAdd.Content = inventoryPage;
+                windowAdd.Owner = (this.Tag as MainWindow);
+                windowAdd.ShowDialog();
+                loadDataOut();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed add : "+ex.Message);
+            }
         }
 
         private void EditItemOutClicked(object sender, RoutedEventArgs e)
         {
-            InventoryItemOutEntity cellContent = (InventoryItemOutEntity)dataGridOut.SelectedItem;
+            try
+            {
+                InventoryItemOutEntity cellContent = (InventoryItemOutEntity)dataGridOut.SelectedItem;
 
-            GenericWindow windowAdd = new GenericWindow();
-            InventoryItemOut inventoryItemOutPage = new InventoryItemOut(cellContent);
-            inventoryItemOutPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
-            inventoryItemOutPage.SetParent(commonPage);
-            inventoryItemOutPage.Tag = this;
+                GenericWindow windowAdd = new GenericWindow();
+                InventoryItemOut inventoryItemOutPage = new InventoryItemOut(cellContent);
+                inventoryItemOutPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
+                inventoryItemOutPage.SetParent(commonPage);
+                inventoryItemOutPage.Tag = this;
 
-            windowAdd.Content = inventoryItemOutPage;
-            windowAdd.Owner = (this.Tag as MainWindow);
-            windowAdd.ShowDialog();
-            loadDataOut();
+                windowAdd.Content = inventoryItemOutPage;
+                windowAdd.Owner = (this.Tag as MainWindow);
+                windowAdd.ShowDialog();
+                loadDataOut();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed edit : " +ex.Message);
+            }
         }
         private void DeleteItemOutClicked(object sender, RoutedEventArgs e)
         {
-            InventoryItemOutEntity cellContent = (InventoryItemOutEntity)dataGridOut.SelectedItem;
-            if (cellContent != null)
+            try
             {
-                MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin hapus Barang?", "Konfirmasi Hapus", System.Windows.MessageBoxButton.YesNo);
-                if (messageBoxResult == MessageBoxResult.Yes)
+                InventoryItemOutEntity cellContent = (InventoryItemOutEntity)dataGridOut.SelectedItem;
+                if (cellContent != null)
                 {
-                    outInventories.Remove(cellContent);
-                    loadDataOut();
+                    MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin hapus Barang?", "Konfirmasi Hapus", System.Windows.MessageBoxButton.YesNo);
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                    {
+                        outInventories.Remove(cellContent);
+                        loadDataOut();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed delete : "+ex.Message);
             }
         }
 

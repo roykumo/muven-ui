@@ -38,6 +38,32 @@ namespace CakeGUI.classes.service
 
             IRestResponse<TCommonResponse<List<SaleNotificationEntity>>> products = client.Execute<TCommonResponse<List<SaleNotificationEntity>>>(request);
 
+            if(products.StatusCode!= System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + products.StatusCode + " - "+ products.ErrorMessage);
+            }
+            else
+            {
+                if (products.Data==null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (products.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (products.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + products.Data.ResponseStatus.ResponseCode + " - " + products.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
+
             return products.Data.Data;
         }
 
@@ -50,6 +76,32 @@ namespace CakeGUI.classes.service
             request.AddQueryParameter("type", type.Id);
 
             IRestResponse<TCommonResponse<List<StatusNotificationEntity>>> products = client.Execute<TCommonResponse<List<StatusNotificationEntity>>>(request);
+
+            if (products.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + products.StatusCode + " - " + products.ErrorMessage);
+            }
+            else
+            {
+                if (products.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (products.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (products.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + products.Data.ResponseStatus.ResponseCode + " - " + products.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
 
             return products.Data.Data;
         }

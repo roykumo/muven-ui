@@ -73,38 +73,54 @@ namespace CakeGUI.forms
         
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            ((GenericWindow)this.Parent).Close();
+            try
+            {
+                ((GenericWindow)this.Parent).Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed cancel : "+ex.Message);
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if(radioTrue.IsChecked==true && string.IsNullOrEmpty(txtPayAmount.Text))
+            try
             {
-                MessageBox.Show("Isi jumlah pembayaran!");                
-            }
-            else if (radioTrue.IsChecked == true && (decimal.Parse(txtPayAmount.Text) - payment.TotalAmount) < 0)
-            {
-                MessageBox.Show("Uang bayar kurang!");
-            }
-            else if ( radioFalse.IsChecked==true && string.IsNullOrEmpty(txtReffNo.Text))
-            {
-                MessageBox.Show("Isi nomor struk!");
-            }
-            else
-            {
-                IsCash = (radioTrue.IsChecked == true);
-                if (IsCash) {
-                    payment.PayAmount = decimal.Parse(txtPayAmount.Text);
-                    payment.Type = TYPE_CASH;
+                if (radioTrue.IsChecked == true && string.IsNullOrEmpty(txtPayAmount.Text))
+                {
+                    MessageBox.Show("Isi jumlah pembayaran!");
                 }
-                else {
-                    payment.ReceiptNo = txtReffNo.Text;
-                    payment.PayAmount = payment.TotalAmount;
-                    payment.Type = TYPE_EDC;
+                else if (radioTrue.IsChecked == true && (decimal.Parse(txtPayAmount.Text) - payment.TotalAmount) < 0)
+                {
+                    MessageBox.Show("Uang bayar kurang!");
                 }
-                
-                GenericWindow genericWindow = ((GenericWindow)this.Parent);
-                genericWindow.Close();
+                else if (radioFalse.IsChecked == true && string.IsNullOrEmpty(txtReffNo.Text))
+                {
+                    MessageBox.Show("Isi nomor struk!");
+                }
+                else
+                {
+                    IsCash = (radioTrue.IsChecked == true);
+                    if (IsCash)
+                    {
+                        payment.PayAmount = decimal.Parse(txtPayAmount.Text);
+                        payment.Type = TYPE_CASH;
+                    }
+                    else
+                    {
+                        payment.ReceiptNo = txtReffNo.Text;
+                        payment.PayAmount = payment.TotalAmount;
+                        payment.Type = TYPE_EDC;
+                    }
+
+                    GenericWindow genericWindow = ((GenericWindow)this.Parent);
+                    genericWindow.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed save : " +ex.Message);
             }
         }
         public void SetParent(CommonPage page)

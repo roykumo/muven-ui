@@ -47,34 +47,55 @@ namespace CakeGUI.forms
 
         private void init()
         {
-            commonPage = new CommonPage();
-            commonPage.Title = "Penetapan Harga Jual";
+            try
+            {
+                commonPage = new CommonPage();
+                commonPage.Title = "Penetapan Harga Jual";
 
-            loadData();
+                loadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed init : "+ex.Message);
+            }
         }
 
         private void loadData()
         {
-            this.dataGrid.ItemsSource = null;
-            if(product != null)
+            try
             {
-                sellPrices = sellPriceService.getSellPrices(product);
                 this.dataGrid.ItemsSource = null;
-                this.dataGrid.ItemsSource = sellPrices;
+                if (product != null)
+                {
+                    sellPrices = sellPriceService.getSellPrices(product);
+                    this.dataGrid.ItemsSource = null;
+                    this.dataGrid.ItemsSource = sellPrices;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed loadData : "+ex.Message);
             }
         }
       
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            GenericWindow windowAdd = new GenericWindow();
-            SellPriceMaintenance sellPricePage = new SellPriceMaintenance(product);
-            sellPricePage.SetParent(commonPage);
-            sellPricePage.setAvgBuyPrice(avgBuyPrice);
+            try
+            {
+                GenericWindow windowAdd = new GenericWindow();
+                SellPriceMaintenance sellPricePage = new SellPriceMaintenance(product);
+                sellPricePage.SetParent(commonPage);
+                sellPricePage.setAvgBuyPrice(avgBuyPrice);
 
-            windowAdd.Content = sellPricePage;
-            windowAdd.Owner = (this.Tag as MainWindow);
-            windowAdd.ShowDialog();
-            loadData();
+                windowAdd.Content = sellPricePage;
+                windowAdd.Owner = (this.Tag as MainWindow);
+                windowAdd.ShowDialog();
+                loadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed add : "+ex.Message);
+            }
         }
 
         public void SetParent(CommonPage page)

@@ -37,6 +37,32 @@ namespace CakeGUI.classes.service
 
             IRestResponse<TCommonResponse<ProductCategoryEntity>> product = client.Execute<TCommonResponse<ProductCategoryEntity>>(request);
 
+            if (product.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + product.StatusCode + " - " + product.ErrorMessage);
+            }
+            else
+            {
+                if (product.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (product.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (product.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + product.Data.ResponseStatus.ResponseCode + " - " + product.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
+
             return product.Data.Data;
         }
 
@@ -47,6 +73,32 @@ namespace CakeGUI.classes.service
             request.JsonSerializer = util.JsonSerializer.Default;
 
             IRestResponse<TCommonResponsePaging<ProductCategoryEntity>> products = client.Execute<TCommonResponsePaging<ProductCategoryEntity>>(request);
+
+            if (products.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + products.StatusCode + " - " + products.ErrorMessage);
+            }
+            else
+            {
+                if (products.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (products.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (products.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + products.Data.ResponseStatus.ResponseCode + " - " + products.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
 
             return products.Data.Paging.Data;
         }
@@ -69,6 +121,32 @@ namespace CakeGUI.classes.service
 
             IRestResponse<TCommonResponsePaging<ProductCategoryEntity>> products = client.Execute<TCommonResponsePaging<ProductCategoryEntity>>(request);
 
+            if (products.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + products.StatusCode + " - " + products.ErrorMessage);
+            }
+            else
+            {
+                if (products.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (products.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (products.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + products.Data.ResponseStatus.ResponseCode + " - " + products.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
+
             return products.Data.Paging.Data;
         }
 
@@ -83,6 +161,32 @@ namespace CakeGUI.classes.service
             request.AddQueryParameter("field", strListFilter);
 
             IRestResponse<TCommonResponsePaging<ProductCategoryEntity>> products = client.Execute<TCommonResponsePaging<ProductCategoryEntity>>(request);
+
+            if (products.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + products.StatusCode + " - " + products.ErrorMessage);
+            }
+            else
+            {
+                if (products.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (products.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (products.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + products.Data.ResponseStatus.ResponseCode + " - " + products.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
 
             return products.Data.Paging.Data;
         }
@@ -100,6 +204,32 @@ namespace CakeGUI.classes.service
 
             IRestResponse<TCommonResponse<ProductCategoryEntity>> response = client.Execute<TCommonResponse<ProductCategoryEntity>>(request);
 
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + response.StatusCode + " - " + response.ErrorMessage);
+            }
+            else
+            {
+                if (response.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (response.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (response.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + response.Data.ResponseStatus.ResponseCode + " - " + response.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
+
             ProductCategoryEntity savedProduct = response.Data.Data;
             
         }
@@ -110,6 +240,32 @@ namespace CakeGUI.classes.service
             request.AddUrlSegment("id", product.Id);
 
             IRestResponse<TCommonResponse<ProductCategoryEntity>> response = client.Execute<TCommonResponse<ProductCategoryEntity>>(request);
+                         
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + response.StatusCode + " - " + response.ErrorMessage);
+            }
+            else
+            {
+                if (response.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (response.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (response.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + response.Data.ResponseStatus.ResponseCode + " - " + response.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
 
             if (response.Data.ResponseStatus.ResponseCode == "00")
                 return true;

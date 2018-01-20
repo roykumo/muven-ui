@@ -57,26 +57,40 @@ namespace CakeGUI.forms
         
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            ((GenericWindow)this.Parent).Close();
+            try
+            {
+                ((GenericWindow)this.Parent).Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed cancel : "+ex.Message);
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtSellPriceTrx.Text))
+            try
             {
-                MessageBox.Show("Isi jumlah barang!");
-            }
-            else
-            {
-                MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
-                if (messageBoxResult == MessageBoxResult.Yes)
+                if (string.IsNullOrEmpty(txtSellPriceTrx.Text))
                 {
-                    SellPriceTrx = decimal.Parse(txtSellPriceTrx.Text);
-                    SellPrice.SellingPrice = SellPriceTrx;
-
-                    GenericWindow genericWindow = ((GenericWindow)this.Parent);
-                    genericWindow.Close();
+                    MessageBox.Show("Isi jumlah barang!");
                 }
+                else
+                {
+                    MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                    {
+                        SellPriceTrx = decimal.Parse(txtSellPriceTrx.Text);
+                        SellPrice.SellingPrice = SellPriceTrx;
+
+                        GenericWindow genericWindow = ((GenericWindow)this.Parent);
+                        genericWindow.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed save : "+ex.Message);
             }
         }
         public void SetParent(CommonPage page)

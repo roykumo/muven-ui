@@ -61,26 +61,40 @@ namespace CakeGUI.forms
         private InventoryItemEntity inventory;
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            ((GenericWindow)this.Parent).Close();
+            try
+            {
+                ((GenericWindow)this.Parent).Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed cancel : "+ex.Message);
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan Barang?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
-            if (messageBoxResult == MessageBoxResult.Yes)
+            try
             {
-                //inventory.TransactionCode = txtTransactionCode.Text;
-                inventory.Inventory.Invoice = txtInvoice.Text;
-                inventory.PurchasePrice = Int32.Parse(txtPurchasePrice.Text);
-                inventory.Quantity = Int32.Parse(txtQuantity.Text);
-                inventory.ExpiredDate = dtExpired.SelectedDate.Value;
-                inventory.Remarks = txtRemarks.Text;
+                MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan Barang?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    //inventory.TransactionCode = txtTransactionCode.Text;
+                    inventory.Inventory.Invoice = txtInvoice.Text;
+                    inventory.PurchasePrice = Int32.Parse(txtPurchasePrice.Text);
+                    inventory.Quantity = Int32.Parse(txtQuantity.Text);
+                    inventory.ExpiredDate = dtExpired.SelectedDate.Value;
+                    inventory.Remarks = txtRemarks.Text;
 
-                inventoryService.saveProductInventory(inventory);
+                    inventoryService.saveProductInventory(inventory);
 
-                GenericWindow genericWindow = ((GenericWindow)this.Parent);
-                //((MainWindow)genericWindow.Owner).refreshFrame();
-                genericWindow.Close();
+                    GenericWindow genericWindow = ((GenericWindow)this.Parent);
+                    //((MainWindow)genericWindow.Owner).refreshFrame();
+                    genericWindow.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed save : "+ex.Message);
             }
         }
 

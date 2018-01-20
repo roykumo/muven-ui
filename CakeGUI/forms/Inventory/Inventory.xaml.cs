@@ -86,60 +86,81 @@ namespace CakeGUI.forms
         private ProductEntity product;
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            ((GenericWindow)this.Parent).Close();
+            try
+            {
+                ((GenericWindow)this.Parent).Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed cancel : "+ex.Message);
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (product == null)
+            try
             {
-                MessageBox.Show("Harus pilih barang dulu!");
-            }
-            else
-            {
-                MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
-                if (messageBoxResult == MessageBoxResult.Yes)
+                if (product == null)
                 {
-                    inventory.Product = product;
-                    //inventory.TransactionCode = txtTransactionCode.Text;
-                    //inventory.PurchaseDate = dtPurchase.SelectedDate.Value;
-                    inventory.PurchasePrice = Int32.Parse(txtPurchasePrice.Text);
-                    inventory.Quantity = Int32.Parse(txtQuantity.Text);
-                    inventory.ExpiredDate = dtExpired.SelectedDate.Value;
-                    inventory.Remarks = txtRemarks.Text;
-
-                    //inventoryService.saveProductInventory(inventory);
-                    if(inventories!=null)
-                        inventories.Add(inventory);
-
-                    GenericWindow genericWindow = ((GenericWindow)this.Parent);
-                    //((MainWindow)genericWindow.Owner).refreshFrame();
-                    genericWindow.Close();
+                    MessageBox.Show("Harus pilih barang dulu!");
                 }
+                else
+                {
+                    MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                    {
+                        inventory.Product = product;
+                        //inventory.TransactionCode = txtTransactionCode.Text;
+                        //inventory.PurchaseDate = dtPurchase.SelectedDate.Value;
+                        inventory.PurchasePrice = Int32.Parse(txtPurchasePrice.Text);
+                        inventory.Quantity = Int32.Parse(txtQuantity.Text);
+                        inventory.ExpiredDate = dtExpired.SelectedDate.Value;
+                        inventory.Remarks = txtRemarks.Text;
+
+                        //inventoryService.saveProductInventory(inventory);
+                        if (inventories != null)
+                            inventories.Add(inventory);
+
+                        GenericWindow genericWindow = ((GenericWindow)this.Parent);
+                        //((MainWindow)genericWindow.Owner).refreshFrame();
+                        genericWindow.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed save : " +ex.Message);
             }
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(txtBarcode.Text))
+            try
             {
-                MessageBox.Show("Isi barcode!");
-            }
-            else
-            {
-                ProductEntity p = productService.getProductByBarcode(txtBarcode.Text);
-                if (p == null || (productType!=null && !p.Type.Id.Equals(productType.Id)))
+                if (String.IsNullOrEmpty(txtBarcode.Text))
                 {
-                    MessageBox.Show("Barang tidak ditemukan");
-                    txtName.Text = "";
-                    product = null;
+                    MessageBox.Show("Isi barcode!");
                 }
                 else
                 {
-                    product = p;
-                    txtBarcode.Text = product.BarCode;
-                    txtName.Text = product.Name;
+                    ProductEntity p = productService.getProductByBarcode(txtBarcode.Text);
+                    if (p == null || (productType != null && !p.Type.Id.Equals(productType.Id)))
+                    {
+                        MessageBox.Show("Barang tidak ditemukan");
+                        txtName.Text = "";
+                        product = null;
+                    }
+                    else
+                    {
+                        product = p;
+                        txtBarcode.Text = product.BarCode;
+                        txtName.Text = product.Name;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed search : "+ex.Message);
             }
         }
 

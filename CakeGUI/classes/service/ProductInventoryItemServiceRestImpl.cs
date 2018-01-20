@@ -50,6 +50,32 @@ namespace CakeGUI.classes.service
 
             IRestResponse<TCommonResponsePaging<InventoryItemEntity>> products = client.Execute<TCommonResponsePaging<InventoryItemEntity>>(request);
 
+            if (products.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + products.StatusCode + " - " + products.ErrorMessage);
+            }
+            else
+            {
+                if (products.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (products.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (products.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + products.Data.ResponseStatus.ResponseCode + " - " + products.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
+
             List<InventoryItemEntity> listInventory = products.Data.Paging.Data;
 
             if(listInventory != null && listInventory.Count > 0 && currentQuantity)
@@ -103,7 +129,33 @@ namespace CakeGUI.classes.service
             request.AddQueryParameter("field", strListFilter);
 
             IRestResponse<TCommonResponsePaging<InventoryItemOutEntity>> products = client.Execute<TCommonResponsePaging<InventoryItemOutEntity>>(request);
-            
+
+            if (products.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + products.StatusCode + " - " + products.ErrorMessage);
+            }
+            else
+            {
+                if (products.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (products.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (products.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + products.Data.ResponseStatus.ResponseCode + " - " + products.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
+
             return products.Data.Paging.Data;
         }
 
@@ -120,6 +172,32 @@ namespace CakeGUI.classes.service
             request.AddJsonBody(inventory);
 
             IRestResponse<TCommonResponse<InventoryItemEntity>> response = client.Execute<TCommonResponse<InventoryItemEntity>>(request);
+
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + response.StatusCode + " - " + response.ErrorMessage);
+            }
+            else
+            {
+                if (response.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (response.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (response.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + response.Data.ResponseStatus.ResponseCode + " - " + response.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
 
             InventoryItemEntity savedProduct = response.Data.Data;
 

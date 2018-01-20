@@ -47,76 +47,118 @@ namespace CakeGUI.forms
 
         private void init()
         {
-            //productStocks = getListProduct();
+            try
+            {
+                //productStocks = getListProduct();
 
-            productTypes = productTypeService.getProductTypes();
-            cmbType.ItemsSource = productTypes;
-            cmbType.SelectedIndex = 0;
+                productTypes = productTypeService.getProductTypes();
+                cmbType.ItemsSource = productTypes;
+                cmbType.SelectedIndex = 0;
 
-            loadData();
-            //if(cmbType.SelectedIndex >= 0 )
-            //    this.dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type != null && string.Equals(x.Product.Type.Id, ((ProductTypeEntity)cmbType.SelectedItem).Id));
+                loadData();
+                //if(cmbType.SelectedIndex >= 0 )
+                //    this.dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type != null && string.Equals(x.Product.Type.Id, ((ProductTypeEntity)cmbType.SelectedItem).Id));
 
-            //this.dataGrid.ItemsSource = productStocks;
+                //this.dataGrid.ItemsSource = productStocks;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed init : "+ex.Message);
+            }
         }
 
         private void loadData()
         {
-            productStocks = notificationService.getStatusNotification((ProductTypeEntity)cmbType.SelectedItem);
-            dataGrid.ItemsSource = null;
-            dataGrid.ItemsSource = productStocks;
+            try
+            {
+                productStocks = notificationService.getStatusNotification((ProductTypeEntity)cmbType.SelectedItem);
+                dataGrid.ItemsSource = null;
+                dataGrid.ItemsSource = productStocks;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed loadData : "+ex.Message);
+            }
         }
 
         private void ProductNameClicked(object sender, MouseButtonEventArgs e)
         {
-            StatusNotificationEntity cellContent = (StatusNotificationEntity)dataGrid.SelectedItem;
-            //MessageBox.Show(cellContent.Product.Name);
+            try
+            {
+                StatusNotificationEntity cellContent = (StatusNotificationEntity)dataGrid.SelectedItem;
+                //MessageBox.Show(cellContent.Product.Name);
 
-            GenericWindow windowInventoryList = new GenericWindow();
-            ProductInventoryList inventoryListPage = new ProductInventoryList(cellContent.Product);
-            inventoryListPage.SetParent(commonPage);
+                GenericWindow windowInventoryList = new GenericWindow();
+                ProductInventoryList inventoryListPage = new ProductInventoryList(cellContent.Product);
+                inventoryListPage.SetParent(commonPage);
 
-            windowInventoryList.Content = inventoryListPage;
-            windowInventoryList.ShowDialog();
+                windowInventoryList.Content = inventoryListPage;
+                windowInventoryList.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed show detail : "+ex.Message);
+            }
         }
 
         private void StockClicked(object sender, MouseButtonEventArgs e)
         {
-            StatusNotificationEntity cellContent = (StatusNotificationEntity)dataGrid.SelectedItem;
+            try
+            {
+                StatusNotificationEntity cellContent = (StatusNotificationEntity)dataGrid.SelectedItem;
 
-            GenericWindow windowInventoryList = new GenericWindow();
-            ProductInventoryList inventoryListPage = new ProductInventoryList(cellContent.Product);
-            inventoryListPage.SetParent(commonPage);
+                GenericWindow windowInventoryList = new GenericWindow();
+                ProductInventoryList inventoryListPage = new ProductInventoryList(cellContent.Product);
+                inventoryListPage.SetParent(commonPage);
 
-            windowInventoryList.Content = inventoryListPage;
-            windowInventoryList.ShowDialog();
+                windowInventoryList.Content = inventoryListPage;
+                windowInventoryList.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed show stock : "+ex.Message);
+            }
         }
 
         private void BuyPriceClicked(object sender, MouseButtonEventArgs e)
         {
-            StatusNotificationEntity cellContent = (StatusNotificationEntity)dataGrid.SelectedItem;
-            //MessageBox.Show(cellContent.Product.Name);
+            try
+            {
+                StatusNotificationEntity cellContent = (StatusNotificationEntity)dataGrid.SelectedItem;
+                //MessageBox.Show(cellContent.Product.Name);
 
-            GenericWindow windowInventoryList = new GenericWindow();
-            InventoryHistory inventoryHistoryPage = new InventoryHistory(cellContent.Product);
-            inventoryHistoryPage.SetParent(commonPage);
+                GenericWindow windowInventoryList = new GenericWindow();
+                InventoryHistory inventoryHistoryPage = new InventoryHistory(cellContent.Product);
+                inventoryHistoryPage.SetParent(commonPage);
 
-            windowInventoryList.Content = inventoryHistoryPage;
-            windowInventoryList.ShowDialog();
+                windowInventoryList.Content = inventoryHistoryPage;
+                windowInventoryList.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed show harga beli : "+ex.Message);
+            }
         }
 
         private void SellPriceClicked(object sender, MouseButtonEventArgs e)
         {
-            StatusNotificationEntity cellContent = (StatusNotificationEntity)dataGrid.SelectedItem;
-            
-            GenericWindow windowSellPriceHistory = new GenericWindow();
-            SellPriceHistory sellPriceHistoryPage = new SellPriceHistory(cellContent.Product);
-            sellPriceHistoryPage.SetParent(commonPage);
-            sellPriceHistoryPage.setAvgBuyPrice(cellContent.BuyPrice);
+            try
+            {
+                StatusNotificationEntity cellContent = (StatusNotificationEntity)dataGrid.SelectedItem;
 
-            windowSellPriceHistory.Content = sellPriceHistoryPage;
-            windowSellPriceHistory.ShowDialog();
-            loadData();
+                GenericWindow windowSellPriceHistory = new GenericWindow();
+                SellPriceHistory sellPriceHistoryPage = new SellPriceHistory(cellContent.Product);
+                sellPriceHistoryPage.SetParent(commonPage);
+                sellPriceHistoryPage.setAvgBuyPrice(cellContent.BuyPrice);
+
+                windowSellPriceHistory.Content = sellPriceHistoryPage;
+                windowSellPriceHistory.ShowDialog();
+                loadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed show harga jual : "+ex.Message);
+            }
         }
 
         private string headerAlertDate = "Date";
@@ -128,16 +170,23 @@ namespace CakeGUI.forms
         
         private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
-            if (type != null)
+            try
             {
-                dataGrid.Columns[2].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
-                //dataGrid.Columns[6].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
-                loadData();
-                //dataGrid.ItemsSource = null;
-                //dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type!=null && string.Equals(x.Product.Type.Id, type.Id));
-                //MessageBox.Show("change");
-                //lblNotif.Text = type.Expiration ? "Expire Notification" : "Aging Notification";
+                ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
+                if (type != null)
+                {
+                    dataGrid.Columns[2].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
+                    //dataGrid.Columns[6].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
+                    loadData();
+                    //dataGrid.ItemsSource = null;
+                    //dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type!=null && string.Equals(x.Product.Type.Id, type.Id));
+                    //MessageBox.Show("change");
+                    //lblNotif.Text = type.Expiration ? "Expire Notification" : "Aging Notification";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed combo change : "+ex.Message);
             }
         }
 
@@ -174,18 +223,25 @@ namespace CakeGUI.forms
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            ProductTypeEntity type = cmbType.SelectedItem as ProductTypeEntity;
-            if (type != null)
+            try
             {
-                dataGrid.Columns[2].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
-                //dataGrid.Columns[6].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
+                ProductTypeEntity type = cmbType.SelectedItem as ProductTypeEntity;
+                if (type != null)
+                {
+                    dataGrid.Columns[2].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
+                    //dataGrid.Columns[6].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
+                }
+                else
+                {
+                    dataGrid.Columns[2].Header = "Expired / Aging Date";
+                    //dataGrid.Columns[6].Header = "Expiry / Aging Notif";
+                }
+                loadData();
             }
-            else
+            catch (Exception ex)
             {
-                dataGrid.Columns[2].Header = "Expired / Aging Date";
-                //dataGrid.Columns[6].Header = "Expiry / Aging Notif";
+                MessageBox.Show("failed search : "+ex.Message);
             }
-            loadData();
         }
         
     }

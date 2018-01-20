@@ -53,25 +53,39 @@ namespace CakeGUI.forms
 
         private void loadLatestPurchasePrice()
         {
-            if (product != null)
+            try
             {
-                List<ProductStockEntity> listStock = productService.getStocks(product.Type, "");
-                if(listStock!=null || listStock.Count > 0)
+                if (product != null)
                 {
-                    ProductStockEntity stock = listStock.Find(p => p.Product.Id == product.Id);
-                    if (stock != null)
+                    List<ProductStockEntity> listStock = productService.getStocks(product.Type, "");
+                    if (listStock != null || listStock.Count > 0)
                     {
-                        //txtPurchasePrice.Text = stock.BuyPrice.ToString();
+                        ProductStockEntity stock = listStock.Find(p => p.Product.Id == product.Id);
+                        if (stock != null)
+                        {
+                            //txtPurchasePrice.Text = stock.BuyPrice.ToString();
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed loadLatest harga beli : " +ex.Message);
             }
         }
 
         private void loadCurrentSellPrice()
         {
-            if (product != null)
+            try
             {
-                SellPrice = sellPriceService.getCurrentSellPrice(product);
+                if (product != null)
+                {
+                    SellPrice = sellPriceService.getCurrentSellPrice(product);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed load harga jual : " +ex.Message);
             }
         }
 
@@ -88,26 +102,33 @@ namespace CakeGUI.forms
             outInventory = new InventoryItemOutEntity();
             this.outInventories = outInventories;
 
-            this.product = productService.getProductByBarcode(barcode);
-            if (this.product != null)
+            try
             {
-                List<ProductStockEntity> stock = productService.getStocks(this.product.Type, barcode);
-                if (stock == null || stock.Count == 0)
+                this.product = productService.getProductByBarcode(barcode);
+                if (this.product != null)
                 {
-                    MessageBox.Show("Barang tidak ada stock!");
-                    btnSave.IsEnabled = false;
-                    txtQuantity.IsEnabled = false;
+                    List<ProductStockEntity> stock = productService.getStocks(this.product.Type, barcode);
+                    if (stock == null || stock.Count == 0)
+                    {
+                        MessageBox.Show("Barang tidak ada stock!");
+                        btnSave.IsEnabled = false;
+                        txtQuantity.IsEnabled = false;
+                    }
+                    else
+                    {
+                        txtBarcode.Text = this.product.BarCode;
+                        txtName.Text = this.product.Name;
+                    }
                 }
                 else
                 {
-                    txtBarcode.Text = this.product.BarCode;
-                    txtName.Text = this.product.Name;
+                    MessageBox.Show("Barang tidak ditemukan");
+                    btnSave.IsEnabled = false;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Barang tidak ditemukan");
-                btnSave.IsEnabled = false;
+                MessageBox.Show(ex.Message);
             }
 
             init();
@@ -130,9 +151,12 @@ namespace CakeGUI.forms
 
             if (outInventory != null)
                 this.SellPrice = outInventory.SellPrice;
-            
-            txtBarcode.Text = this.outInventory.Product.BarCode;
-            txtName.Text = this.outInventory.Product.Name;
+
+            if (this.product != null)
+            {
+                txtBarcode.Text = this.product.BarCode;
+                txtName.Text = this.product.Name;
+            }
             //txtPurchasePrice.Text = this.outInventory.PurchasePrice.ToString();
             txtQuantity.Text = this.outInventory.Quantity.ToString();
             lblTitle.Text += " (ubah)";
@@ -143,26 +167,35 @@ namespace CakeGUI.forms
         private ProductEntity product;
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            ((GenericWindow)this.Parent).Close();
+            try
+            {
+                ((GenericWindow)this.Parent).Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed cancel : "+ex.Message);
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (product == null)
+            try
             {
-                MessageBox.Show("Tidak ada barang!");
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(txtQuantity.Text))
+                if (product == null)
                 {
-                    MessageBox.Show("Isi jumlah barang!");
+                    MessageBox.Show("Tidak ada barang!");
                 }
                 else
                 {
-                    //MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
-                    //if (messageBoxResult == MessageBoxResult.Yes)
-                    //{
+                    if (string.IsNullOrEmpty(txtQuantity.Text))
+                    {
+                        MessageBox.Show("Isi jumlah barang!");
+                    }
+                    else
+                    {
+                        //MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
+                        //if (messageBoxResult == MessageBoxResult.Yes)
+                        //{
                         outInventory.Product = product;
                         //outInventory.PurchasePrice = decimal.Parse(!string.IsNullOrEmpty(txtPurchasePrice.Text) ? txtPurchasePrice.Text : "0");
                         outInventory.Quantity = Int32.Parse(!string.IsNullOrEmpty(txtQuantity.Text) ? txtQuantity.Text : "0");
@@ -199,34 +232,46 @@ namespace CakeGUI.forms
 
                         GenericWindow genericWindow = ((GenericWindow)this.Parent);
                         genericWindow.Close();
-                    //}
+                        //}
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed save : "+ex.Message);
             }
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(txtBarcode.Text))
+            try
             {
-                MessageBox.Show("Isi barcode!");
-            }
-            else
-            {
-                ProductEntity p = productService.getProductByBarcode(txtBarcode.Text);
-                if (p == null || (productType!=null && !p.Type.Id.Equals(productType.Id)))
+                if (String.IsNullOrEmpty(txtBarcode.Text))
                 {
-                    MessageBox.Show("Barang tidak ditemukan");
-                    txtName.Text = "";
-                    product = null;
+                    MessageBox.Show("Isi barcode!");
                 }
                 else
                 {
-                    product = p;
-                    txtBarcode.Text = product.BarCode;
-                    txtName.Text = product.Name;
+                    ProductEntity p = productService.getProductByBarcode(txtBarcode.Text);
+                    if (p == null || (productType != null && !p.Type.Id.Equals(productType.Id)))
+                    {
+                        MessageBox.Show("Barang tidak ditemukan");
+                        txtName.Text = "";
+                        product = null;
+                    }
+                    else
+                    {
+                        product = p;
+                        txtBarcode.Text = product.BarCode;
+                        txtName.Text = product.Name;
+                    }
+                    loadLatestPurchasePrice();
+                    loadCurrentSellPrice();
                 }
-                loadLatestPurchasePrice();
-                loadCurrentSellPrice();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed search : "+ex.Message);
             }
         }
 

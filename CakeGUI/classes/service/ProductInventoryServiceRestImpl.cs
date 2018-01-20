@@ -42,6 +42,32 @@ namespace CakeGUI.classes.service
 
             IRestResponse<TCommonResponse<InventoryEntity>> response = client.Execute<TCommonResponse<InventoryEntity>>(request);
 
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + response.StatusCode + " - " + response.ErrorMessage);
+            }
+            else
+            {
+                if (response.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (response.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (response.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + response.Data.ResponseStatus.ResponseCode + " - " + response.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
+
             InventoryEntity savedProduct = response.Data.Data;
             
         }
@@ -53,6 +79,32 @@ namespace CakeGUI.classes.service
             request.AddParameter("type", type);
 
             IRestResponse<TCommonResponse<int>> product = client.Execute<TCommonResponse<int>>(request);
+
+            if (product.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + product.StatusCode + " - " + product.ErrorMessage);
+            }
+            else
+            {
+                if (product.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (product.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (product.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + product.Data.ResponseStatus.ResponseCode + " - " + product.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
 
             return DateTime.Now.ToString("yyyyMMdd") + "_" + type + product.Data.Data.ToString().PadLeft(2, '0');
         }

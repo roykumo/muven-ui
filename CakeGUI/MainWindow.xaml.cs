@@ -41,61 +41,74 @@ namespace CakeGUI
 
         private void initMenu()
         {
-            var actions = new Dictionary<string, Func<MenuItem, RoutedEventHandler>>()
+            try
             {
-                { "Exit", mi => (s, e) => { closeApp(); }},
-                { "Product", mi => (s, e) => { loadProductList(); }},
-                { "ProductCategory", mi => (s, e) => { loadProductCategory(); }},
-                { "ProductStock", mi => (s, e) => { loadProductStock(); }},
-                { "Inventory", mi => (s, e) => { loadNewInventory(); }},
-                { "SaleNotification", mi => (s, e) => { loadSaleNotification(); }},
-                { "Repacking", mi => (s, e) => { loadInventoryOut("RE"); }},
-                { "StockOpname", mi => (s, e) => { loadInventoryOut("ST"); }},
-                { "CashRegister", mi => (s, e) => { loadCashRegister(); }},
-                { "ProductDump", mi => (s, e) => { loadProductDump(); }},                
-                { "OnlineTransaction", mi => (s, e) => { loadOnlineTransaction(); }},
-                { "Alert", mi => (s, e) => { loadAlertNotification(); }}
-            };
+                var actions = new Dictionary<string, Func<MenuItem, RoutedEventHandler>>()
+                {
+                    { "Exit", mi => (s, e) => { closeApp(); }},
+                    { "Product", mi => (s, e) => { loadProductList(); }},
+                    { "ProductCategory", mi => (s, e) => { loadProductCategory(); }},
+                    { "ProductStock", mi => (s, e) => { loadProductStock(); }},
+                    { "Inventory", mi => (s, e) => { loadNewInventory(); }},
+                    { "SaleNotification", mi => (s, e) => { loadSaleNotification(); }},
+                    { "Repacking", mi => (s, e) => { loadInventoryOut("RE"); }},
+                    { "StockOpname", mi => (s, e) => { loadInventoryOut("ST"); }},
+                    { "CashRegister", mi => (s, e) => { loadCashRegister(); }},
+                    { "ProductDump", mi => (s, e) => { loadProductDump(); }},                
+                    { "OnlineTransaction", mi => (s, e) => { loadOnlineTransaction(); }},
+                    { "Alert", mi => (s, e) => { loadAlertNotification(); }}
+                };
 
-            foreach (MenuItem mi in mainMenu.Items)
-            {
-                if (actions.ContainsKey(mi.Name))
+                foreach (MenuItem mi in mainMenu.Items)
                 {
-                    mi.Click += actions[mi.Name](mi);
-                }
-                if(mi.Items!=null && !mi.Items.IsEmpty)
-                {
-                    foreach (MenuItem miChild in mi.Items)
+                    if (actions.ContainsKey(mi.Name))
                     {
-                        if (actions.ContainsKey(miChild.Name))
+                        mi.Click += actions[mi.Name](mi);
+                    }
+                    if (mi.Items != null && !mi.Items.IsEmpty)
+                    {
+                        foreach (MenuItem miChild in mi.Items)
                         {
-                            miChild.Click += actions[miChild.Name](miChild);
+                            if (actions.ContainsKey(miChild.Name))
+                            {
+                                miChild.Click += actions[miChild.Name](miChild);
+                            }
                         }
                     }
                 }
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
             }
         }
                 
         private void ContextMenuClick(object sender, RoutedEventArgs e)
         {
-            string menuName = ((MenuItem)sender).Name;
-            if (menuName.Equals("Exit"))
+            try
             {
-                closeApp();
-            }
-            else if(menuName.Equals("Product"))
+                string menuName = ((MenuItem)sender).Name;
+                if (menuName.Equals("Exit"))
+                {
+                    closeApp();
+                }
+                else if (menuName.Equals("Product"))
+                {
+                    loadProductList();
+                }
+                else if (menuName.Equals("ProductStock"))
+                {
+                    loadProductStock();
+                }
+                else if (menuName.Equals("Inventory"))
+                {
+                    loadNewInventory();
+                }
+                //MessageBox.Show(string.Format("MyContent:{0}", ((MenuItem)sender).Name));
+            }catch(Exception ex)
             {
-                loadProductList();
+                MessageBox.Show(ex.Message);
             }
-            else if(menuName.Equals("ProductStock"))
-            {
-                loadProductStock();
-            }
-            else if (menuName.Equals("Inventory"))
-            {
-                loadNewInventory();
-            }
-            //MessageBox.Show(string.Format("MyContent:{0}", ((MenuItem)sender).Name));
         }
 
         public void closeApp()

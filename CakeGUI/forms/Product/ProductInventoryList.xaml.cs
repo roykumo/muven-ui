@@ -48,31 +48,45 @@ namespace CakeGUI.forms
         
         private void init()
         {
-            commonPage = new CommonPage();
-            commonPage.Title = "Detail";
-
-            if (product != null)
+            try
             {
-                inventories = inventoryService.getProductInventories(product, true);
-                dataGrid.Columns[4].Header = product.Type.Expiration ? "Tanggal Kadaluarsa" : "Aging";
+                commonPage = new CommonPage();
+                commonPage.Title = "Detail";
 
-                this.dataGrid.ItemsSource = inventories;
+                if (product != null)
+                {
+                    inventories = inventoryService.getProductInventories(product, true);
+                    dataGrid.Columns[4].Header = product.Type.Expiration ? "Tanggal Kadaluarsa" : "Aging";
 
-                lblProduct.Text = product.Name + " [" + product.BarCode + "]";
+                    this.dataGrid.ItemsSource = inventories;
+
+                    lblProduct.Text = product.Name + " [" + product.BarCode + "]";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed init : "+ex.Message);
             }
         }
         private void EditProductClicked(object sender, RoutedEventArgs e)
         {
-            InventoryItemEntity cellContent = (InventoryItemEntity)dataGrid.SelectedItem;
-            //MessageBox.Show(cellContent.Product.Name);
+            try
+            {
+                InventoryItemEntity cellContent = (InventoryItemEntity)dataGrid.SelectedItem;
+                //MessageBox.Show(cellContent.Product.Name);
 
-            GenericWindow windowInventoryList = new GenericWindow();
-            InventoryMaintenance inventoryMaintenancePage = new InventoryMaintenance(cellContent);
-            inventoryMaintenancePage.SetParent(commonPage);
+                GenericWindow windowInventoryList = new GenericWindow();
+                InventoryMaintenance inventoryMaintenancePage = new InventoryMaintenance(cellContent);
+                inventoryMaintenancePage.SetParent(commonPage);
 
-            windowInventoryList.Content = inventoryMaintenancePage;
-            windowInventoryList.ShowDialog();
-            init();
+                windowInventoryList.Content = inventoryMaintenancePage;
+                windowInventoryList.ShowDialog();
+                init();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed edit : "+ex.Message);
+            }
         }
 
         public void SetParent(CommonPage page)

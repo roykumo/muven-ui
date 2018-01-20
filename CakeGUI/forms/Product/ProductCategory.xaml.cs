@@ -52,31 +52,51 @@ namespace CakeGUI.forms
 
         private void init()
         {
-            commonPage = new CommonPage();
-            commonPage.Title = (this.productCategory!=null && !string.IsNullOrEmpty(this.productCategory.Id)) ? "Edit Barang" : "Penambahan Barang" ;
-            initProductTypes();
-
+            try
+            {
+                commonPage = new CommonPage();
+                commonPage.Title = (this.productCategory != null && !string.IsNullOrEmpty(this.productCategory.Id)) ? "Edit Barang" : "Penambahan Barang";
+                initProductTypes();
+            }catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         private void initProductTypes()
         {
-            productTypes = productTypeService.getProductTypes();
-            cmbType.ItemsSource = productTypes;
-
-            if (this.productCategory.Type != null)
+            try
             {
-                cmbType.SelectedItem = this.productCategory.Type;
+                productTypes = productTypeService.getProductTypes();
+                cmbType.ItemsSource = productTypes;
+
+                if (this.productCategory.Type != null)
+                {
+                    cmbType.SelectedItem = this.productCategory.Type;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("failed init product type: "+e.Message);
             }
         }
+    
 
         private void initParent()
         {
-            parents = productCategoryService.getProductCategoriesByType((ProductTypeEntity)cmbType.SelectedItem);
-            cmbParent.ItemsSource = parents;
-
-            if (this.productCategory.Parent != null)
+            try
             {
-                cmbParent.SelectedItem = this.productCategory.Parent;
+                parents = productCategoryService.getProductCategoriesByType((ProductTypeEntity)cmbType.SelectedItem);
+                cmbParent.ItemsSource = parents;
+
+                if (this.productCategory.Parent != null)
+                {
+                    cmbParent.SelectedItem = this.productCategory.Parent;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("failed init parent: "+e.Message);
             }
         }
 
@@ -98,46 +118,65 @@ namespace CakeGUI.forms
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            ((GenericWindow)this.Parent).Close();
-            
+            try
+            {
+                ((GenericWindow)this.Parent).Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed cancel : "+ex.Message);
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (cmbType.SelectedIndex >= 0)
+            try
             {
-                productCategory.Type = (ProductTypeEntity)cmbType.SelectedItem;
-                productCategory.Parent = (ProductCategoryEntity)cmbParent.SelectedItem;
-
-                MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan Barang?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
-                if (messageBoxResult == MessageBoxResult.Yes)
+                if (cmbType.SelectedIndex >= 0)
                 {
-                    productCategory.Code = txtCode.Text;
-                    productCategory.Description = txtDescription.Text;
+                    productCategory.Type = (ProductTypeEntity)cmbType.SelectedItem;
+                    productCategory.Parent = (ProductCategoryEntity)cmbParent.SelectedItem;
 
-                    productCategoryService.saveProductCategory(productCategory);
+                    MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan Barang?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                    {
+                        productCategory.Code = txtCode.Text;
+                        productCategory.Description = txtDescription.Text;
 
-                    MessageBox.Show("Barang berhasil disimpan");
+                        productCategoryService.saveProductCategory(productCategory);
 
-                    GenericWindow genericWindow = ((GenericWindow)this.Parent);
-                    //((MainWindow)genericWindow.Owner).refreshFrame();
-                    genericWindow.Close();
-                    
+                        MessageBox.Show("Barang berhasil disimpan");
+
+                        GenericWindow genericWindow = ((GenericWindow)this.Parent);
+                        //((MainWindow)genericWindow.Owner).refreshFrame();
+                        genericWindow.Close();
+
+
+                    }
 
                 }
-
+                else
+                {
+                    MessageBox.Show("Pilih jenis Barang!");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Pilih jenis Barang!");
+                MessageBox.Show("failed save : "+ex.Message);
             }
-
         }
 
         private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
-            initParent();
+            try
+            {
+                ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
+                initParent();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed combo change : "+ex.Message);
+            }
         }
 
         public void SetProductType(ProductTypeEntity productType)
