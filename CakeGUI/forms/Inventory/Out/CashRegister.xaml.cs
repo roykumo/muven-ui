@@ -231,7 +231,7 @@ namespace CakeGUI.forms
 
                                 loadDataOut();
 
-                                MessageBox.Show("Cash Register berhasil disimpan");
+                                //MessageBox.Show("Cash Register berhasil disimpan");
                             }
                         }
 

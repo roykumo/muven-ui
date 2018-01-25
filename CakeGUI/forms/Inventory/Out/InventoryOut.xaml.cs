@@ -230,8 +230,10 @@ namespace CakeGUI.forms
                         inventory.TransactionCode = txtTransactionCode.Text;
                         inventory.TotalPrice = inventories.Sum(i => i.PurchasePrice * i.Quantity);
                         inventory.Supplier = txtSupplier.Text;
+                        inventory.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
 
                         outInventory.InventoryIn = inventory;
+                        outInventory.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
 
                         inventoryOutService.saveProductInventory(outInventory);
 
@@ -244,7 +246,7 @@ namespace CakeGUI.forms
                         date.SelectedDate = DateTime.Now;
                         dateOut.SelectedDate = DateTime.Now;
 
-                        MessageBox.Show((type.Equals("RE") ? "Repacking" : "Stock Opname") + " berhasil disimpan");
+                        //MessageBox.Show((type.Equals("RE") ? "Repacking" : "Stock Opname") + " berhasil disimpan");
                     }
                 }
             }

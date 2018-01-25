@@ -56,6 +56,7 @@ namespace CakeGUI
                     { "CashRegister", mi => (s, e) => { loadCashRegister(); }},
                     { "ProductDump", mi => (s, e) => { loadProductDump(); }},                
                     { "OnlineTransaction", mi => (s, e) => { loadOnlineTransaction(); }},
+                    { "TransactionList", mi => (s, e) => { loadTransactionList(); }},
                     { "Alert", mi => (s, e) => { loadAlertNotification(); }}
                 };
 
@@ -212,6 +213,14 @@ namespace CakeGUI
             statusNotification.SetParent(commonPageReport);
             statusNotification.Tag = this;
             this.mainFrame.Content = statusNotification;
+        }
+
+        private void loadTransactionList()
+        {
+            TransactionList trxList = new TransactionList();
+            trxList.SetParent(commonPageReport);
+            trxList.Tag = this;
+            this.mainFrame.Content = trxList;
         }
 
         public void setLabelTitle(string title)

@@ -171,6 +171,7 @@ namespace CakeGUI.forms
                         inventory.Supplier = txtSupplier.Text;
                         inventory.Date = date.SelectedDate.Value;
                         inventory.TotalPrice = Int32.Parse(txtTotalBuyPrice.Text);
+                        inventory.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
                         inventory.Items = inventories;
 
                         inventoryService.saveProductInventory(inventory);
@@ -184,7 +185,7 @@ namespace CakeGUI.forms
                         txtTotalBuyPriceRemark.Text = "";
                         date.SelectedDate = DateTime.Now;
 
-                        MessageBox.Show("Pembelian berhasil disimpan");
+                        //MessageBox.Show("Pembelian berhasil disimpan");
                     }
                 }
             }

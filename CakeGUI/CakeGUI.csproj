@@ -176,6 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="forms\Report\TransactionList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="forms\SellPrice\SellPriceMaintenance.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -203,6 +207,7 @@
     <Compile Include="classes\entity\PaymentEntity.cs" />
     <Compile Include="classes\entity\ProductEntity.cs" />
     <Compile Include="classes\entity\ProductCategoryEntity.cs" />
+    <Compile Include="classes\entity\TransactionEntity.cs" />
     <Compile Include="classes\entity\StatusNotificationEntity.cs" />
     <Compile Include="classes\entity\SaleNotificationEntity.cs" />
     <Compile Include="classes\entity\ProductStockEntity.cs" />
@@ -213,6 +218,8 @@
     <Compile Include="classes\entity\rest\CommonStatus.cs" />
     <Compile Include="classes\entity\rest\KeyValue.cs" />
     <Compile Include="classes\entity\SellPrice.cs" />
+    <Compile Include="classes\service\TransactionServiceRestImpl.cs" />
+    <Compile Include="classes\service\TransactionService.cs" />
     <Compile Include="classes\service\ProductInventoryOutService.cs" />
     <Compile Include="classes\service\ProductInventoryOutServiceRestImpl.cs" />
     <Compile Include="classes\service\ProductInventoryServiceRestImpl.cs" />
@@ -311,6 +318,9 @@
       <DependentUpon>ProductList.xaml</DependentUpon>
     </Compile>
     <Compile Include="forms\RadioButtonCheckedConverter.cs" />
+    <Compile Include="forms\Report\TransactionList.xaml.cs">
+      <DependentUpon>TransactionList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="forms\SellPrice\SellPriceMaintenance.xaml.cs">
       <DependentUpon>SellPriceMaintenance.xaml</DependentUpon>
     </Compile>

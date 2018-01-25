@@ -23,6 +23,8 @@ namespace CakeGUI.classes.entity
         public DateTime Date { get; set; }
         [JsonProperty("totalPrice")]
         public Decimal TotalPrice { get; set; }
+        [JsonProperty("productType")]
+        public ProductTypeEntity ProductType { get; set; }
 
         [JsonProperty("items")]
         public List<InventoryItemEntity> Items { get; set; }
