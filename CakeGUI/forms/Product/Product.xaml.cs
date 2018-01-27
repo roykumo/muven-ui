@@ -45,7 +45,23 @@ namespace CakeGUI.forms
         {
             InitializeComponent();
             this.product = product;
-            txtCode.Text = this.product.Code;
+            //txtCode.Text = this.product.Code;
+            if (!string.IsNullOrEmpty(this.product.Code))
+            {
+                string[] codes = this.product.Code.Split('~');
+                if (codes.Length > 0)
+                {
+                    txtCode1.Text = codes[0];
+                }
+                if (codes.Length > 1)
+                {
+                    txtCode2.Text = codes[1];
+                }
+                if (codes.Length > 2)
+                {
+                    txtCode3.Text = codes[2];
+                }
+            }
             txtBarcode.Text = this.product.BarCode;
             txtName.Text = this.product.Name;
             txtExpiryRed.Text = this.product.AlertRed.ToString();
@@ -127,6 +143,9 @@ namespace CakeGUI.forms
                 }else if (cmbCategory.SelectedIndex < 0)
                 {
                     MessageBox.Show("Pilih kategori Barang!");
+                }else if (string.IsNullOrEmpty(txtCode1.Text) && string.IsNullOrEmpty(txtCode2.Text) && string.IsNullOrEmpty(txtCode3.Text))
+                {
+                    MessageBox.Show("Isi barcode 1 dahulu!");
                 }
                 else
                 {
@@ -136,7 +155,8 @@ namespace CakeGUI.forms
                     MessageBoxResult messageBoxResult = MessageBox.Show("Konfirmasi?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
                     if (messageBoxResult == MessageBoxResult.Yes)
                     {
-                        product.Code = txtCode.Text;
+                        //product.Code = txtCode.Text;
+                        product.Code = txtCode1.Text + "~" + txtCode2.Text + "~" + txtCode3.Text;
                         product.BarCode = txtBarcode.Text;
                         product.Name = txtName.Text;
                         product.AlertRed = Int32.Parse(txtExpiryRed.Text);

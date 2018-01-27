@@ -43,7 +43,7 @@
                     </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Category.Type.Description}" HeaderStringFormat="" Header="Jenis"/>
-                        <DataGridTextColumn Binding="{Binding Code}" HeaderStringFormat="" Header="Barcode 1" />
+                        <DataGridTextColumn Binding="{Binding CodeView}" HeaderStringFormat="" Header="Barcode 1" />
                         <DataGridTextColumn Binding="{Binding BarCode}" HeaderStringFormat="" Header="Barcode 2" />
                         <DataGridTextColumn Binding="{Binding Name}" HeaderStringFormat="" Header="Nama Barang" />
                         <DataGridTextColumn Binding="{Binding Alerts}" Header="Expiry / Aging Notif"/>

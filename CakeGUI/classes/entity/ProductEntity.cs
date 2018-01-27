@@ -48,5 +48,34 @@ namespace CakeGUI.classes.entity
             AlertGreen = 60;
             AlertBlue = 180;
         }
+
+        public string CodeView
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Code))
+                {
+                    return "";
+                }
+                else
+                {
+                    string[] codes = Code.Split('~');
+                    string code = "";
+                    if (codes.Length == 1)
+                    {
+                        code = codes[0];
+                    }
+                    else if (codes.Length == 2)
+                    {
+                        code = codes[0] + "_" + codes[1];
+                    }else if (codes.Length > 2)
+                    {
+                        code = codes[0] + "_" + codes[1] + " " + codes[2];
+                    }
+
+                    return code;
+                }
+            }
+        }
     }
 }
