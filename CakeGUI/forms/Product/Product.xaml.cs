@@ -25,6 +25,7 @@ namespace CakeGUI.forms
     {
         private static ProductService productService = ProductServiceRestImpl.Instance;
         private static ProductTypeService productTypeService = ProductTypeServiceRestImpl.Instance;
+        private static ProductCategoryService productCategoryService = ProductCategoryServiceRestImpl.Instance;
 
         private CommonPage commonPage;
 
@@ -70,10 +71,29 @@ namespace CakeGUI.forms
                 MessageBox.Show("failed init : "+e.Message);
             }
         }
-        
+
+        private void initCategory()
+        {
+            try
+            {
+                categories = productCategoryService.getProductCategoriesByType((ProductTypeEntity)cmbType.SelectedItem, false);
+                cmbCategory.ItemsSource = categories;
+
+                if (this.product.Category != null)
+                {
+                    cmbCategory.SelectedValue = this.product.Category.Id;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("failed init category: " + e.Message);
+            }
+        }
+
         private ProductEntity product;
         public ProductEntity _Product { get { return this.product; } }
         private List<ProductTypeEntity> productTypes = new List<ProductTypeEntity>();
+        private List<ProductCategoryEntity> categories = new List<ProductCategoryEntity>();
 
         //public ProductEntity ProductSelected
         //{
@@ -101,9 +121,17 @@ namespace CakeGUI.forms
         {
             try
             {
-                if (cmbType.SelectedIndex >= 0)
+                if (cmbType.SelectedIndex < 0)
                 {
-                    product.Type = (ProductTypeEntity)cmbType.SelectedItem;
+                    MessageBox.Show("Pilih jenis Barang!");
+                }else if (cmbCategory.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Pilih kategori Barang!");
+                }
+                else
+                {
+                    product.Category =(ProductCategoryEntity) cmbCategory.SelectedItem;
+                    //product.Category.Type = (ProductTypeEntity)cmbType.SelectedItem;
 
                     MessageBoxResult messageBoxResult = MessageBox.Show("Konfirmasi?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
                     if (messageBoxResult == MessageBoxResult.Yes)
@@ -125,10 +153,6 @@ namespace CakeGUI.forms
                     }
 
                 }
-                else
-                {
-                    MessageBox.Show("Pilih jenis Barang!");
-                }
             }catch(Exception ex)
             {
                 MessageBox.Show("failed save : "+ex.Message);
@@ -142,6 +166,7 @@ namespace CakeGUI.forms
                 ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
                 if (type != null)
                 {
+                    initCategory();
                     lblNotif.Text = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
                 }
             }catch(Exception ex)
@@ -153,17 +178,17 @@ namespace CakeGUI.forms
         public void SetProductType(ProductTypeEntity productType)
         {
             cmbType.SelectedItem = productType;
-            if(product!=null)
-                product.Type = productType;
+            if(product!=null && product.Category != null )
+                product.Category.Type = productType;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             //(this.Tag as MainWindow).setLabelTitle(commonPage.TitleSiteMap);
             lblSiteMap.Content = commonPage.TitleSiteMap;
-            if (product.Type != null)
+            if (product.Category != null && product.Category.Type != null)
             {
-                int idx = productTypes.FindIndex(t => t.Id == product.Type.Id);
+                int idx = productTypes.FindIndex(t => t.Id == product.Category.Type.Id);
                 cmbType.SelectedIndex = idx;
             }
         }

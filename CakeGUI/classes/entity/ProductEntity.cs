@@ -23,8 +23,8 @@ namespace CakeGUI.classes.entity
         [JsonProperty("name")]
         public String Name { get; set; }
         //[DeserializeAs(Name = "type"), SerializeAs(Name = "type")]
-        [JsonProperty("type")]
-        public ProductTypeEntity Type { get; set; }
+        [JsonProperty("category")]
+        public ProductCategoryEntity Category { get; set; }
         //[DeserializeAs(Name = "alertRed"), SerializeAs(Name = "alertRed")]
         [JsonProperty("alertRed")]
         public int AlertRed { get; set; }

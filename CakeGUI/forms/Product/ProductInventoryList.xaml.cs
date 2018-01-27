@@ -56,7 +56,7 @@ namespace CakeGUI.forms
                 if (product != null)
                 {
                     inventories = inventoryService.getProductInventories(product, true);
-                    dataGrid.Columns[4].Header = product.Type.Expiration ? "Tanggal Kadaluarsa" : "Aging";
+                    dataGrid.Columns[4].Header = product.Category.Type.Expiration ? "Tanggal Kadaluarsa" : "Aging";
 
                     this.dataGrid.ItemsSource = inventories;
 

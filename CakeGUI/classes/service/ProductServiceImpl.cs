@@ -49,7 +49,8 @@ namespace CakeGUI.classes.service
             prd1.AlertYellow = 30;
             prd1.BarCode = "123123123";
             prd1.Name = "Beras Topi Koki @25Kg";
-            prd1.Type = productTypeService.getProductType("1");
+            prd1.Category = new ProductCategoryEntity();
+            prd1.Category.Type = productTypeService.getProductType("1");
 
             mapProduct.Add(prd1.Id, prd1);
 
@@ -60,7 +61,8 @@ namespace CakeGUI.classes.service
             prd2.AlertYellow = 10;
             prd2.BarCode = "234234234";
             prd2.Name = "Susu Bayi @1Kg";
-            prd2.Type = productTypeService.getProductType("2");
+            prd2.Category = new ProductCategoryEntity();
+            prd2.Category.Type = productTypeService.getProductType("2");
 
             mapProduct.Add(prd2.Id, prd2);
 

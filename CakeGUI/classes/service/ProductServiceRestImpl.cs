@@ -13,6 +13,8 @@ namespace CakeGUI.classes.service
 {
     public class ProductServiceRestImpl : ProductService
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private static ProductServiceRestImpl instance;
         static ProductTypeService productTypeService = ProductTypeServiceRestImpl.Instance;
 
@@ -22,9 +24,15 @@ namespace CakeGUI.classes.service
         {
             get
             {
-                if (instance == null)
+                try
                 {
-                    instance = new ProductServiceRestImpl();
+                    if (instance == null)
+                    {
+                        instance = new ProductServiceRestImpl();
+                    }
+                }catch(Exception ex)
+                {
+                    log.Error(ex.Message);
                 }
                 return instance;
             }

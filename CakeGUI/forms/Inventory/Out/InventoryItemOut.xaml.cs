@@ -53,7 +53,7 @@ namespace CakeGUI.forms
             {
                 if (product != null)
                 {
-                    List<ProductStockEntity> listStock = productService.getStocks(product.Type, "");
+                    List<ProductStockEntity> listStock = productService.getStocks(product.Category.Type, "");
                     if (listStock != null || listStock.Count > 0)
                     {
                         ProductStockEntity stock = listStock.Find(p => p.Product.Id == product.Id);
@@ -215,7 +215,7 @@ namespace CakeGUI.forms
                 else
                 {
                     ProductEntity p = productService.getProductByBarcode(txtBarcode.Text);
-                    if (p == null || (productType != null && !p.Type.Id.Equals(productType.Id)))
+                    if (p == null || (productType != null && !p.Category.Type.Id.Equals(productType.Id)))
                     {
                         MessageBox.Show("Barang tidak ditemukan");
                         txtName.Text = "";
@@ -290,7 +290,7 @@ namespace CakeGUI.forms
             {
                 isPaste = false;
                 ProductEntity p = productService.getProductByBarcode(barcode);
-                if (p == null || (productType != null && !p.Type.Id.Equals(productType.Id)))
+                if (p == null || (productType != null && !p.Category.Type.Id.Equals(productType.Id)))
                 {
                     MessageBox.Show("Barang tidak ditemukan");
                     txtName.Text = "";

@@ -88,7 +88,7 @@ namespace CakeGUI.forms
                 if (!string.IsNullOrEmpty(txtBarcode.Text))
                 {
                     KeyValue keyValueBarcode = new KeyValue();
-                    keyValueBarcode.Key = "code";
+                    keyValueBarcode.Key = "productBarcode";
                     keyValueBarcode.Value = txtBarcode.Text;
                     listFilter.Add(keyValueBarcode);
                 }
@@ -235,5 +235,6 @@ namespace CakeGUI.forms
 
             return productPage;
         }
+        
     }
 }

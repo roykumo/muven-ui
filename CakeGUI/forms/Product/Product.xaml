@@ -21,16 +21,19 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Jenis" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="1" Text="Barcode 1" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="2" Text="Barcode 2" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="3" Text="Nama" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="1" Text="Kategori" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="2" Text="Barcode 1" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="3" Text="Barcode 2" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="4" Text="Nama" FontSize="14" VerticalAlignment="Bottom"/>
 
-                <ComboBox Grid.Column="1" Grid.Row="0" Name="cmbType" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Id" SelectedValue="product.type.Id" DisplayMemberPath="Description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100" SelectionChanged="cmbType_SelectionChanged"/>
-                <TextBox Grid.Column="1" Grid.Row="1" Name="txtCode" FontSize="14" Height="35"/>
-                <TextBox Grid.Column="1" Grid.Row="2" Name="txtBarcode" FontSize="14" Height="35"/>
-                <TextBox Grid.Column="1" Grid.Row="31" Name="txtName" FontSize="14" Height="35"/>
+                <ComboBox Grid.Column="1" Grid.Row="0" Name="cmbType" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Id" SelectedValue="product.Category.Type.Id" DisplayMemberPath="Description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100" SelectionChanged="cmbType_SelectionChanged"/>
+                <ComboBox Grid.Column="1" Grid.Row="1" Name="cmbCategory" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Id" SelectedValue="product.Category.Id" DisplayMemberPath="Code" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Name="txtCode" FontSize="14" Height="35"/>
+                <TextBox Grid.Column="1" Grid.Row="3" Name="txtBarcode" FontSize="14" Height="35"/>
+                <TextBox Grid.Column="1" Grid.Row="4" Name="txtName" FontSize="14" Height="35"/>
 
             </Grid>
 

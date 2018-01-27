@@ -111,7 +111,7 @@ namespace CakeGUI.classes.service
 
             List<KeyValue> listFilter = new List<KeyValue>();
             KeyValue keyValue = new KeyValue();
-            keyValue.Key = "productType";
+            keyValue.Key = "categoryProductType";
             keyValue.Value = type.Id;
             listFilter.Add(keyValue);
 
@@ -287,7 +287,7 @@ namespace CakeGUI.classes.service
 
                 List<KeyValue> listFilter = new List<KeyValue>();
                 KeyValue keyValue = new KeyValue();
-                keyValue.Key = "productType";
+                keyValue.Key = "categoryProductType";
                 keyValue.Value = type.Id;
                 listFilter.Add(keyValue);
 

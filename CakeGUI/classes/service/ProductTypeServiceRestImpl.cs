@@ -11,6 +11,8 @@ namespace CakeGUI.classes.service
 {
     public class ProductTypeServiceRestImpl : ProductTypeService
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private static ProductTypeServiceRestImpl instance;
         private ProductTypeServiceRestImpl() { }
 
@@ -18,9 +20,15 @@ namespace CakeGUI.classes.service
         {
             get
             {
-                if (instance == null)
+                try
                 {
-                    instance = new ProductTypeServiceRestImpl();
+                    if (instance == null)
+                    {
+                        instance = new ProductTypeServiceRestImpl();
+                    }
+                }catch(Exception ex)
+                {
+                    log.Error(ex.Message);
                 }
                 return instance;
             }

@@ -144,7 +144,7 @@ namespace CakeGUI.forms
                 else
                 {
                     ProductEntity p = productService.getProductByBarcode(txtBarcode.Text);
-                    if (p == null || (productType != null && !p.Type.Id.Equals(productType.Id)))
+                    if (p == null || (productType != null && !p.Category.Type.Id.Equals(productType.Id)))
                     {
                         MessageBox.Show("Barang tidak ditemukan");
                         txtName.Text = "";

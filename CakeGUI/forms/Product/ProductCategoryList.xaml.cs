@@ -79,7 +79,7 @@ namespace CakeGUI.forms
                 if (cmbType.SelectedItem != null)
                 {
                     KeyValue keyValue = new KeyValue();
-                    keyValue.Key = "productType";
+                    keyValue.Key = "categoryProductType";
                     keyValue.Value = ((ProductTypeEntity)cmbType.SelectedItem).Id;
                     listFilter.Add(keyValue);
                 }

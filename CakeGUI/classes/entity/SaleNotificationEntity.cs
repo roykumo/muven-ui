@@ -57,9 +57,9 @@ namespace CakeGUI.classes.entity
         {
             get
             {
-                if(ExpiredDate!=null && Product!=null && Product.Type != null)
+                if(ExpiredDate!=null && Product!=null && Product.Category.Type != null)
                 {
-                    if (Product.Type.Expiration)
+                    if (Product.Category.Type.Expiration)
                     {
                         int dateDiff = (ExpiredDate - DateTime.Now).Days;
                         if (dateDiff > Product.AlertGreen)
