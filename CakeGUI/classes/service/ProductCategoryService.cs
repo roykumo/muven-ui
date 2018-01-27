@@ -12,6 +12,7 @@ namespace CakeGUI.classes.service
     {
         List<ProductCategoryEntity> getProductCategories();
         List<ProductCategoryEntity> getProductCategoriesByType(ProductTypeEntity type);
+        List<ProductCategoryEntity> getProductCategoriesByType(ProductTypeEntity type, bool parent);
         List<ProductCategoryEntity> getProductCategories(List<KeyValue> listFilter);
         ProductCategoryEntity getProductCategory(String id);
         void saveProductCategory(ProductCategoryEntity productCategory);

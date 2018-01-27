@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CakeGUI.classes.service;
 using CakeGUI.classes.entity;
+using CakeGUI.classes.util;
 
 namespace CakeGUI.forms
 {
@@ -40,14 +41,18 @@ namespace CakeGUI.forms
             InitializeComponent();
             this.productCategory = productCategory;
             txtCode.Text = this.productCategory.Code;
-            txtDescription.Text = this.productCategory.Description;
-            if(this.productCategory.Parent !=null)
-            {
-                cmbParent.SelectedItem = this.productCategory.Parent;
-            }
+            txtOrderNo.Text = this.productCategory.OrderNo.ToString();
             lblTitle.Text += " (ubah)";
             //product.Type = productTypeService.getProductType("2");
             init();
+            if (this.productCategory.Parent==null)
+            {
+                //initParent();
+            }
+            //if (this.productCategory.Parent != null)
+            //{
+            //    cmbParent.SelectedItem = this.productCategory.Parent;
+            //}
         }
 
         private void init()
@@ -86,12 +91,12 @@ namespace CakeGUI.forms
         {
             try
             {
-                parents = productCategoryService.getProductCategoriesByType((ProductTypeEntity)cmbType.SelectedItem);
+                parents = productCategoryService.getProductCategoriesByType((ProductTypeEntity)cmbType.SelectedItem, true);
                 cmbParent.ItemsSource = parents;
 
                 if (this.productCategory.Parent != null)
                 {
-                    cmbParent.SelectedItem = this.productCategory.Parent;
+                    cmbParent.SelectedValue = this.productCategory.Parent.Id;
                 }
             }
             catch (Exception e)
@@ -132,7 +137,14 @@ namespace CakeGUI.forms
         {
             try
             {
-                if (cmbType.SelectedIndex >= 0)
+                if (string.IsNullOrEmpty(txtCode.Text))
+                {
+                    MessageBox.Show("Kode harus diisi");
+                }else if (string.IsNullOrEmpty(txtOrderNo.Text))
+                {
+                    MessageBox.Show("Order Number harus diisi");
+                }
+                else if (cmbType.SelectedIndex >= 0)
                 {
                     productCategory.Type = (ProductTypeEntity)cmbType.SelectedItem;
                     productCategory.Parent = (ProductCategoryEntity)cmbParent.SelectedItem;
@@ -141,11 +153,11 @@ namespace CakeGUI.forms
                     if (messageBoxResult == MessageBoxResult.Yes)
                     {
                         productCategory.Code = txtCode.Text;
-                        productCategory.Description = txtDescription.Text;
+                        productCategory.OrderNo = Int32.Parse(txtOrderNo.Text);
 
                         productCategoryService.saveProductCategory(productCategory);
 
-                        MessageBox.Show("Barang berhasil disimpan");
+                        //MessageBox.Show("Barang berhasil disimpan");
 
                         GenericWindow genericWindow = ((GenericWindow)this.Parent);
                         //((MainWindow)genericWindow.Owner).refreshFrame();
@@ -203,5 +215,11 @@ namespace CakeGUI.forms
                 commonPage.ParentPage = page;
             }
         }
+        
+        private void txt_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Utils.IsTextAllowed(e.Text);
+        }
+
     }
 }

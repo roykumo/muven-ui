@@ -24,5 +24,7 @@ namespace CakeGUI.classes.entity
         public ProductCategoryEntity Parent { get; set; }
         [JsonProperty("type")]
         public ProductTypeEntity Type { get; set; }
+        [JsonProperty("orderNo")]
+        public Int32 OrderNo { get; set; }
     }
 }

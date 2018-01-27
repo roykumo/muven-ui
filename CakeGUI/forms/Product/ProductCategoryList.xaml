@@ -43,9 +43,9 @@
                     </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Type.Description}" HeaderStringFormat="" Header="Jenis"/>
-                        <DataGridTextColumn Binding="{Binding Parent.Description}" HeaderStringFormat="" Header="Induk" />
+                        <DataGridTextColumn Binding="{Binding Parent.Code}" HeaderStringFormat="" Header="Induk" />
                         <DataGridTextColumn Binding="{Binding Code}" HeaderStringFormat="" Header="Kode" />
-                        <DataGridTextColumn Binding="{Binding Description}" HeaderStringFormat="" Header="Deskripsi" />
+                        <DataGridTextColumn Binding="{Binding OrderNo}" HeaderStringFormat="" Header="Order Number" />
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellStyle>
                                 <Style>
