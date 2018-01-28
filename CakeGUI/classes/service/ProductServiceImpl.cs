@@ -142,5 +142,15 @@ namespace CakeGUI.classes.service
         {
             throw new NotImplementedException();
         }
+
+        public List<ProductStockEntity> getStocks(ProductTypeEntity type, ProductCategoryEntity category, string barcode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ProductStockEntity> getStocks(ProductTypeEntity type, ProductCategoryEntity category, string barcode, string group)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -56,6 +56,12 @@ namespace CakeGUI.forms
 
                 if (productTypes.Count > 0)
                 {
+                    ProductTypeEntity blankProductType = new ProductTypeEntity();
+                    blankProductType.Id = "";
+                    blankProductType.Code = "";
+                    blankProductType.Description = "All";
+                    productTypes.Insert(0, blankProductType);
+                    
                     cmbType.ItemsSource = productTypes;
                     cmbType.SelectedItem = 0;
                 }
@@ -77,7 +83,7 @@ namespace CakeGUI.forms
                 List<KeyValue> listFilter = new List<KeyValue>();
 
 
-                if (cmbType.SelectedItem != null)
+                if (cmbType.SelectedItem != null && cmbType.SelectedIndex > 0) 
                 {
                     KeyValue keyValue = new KeyValue();
                     keyValue.Key = "productType";

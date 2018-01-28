@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CakeGUI.classes.service;
 using CakeGUI.classes.entity;
+using CakeGUI.classes.util;
 
 namespace CakeGUI.forms
 {
@@ -80,7 +81,14 @@ namespace CakeGUI.forms
                 commonPage = new CommonPage();
                 commonPage.Title = (this.product != null && !string.IsNullOrEmpty(this.product.Id)) ? "Edit Barang" : "Penambahan Barang";
                 productTypes = productTypeService.getProductTypes();
+                
                 cmbType.ItemsSource = productTypes;
+
+                cmbGroup.ItemsSource = Utils.ListProductGroup;
+                if (product != null && !String.IsNullOrEmpty(product.ProductGroup))
+                    cmbGroup.SelectedValue = this.product.ProductGroup;
+                //if(product!=null && !String.IsNullOrEmpty(product.ProductGroup))
+                //    cmbGroup.SelectedValue = Utils.ListProductGroup.Find(g => g.Code.Equals(this.product.ProductGroup));
             }
             catch (Exception e)
             {
@@ -147,6 +155,10 @@ namespace CakeGUI.forms
                 {
                     MessageBox.Show("Isi barcode 1 dahulu!");
                 }
+                else if (string.IsNullOrEmpty((string)cmbGroup.SelectedValue))
+                {
+                    MessageBox.Show("Pilih group barang!");
+                }
                 else
                 {
                     product.Category =(ProductCategoryEntity) cmbCategory.SelectedItem;
@@ -159,6 +171,7 @@ namespace CakeGUI.forms
                         product.Code = txtCode1.Text + "~" + txtCode2.Text + "~" + txtCode3.Text;
                         product.BarCode = txtBarcode.Text;
                         product.Name = txtName.Text;
+                        product.ProductGroup = cmbGroup.SelectedValue.ToString();
                         product.AlertRed = Int32.Parse(txtExpiryRed.Text);
                         product.AlertYellow = Int32.Parse(txtExpiryYellow.Text);
                         product.AlertGreen = Int32.Parse(txtExpiryGreen.Text);

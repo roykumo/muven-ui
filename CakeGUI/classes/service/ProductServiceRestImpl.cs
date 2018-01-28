@@ -362,5 +362,104 @@ namespace CakeGUI.classes.service
 
             return products.Data.Data;
         }
+
+        public List<ProductStockEntity> getStocks(ProductTypeEntity type, ProductCategoryEntity category, string barcode)
+        {
+            var request = new RestRequest("product/stock", Method.GET);
+            client.AddHandler("application/json", util.JsonSerializer.Default);
+            request.JsonSerializer = util.JsonSerializer.Default;
+
+            request.AddQueryParameter("type", type.Id);
+
+            if(category != null && !string.IsNullOrEmpty(category.Id)) 
+                request.AddQueryParameter("category", category.Id);
+
+            if (!string.IsNullOrEmpty(barcode))
+            {
+                request.AddQueryParameter("code", barcode);
+            }
+
+            IRestResponse<TCommonResponse<List<ProductStockEntity>>> products = client.Execute<TCommonResponse<List<ProductStockEntity>>>(request);
+
+            if (products.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + products.StatusCode + " - " + products.ErrorMessage);
+            }
+            else
+            {
+                if (products.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (products.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (products.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + products.Data.ResponseStatus.ResponseCode + " - " + products.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
+
+            return products.Data.Data;
+        }
+
+        public List<ProductStockEntity> getStocks(ProductTypeEntity type, ProductCategoryEntity category, string barcode, string group)
+        {
+            var request = new RestRequest("product/stock", Method.GET);
+            client.AddHandler("application/json", util.JsonSerializer.Default);
+            request.JsonSerializer = util.JsonSerializer.Default;
+
+            request.AddQueryParameter("type", type.Id);
+
+            if (category != null && !string.IsNullOrEmpty(category.Id))
+                request.AddQueryParameter("category", category.Id);
+
+            if (!string.IsNullOrEmpty(barcode))
+            {
+                request.AddQueryParameter("code", barcode);
+            }
+
+            if (!string.IsNullOrEmpty(group))
+            {
+                request.AddQueryParameter("group", group);
+            }
+
+            IRestResponse<TCommonResponse<List<ProductStockEntity>>> products = client.Execute<TCommonResponse<List<ProductStockEntity>>>(request);
+
+            if (products.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + products.StatusCode + " - " + products.ErrorMessage);
+            }
+            else
+            {
+                if (products.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (products.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (products.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + products.Data.ResponseStatus.ResponseCode + " - " + products.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
+
+            return products.Data.Data;
+        }
     }
 }

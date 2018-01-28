@@ -18,5 +18,7 @@ namespace CakeGUI.classes.service
         bool deleteProduct(ProductEntity product);
         ProductEntity getProductByBarcode(string barcode);
         List<ProductStockEntity> getStocks(ProductTypeEntity type, string barcode);
+        List<ProductStockEntity> getStocks(ProductTypeEntity type, ProductCategoryEntity category, string barcode);
+        List<ProductStockEntity> getStocks(ProductTypeEntity type, ProductCategoryEntity category, string barcode, string group);
     }
 }

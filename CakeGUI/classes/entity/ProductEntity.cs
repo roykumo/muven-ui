@@ -22,6 +22,8 @@ namespace CakeGUI.classes.entity
         //[DeserializeAs(Name = "name"), SerializeAs(Name = "name")]
         [JsonProperty("name")]
         public String Name { get; set; }
+        [JsonProperty("productGroup")]
+        public String ProductGroup { get; set; }
         //[DeserializeAs(Name = "type"), SerializeAs(Name = "type")]
         [JsonProperty("category")]
         public ProductCategoryEntity Category { get; set; }

@@ -8,15 +8,16 @@
       d:DesignHeight="420" d:DesignWidth="370"
       Title="Product" HorizontalAlignment="Center" VerticalAlignment="Center" Loaded="Page_Loaded">
     <Border Padding="10">
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="435" Width="350">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="470" Width="350">
             <Label Content="TItle" Name="lblSiteMap" FontWeight="Bold"/>
             <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Master Barang" TextDecorations="Underline" FontWeight="Bold" FontSize="18" Visibility="Hidden"/>
-            <Grid Margin="0 10" Height="175">
+            <Grid Margin="0 10" Height="210">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -28,6 +29,7 @@
                 <TextBlock Grid.Row="2" Text="Barcode 1" FontSize="14" VerticalAlignment="Bottom"/>
                 <TextBlock Grid.Row="3" Text="Barcode 2" FontSize="14" VerticalAlignment="Bottom"/>
                 <TextBlock Grid.Row="4" Text="Nama" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="5" Text="Group" FontSize="14" VerticalAlignment="Bottom"/>
 
                 <ComboBox Grid.Column="1" Grid.Row="0" Name="cmbType" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Id" SelectedValue="product.Category.Type.Id" DisplayMemberPath="Description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100" SelectionChanged="cmbType_SelectionChanged"/>
                 <ComboBox Grid.Column="1" Grid.Row="1" Name="cmbCategory" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Id" SelectedValue="product.Category.Id" DisplayMemberPath="Code" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100"/>
@@ -36,6 +38,7 @@
                 <TextBox Grid.Column="1" Grid.Row="2" Name="txtCode3" FontSize="14" Height="35" Width="70" HorizontalAlignment="Right"/>
                 <TextBox Grid.Column="1" Grid.Row="3" Name="txtBarcode" FontSize="14" Height="35"/>
                 <TextBox Grid.Column="1" Grid.Row="4" Name="txtName" FontSize="14" Height="35"/>
+                <ComboBox Grid.Column="1" Grid.Row="5" Name="cmbGroup" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Code" DisplayMemberPath="Description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100"/>
 
             </Grid>
 

@@ -10,5 +10,7 @@ namespace CakeGUI.classes.service
     interface ProductStockService
     {
         List<ProductStockEntity> getProductStock(ProductTypeEntity type, string barcode);
+        List<ProductStockEntity> getProductStock(ProductTypeEntity type, ProductCategoryEntity category, string barcode);
+        List<ProductStockEntity> getProductStock(ProductTypeEntity type, ProductCategoryEntity category, string barcode, string group);
     }
 }

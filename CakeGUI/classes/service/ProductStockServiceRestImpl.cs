@@ -17,6 +17,16 @@ namespace CakeGUI.classes.service
             return productService.getStocks(type, barcode);
         }
 
+        public List<ProductStockEntity> getProductStock(ProductTypeEntity type, ProductCategoryEntity category, string barcode)
+        {
+            return productService.getStocks(type, category, barcode);
+        }
+
+        public List<ProductStockEntity> getProductStock(ProductTypeEntity type, ProductCategoryEntity category, string barcode, String group)
+        {
+            return productService.getStocks(type, category, barcode, group);
+        }
+
         private static ProductStockServiceRestImpl instance;
         private ProductStockServiceRestImpl() { }
 
