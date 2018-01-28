@@ -10,6 +10,7 @@ namespace CakeGUI.classes.service
     interface ProductInventoryService
     {
         void saveProductInventory(InventoryEntity inventory);
+        InventoryEntity getById(string id);
 
         string getTrxCode(string type, string date);
     }

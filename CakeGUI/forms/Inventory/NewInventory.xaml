@@ -40,7 +40,7 @@
                 <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="4" x:Name="lblTransactionDate" TextWrapping="Wrap" Text="Tanggal Masuk" FontSize="16" FontWeight="Bold" Margin="0,0,0.4,0"/>
                 <DatePicker Grid.Column="1" Grid.Row="4" Name="date" Height="25" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False"/>
 
-                <Button Grid.Column="2" Grid.Row="5" Content="Tambah" Width="100" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="10" Click="btnAdd_Click"/>
+                <Button x:Name="btnAdd" Grid.Column="2" Grid.Row="5" Content="Tambah" Width="100" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="10" Click="btnAdd_Click"/>
             </Grid>
             <Grid>
                 <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" ItemsSource="{Binding inventories}" IsReadOnly="True" MaxHeight="300" >
@@ -102,10 +102,10 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="0" TextWrapping="Wrap" Text="Total Pembayaran" FontSize="16" FontWeight="Bold"/>
-                <TextBox x:Name="txtTotalBuyPrice" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Height="25" Text="" VerticalAlignment="Center" Width="120" IsEnabled="True" PreviewTextInput="txtTotalBuyPrice_PreviewTextInput"/>
-                <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="1" TextWrapping="Wrap" Text="Keterangan Pembayaran" FontSize="16" FontWeight="Bold"/>
-                <TextBox x:Name="txtTotalBuyPriceRemark" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Height="25" Text="" VerticalAlignment="Center" Width="330" IsEnabled="True"/>
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="0" TextWrapping="Wrap" Text="Total Pembayaran" FontSize="16" FontWeight="Bold" Visibility="Hidden"/>
+                <TextBox x:Name="txtTotalBuyPrice" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Height="25" Text="" VerticalAlignment="Center" Width="120" IsEnabled="True" PreviewTextInput="txtTotalBuyPrice_PreviewTextInput" Visibility="Hidden"/>
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="1" TextWrapping="Wrap" Text="Keterangan Pembayaran" FontSize="16" FontWeight="Bold" Visibility="Hidden"/>
+                <TextBox x:Name="txtTotalBuyPriceRemark" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Height="25" Text="" VerticalAlignment="Center" Width="330" IsEnabled="True" Visibility="Hidden"/>
                 <Button x:Name="btnConfirm" Grid.Column="2" Grid.Row="2" Content="Confirm" Width="100" Height="25" Click="btnConfirm_Click"/>
                 <Button x:Name="btnCancel" Grid.Column="3" Grid.Row="2" Content="Cancel" Width="100" Height="25" Click="btnCancel_Click"/>
             </Grid>

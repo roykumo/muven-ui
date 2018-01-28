@@ -108,5 +108,41 @@ namespace CakeGUI.classes.service
 
             return DateTime.Now.ToString("yyyyMMdd") + "_" + type + product.Data.Data.ToString().PadLeft(2, '0');
         }
+
+        public InventoryEntity getById(string id)
+        {
+            var request = new RestRequest("inventory/{id}", Method.GET);
+            request.AddUrlSegment("id", id);
+
+            IRestResponse<TCommonResponse<InventoryEntity>> inventory = client.Execute<TCommonResponse<InventoryEntity>>(request);
+
+            if (inventory.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + inventory.StatusCode + " - " + inventory.ErrorMessage);
+            }
+            else
+            {
+                if (inventory.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (inventory.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (inventory.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + inventory.Data.ResponseStatus.ResponseCode + " - " + inventory.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
+
+            return inventory.Data.Data;
+        }
     }
 }

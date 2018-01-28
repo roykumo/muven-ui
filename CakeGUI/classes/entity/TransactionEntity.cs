@@ -22,7 +22,9 @@ namespace CakeGUI.classes.entity
         public string Type { get; set; }
         [JsonProperty("transactionCode")]
         public string TransactionCode { get; set; }
-        
+        [JsonProperty("productType")]
+        public string ProductType { get; set; }
+
         [JsonIgnore]
         public decimal Revenue
         {

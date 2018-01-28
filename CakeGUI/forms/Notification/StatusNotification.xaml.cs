@@ -71,7 +71,7 @@ namespace CakeGUI.forms
         {
             try
             {
-                productStocks = notificationService.getStatusNotification((ProductTypeEntity)cmbType.SelectedItem);
+                productStocks = notificationService.getStatusNotification((ProductTypeEntity)cmbType.SelectedItem, txtBarcode.Text);
                 dataGrid.ItemsSource = null;
                 dataGrid.ItemsSource = productStocks;
             }

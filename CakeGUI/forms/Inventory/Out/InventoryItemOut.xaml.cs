@@ -27,6 +27,9 @@ namespace CakeGUI.forms
         private static ProductInventoryOutService inventoryOutService = ProductInventoryOutServiceRestImpl.Instance;
         private static SellPriceService sellPriceService = SellPriceServiceRestImpl.Instance;
 
+        public bool IsLoadPurchasePrice { get; set; } = true;
+        public bool IsLoadSellPrice { get; set; } = true;
+
         private ProductTypeEntity productType;
         public ProductTypeEntity ProductType
         {
@@ -51,18 +54,21 @@ namespace CakeGUI.forms
         {
             try
             {
-                if (product != null)
+                if (IsLoadPurchasePrice)
                 {
-                    List<ProductStockEntity> listStock = productService.getStocks(product.Category.Type, "");
-                    if (listStock != null || listStock.Count > 0)
+                    if (product != null)
                     {
-                        ProductStockEntity stock = listStock.Find(p => p.Product.Id == product.Id);
-                        if (stock != null)
+                        List<ProductStockEntity> listStock = productService.getStocks(product.Category.Type, "");
+                        if (listStock != null || listStock.Count > 0)
                         {
-                            txtPurchasePrice.Text = stock.BuyPrice.ToString();
+                            ProductStockEntity stock = listStock.Find(p => p.Product.Id == product.Id);
+                            if (stock != null)
+                            {
+                                txtPurchasePrice.Text = stock.BuyPrice.ToString();
+                            }
                         }
                     }
-                }
+                }               
             }
             catch (Exception ex)
             {
@@ -74,20 +80,23 @@ namespace CakeGUI.forms
         {
             try
             {
-                if (product != null)
+                if (IsLoadSellPrice)
                 {
-                    SellPrice = sellPriceService.getCurrentSellPrice(product);
-                    if (SellPrice == null)
+                    if (product != null)
                     {
-                        txtSellingPrice.Text = "";
-                        radioFalse.IsChecked = false;
-                        radioTrue.IsChecked = false;
-                    }
-                    else
-                    {
-                        txtSellingPrice.Text = SellPrice.SellingPrice.ToString();
-                        radioTrue.IsChecked = SellPrice.Sale;
-                        radioFalse.IsChecked = !SellPrice.Sale;
+                        SellPrice = sellPriceService.getCurrentSellPrice(product);
+                        if (SellPrice == null)
+                        {
+                            txtSellingPrice.Text = "";
+                            radioFalse.IsChecked = false;
+                            radioTrue.IsChecked = false;
+                        }
+                        else
+                        {
+                            txtSellingPrice.Text = SellPrice.SellingPrice.ToString();
+                            radioTrue.IsChecked = SellPrice.Sale;
+                            radioFalse.IsChecked = !SellPrice.Sale;
+                        }
                     }
                 }
             }
@@ -310,5 +319,6 @@ namespace CakeGUI.forms
                 MessageBox.Show("failed open add : "+ex.Message);
             }
         }
+
     }
 }

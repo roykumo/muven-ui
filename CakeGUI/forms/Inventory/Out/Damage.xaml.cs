@@ -35,6 +35,7 @@ namespace CakeGUI.forms
         private CommonPage commonPage;
         //private CommonPage commonPageOut;
         private string type="EX";
+        private bool IsReadOnly { get; set; }
 
         public Damage()
         {
@@ -47,6 +48,48 @@ namespace CakeGUI.forms
             InitializeComponent();
             this.type = type;
             init();
+        }
+
+        public Damage(InventoryOutEntity inventoryOut, bool readOnly)
+        {
+            InitializeComponent();
+            IsReadOnly = readOnly;
+
+            commonPage = new CommonPage();
+            if (type != null)
+            {
+                commonPage.Title = "Penghapusan Barang";
+            }
+
+            lblTitle.Text = commonPage.Title;
+
+            lblSiteMap.Content = commonPage.Title;
+
+            cmbType.IsEnabled = false;
+            txtTransactionCode.IsEnabled = false;
+            dateOut.IsEnabled = false;
+            btnAddOut.IsEnabled = false;
+            btnCancel.IsEnabled = false;
+            btnConfirm.IsEnabled = false;
+
+            if (inventoryOut != null)
+            {
+                if (inventoryOut.ProductType != null)
+                {
+                    List<ProductTypeEntity> productTypes = new List<ProductTypeEntity>();
+                    productTypes.Add(inventoryOut.ProductType);
+                    cmbType.ItemsSource = productTypes;
+                    cmbType.SelectedIndex = 0;
+                }
+
+                txtTransactionCode.Text = inventoryOut.TransactionCode;
+                dateOut.SelectedDate = inventoryOut.Date;
+                
+                if(inventoryOut.Items!=null && inventoryOut.Items.Count > 0)
+                {
+                    dataGridOut.ItemsSource = inventoryOut.Items;
+                }
+            }
         }
 
         private DateTime trxDate = DateTime.Now;
@@ -170,6 +213,8 @@ namespace CakeGUI.forms
                         outInventory.Date = dateOut.SelectedDate.Value;
                         outInventory.Items = outInventories;
                         outInventory.Type = type;
+                        outInventory.TransactionCode = txtTransactionCode.Text;
+                        outInventory.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
 
                         inventoryOutService.saveProductInventory(outInventory);
 
@@ -239,29 +284,53 @@ namespace CakeGUI.forms
 
         private void EditItemOutClicked(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                if (!IsReadOnly)
+                {
+                    InventoryItemOutEntity cellContent = (InventoryItemOutEntity)dataGridOut.SelectedItem;
 
+                    GenericWindow windowAdd = new GenericWindow();
+                    InventoryItemOut inventoryItemOutPage = new InventoryItemOut(cellContent);
+                    inventoryItemOutPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
+                    inventoryItemOutPage.SetParent(commonPage);
+                    inventoryItemOutPage.Tag = this;
+
+                    windowAdd.Content = inventoryItemOutPage;
+                    windowAdd.Owner = (this.Tag as MainWindow);
+                    windowAdd.ShowDialog();
+                    loadDataOut();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("failed edit : " + ex.Message);
+            }
         }
 
         private void EditSellPriceClicked(object sender, RoutedEventArgs e)
         {
             try
             {
-                InventoryItemOutEntity cellContent = (InventoryItemOutEntity)dataGridOut.SelectedItem;
-                GenericWindow editSellPrice = new GenericWindow();
+                if (!IsReadOnly)
+                {
+                    InventoryItemOutEntity cellContent = (InventoryItemOutEntity)dataGridOut.SelectedItem;
+                    GenericWindow editSellPrice = new GenericWindow();
 
-                SellPrice currentSellPrice = new SellPrice();
-                currentSellPrice.SellingPrice = cellContent.SellPrice.SellingPrice;
+                    SellPrice currentSellPrice = new SellPrice();
+                    currentSellPrice.SellingPrice = cellContent.SellPrice.SellingPrice;
 
-                SellPriceOverride sellPriceOverride = new SellPriceOverride(currentSellPrice, cellContent.SellPriceTrx);
-                sellPriceOverride.SetParent(commonPage);
-                sellPriceOverride.Tag = this;
-                editSellPrice.Content = sellPriceOverride;
-                editSellPrice.Owner = (this.Tag as MainWindow);
-                editSellPrice.ShowDialog();
+                    SellPriceOverride sellPriceOverride = new SellPriceOverride(currentSellPrice, cellContent.SellPriceTrx);
+                    sellPriceOverride.SetParent(commonPage);
+                    sellPriceOverride.Tag = this;
+                    editSellPrice.Content = sellPriceOverride;
+                    editSellPrice.Owner = (this.Tag as MainWindow);
+                    editSellPrice.ShowDialog();
 
-                cellContent.SellPriceTrx = currentSellPrice.SellingPrice;
+                    cellContent.SellPriceTrx = currentSellPrice.SellingPrice;
 
-                loadDataOut();
+                    loadDataOut();
+                }
             }
             catch (Exception ex)
             {
@@ -273,14 +342,17 @@ namespace CakeGUI.forms
         {
             try
             {
-                InventoryItemOutEntity cellContent = (InventoryItemOutEntity)dataGridOut.SelectedItem;
-                if (cellContent != null)
+                if (!IsReadOnly)
                 {
-                    MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin hapus Barang?", "Konfirmasi Hapus", System.Windows.MessageBoxButton.YesNo);
-                    if (messageBoxResult == MessageBoxResult.Yes)
+                    InventoryItemOutEntity cellContent = (InventoryItemOutEntity)dataGridOut.SelectedItem;
+                    if (cellContent != null)
                     {
-                        outInventories.Remove(cellContent);
-                        loadDataOut();
+                        MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin hapus Barang?", "Konfirmasi Hapus", System.Windows.MessageBoxButton.YesNo);
+                        if (messageBoxResult == MessageBoxResult.Yes)
+                        {
+                            outInventories.Remove(cellContent);
+                            loadDataOut();
+                        }
                     }
                 }
             }

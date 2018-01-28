@@ -32,11 +32,57 @@ namespace CakeGUI.forms
 
         private List<ProductTypeEntity> productTypes = new List<ProductTypeEntity>();
         private CommonPage commonPage;
+        public bool IsReadOnly { get; set; }
 
         public NewInventory()
         {
             InitializeComponent();
             init();
+        }
+
+        public NewInventory(InventoryEntity inventory, bool readOnly)
+        {
+            InitializeComponent();
+            IsReadOnly = readOnly;
+            btnCancel.IsEnabled = false;
+            btnConfirm.IsEnabled = false;
+            btnAdd.IsEnabled = false;
+            cmbType.IsEnabled = false;
+            txtInvoice.IsEnabled = false;
+            txtSupplier.IsEnabled = false;
+            txtTransactionCode.IsEnabled = false;
+            date.IsEnabled = false;
+            //txtTotalBuyPrice.IsEnabled = false;
+            //txtTotalBuyPriceRemark.IsEnabled = false;
+
+            commonPage = new CommonPage();
+            commonPage.Title = "Pembelian";
+            lblSiteMap.Content = commonPage.Title;
+
+            if (inventory != null)
+            {
+                if (readOnly)
+                {
+                    if (inventory.ProductType != null)
+                    {
+                        List<ProductTypeEntity> productTypes = new List<ProductTypeEntity>();
+                        productTypes.Add(inventory.ProductType);
+                        cmbType.ItemsSource = productTypes;
+                        cmbType.SelectedIndex = 0;
+                    }
+
+                    txtInvoice.Text = inventory.Invoice;
+                    txtSupplier.Text = inventory.Supplier;
+                    txtTransactionCode.Text = inventory.TransactionCode;
+                    date.SelectedDate = inventory.Date;
+
+                    if(inventory.Items!=null && inventory.Items.Count > 0)
+                    {
+                        dataGrid.ItemsSource = inventory.Items;
+                    }
+
+                }
+            }
         }
         
         public DateTime TrxDate { get; set; }
@@ -144,10 +190,10 @@ namespace CakeGUI.forms
                 {
                     MessageBox.Show("Kode transaksi harus diisi!");
                 }
-                else if (String.IsNullOrEmpty(txtTotalBuyPrice.Text))
-                {
-                    MessageBox.Show("Total harga harus diisi!");
-                }
+                //else if (String.IsNullOrEmpty(txtTotalBuyPrice.Text))
+                //{
+                //    MessageBox.Show("Total harga harus diisi!");
+                //}
                 else if (inventories.Count == 0)
                 {
                     MessageBox.Show("Input barang beli dulu!");
@@ -159,7 +205,7 @@ namespace CakeGUI.forms
                     confirmation += "Supplier \t\t\t: " + txtSupplier.Text + "\n\r";
                     confirmation += "Kode Transaksi \t\t: " + txtTransactionCode.Text + "\n\r";
                     confirmation += "Tanggal Barang Masuk \t: " + date.SelectedDate.Value.ToString("yyyy/MM/dd") + "\n\r";
-                    confirmation += "\n\rTotal Pembayaran \t\t: " + decimal.Parse(txtTotalBuyPrice.Text).ToString("0,0") + "\n\r";
+                    //confirmation += "\n\rTotal Pembayaran \t\t: " + decimal.Parse(txtTotalBuyPrice.Text).ToString("0,0") + "\n\r";
                     confirmation += "\n\rSelesaikan pembelian?";
 
                     MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show(confirmation, "Konfirmasi Beli", System.Windows.MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -170,7 +216,7 @@ namespace CakeGUI.forms
                         inventory.Invoice = txtInvoice.Text;
                         inventory.Supplier = txtSupplier.Text;
                         inventory.Date = date.SelectedDate.Value;
-                        inventory.TotalPrice = Int32.Parse(txtTotalBuyPrice.Text);
+                        //inventory.TotalPrice = Int32.Parse(txtTotalBuyPrice.Text);
                         inventory.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
                         inventory.Items = inventories;
 
@@ -181,8 +227,8 @@ namespace CakeGUI.forms
                         txtTransactionCode.Text = "";
                         txtInvoice.Text = "";
                         txtSupplier.Text = "";
-                        txtTotalBuyPrice.Text = "";
-                        txtTotalBuyPriceRemark.Text = "";
+                        //txtTotalBuyPrice.Text = "";
+                        //txtTotalBuyPriceRemark.Text = "";
                         date.SelectedDate = DateTime.Now;
 
                         //MessageBox.Show("Pembelian berhasil disimpan");
@@ -206,7 +252,7 @@ namespace CakeGUI.forms
 
                     inventories.Clear();
                     txtTransactionCode.Text = inventoryService.getTrxCode("PU", null);
-                    txtTotalBuyPrice.Text = "";
+                    //txtTotalBuyPrice.Text = "";
                     loadData();
                 }
             }
@@ -225,19 +271,22 @@ namespace CakeGUI.forms
         {
             try
             {
-                InventoryItemEntity cellContent = (InventoryItemEntity)dataGrid.SelectedItem;
-                //MessageBox.Show(cellContent.Product.Name);
+                if (!IsReadOnly)
+                {
+                    InventoryItemEntity cellContent = (InventoryItemEntity)dataGrid.SelectedItem;
+                    //MessageBox.Show(cellContent.Product.Name);
 
-                GenericWindow windowAdd = new GenericWindow();
-                Inventory inventoryPage = new Inventory(cellContent);
-                inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
-                inventoryPage.SetParent(commonPage);
-                inventoryPage.Tag = this;
+                    GenericWindow windowAdd = new GenericWindow();
+                    Inventory inventoryPage = new Inventory(cellContent);
+                    inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
+                    inventoryPage.SetParent(commonPage);
+                    inventoryPage.Tag = this;
 
-                windowAdd.Content = inventoryPage;
-                windowAdd.Owner = (this.Tag as MainWindow);
-                windowAdd.ShowDialog();
-                loadData();
+                    windowAdd.Content = inventoryPage;
+                    windowAdd.Owner = (this.Tag as MainWindow);
+                    windowAdd.ShowDialog();
+                    loadData();
+                }
             }
             catch (Exception ex)
             {
@@ -248,14 +297,17 @@ namespace CakeGUI.forms
         {
             try
             {
-                InventoryItemEntity cellContent = (InventoryItemEntity)dataGrid.SelectedItem;
-                if (cellContent != null)
+                if (!IsReadOnly)
                 {
-                    MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin hapus Barang?", "Konfirmasi Hapus", System.Windows.MessageBoxButton.YesNo);
-                    if (messageBoxResult == MessageBoxResult.Yes)
+                    InventoryItemEntity cellContent = (InventoryItemEntity)dataGrid.SelectedItem;
+                    if (cellContent != null)
                     {
-                        inventories.Remove(cellContent);
-                        loadData();
+                        MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Yakin hapus Barang?", "Konfirmasi Hapus", System.Windows.MessageBoxButton.YesNo);
+                        if (messageBoxResult == MessageBoxResult.Yes)
+                        {
+                            inventories.Remove(cellContent);
+                            loadData();
+                        }
                     }
                 }
             }

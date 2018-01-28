@@ -38,6 +38,7 @@ namespace CakeGUI.forms
         private string type="CR";
         public bool IsFinish { get; set; }
         private bool IsPrint { get; set; }
+        private bool IsReadOnly { get; set; }
 
         PaymentEntity payment;
 
@@ -54,6 +55,58 @@ namespace CakeGUI.forms
             this.type = type;
             init();
             DataObject.AddPastingHandler(txtBarcode, onPaste);
+        }
+
+        public CashRegister(InventoryOutEntity inventoryOut, bool readOnly)
+        {
+            InitializeComponent();
+            IsReadOnly = readOnly;
+
+            dateOut.IsEnabled = false;
+            txtBarcode.IsEnabled = false;
+            txtPaymentType.IsEnabled = false;
+            txtPayAmount.IsEnabled = false;
+            txtExchange.IsEnabled = false;
+            btnCancel.IsEnabled = false;
+            btnConfirm.IsEnabled = false;
+            btnAddOut.IsEnabled = false;
+
+            CommonPage parent = new CommonPage();
+            parent.Title = "Stock In";
+
+            commonPage = new CommonPage();
+            if (type != null)
+            {
+                commonPage.Title = "Cash Register";
+            }
+
+            lblTitle.Text = commonPage.Title;
+
+            commonPage.ParentPage = parent;
+            lblSiteMap.Content = commonPage.Title;
+
+            if (inventoryOut != null)
+            {
+                if (readOnly)
+                {
+                    txtTransactionCode.Text = inventoryOut.TransactionCode;
+                    dateOut.SelectedDate = inventoryOut.Date;
+                    txtTotalPrice.Text = inventoryOut.TotalPrice.ToString("0,0");
+                    
+                    if (inventoryOut.Payment != null)
+                    {
+                        txtPaymentType.Text = inventoryOut.Payment.Type;
+                        txtPayAmount.Text = inventoryOut.Payment.PayAmount.ToString("0,0");
+                        txtExchange.Text = (inventoryOut.Payment.PayAmount - inventoryOut.Payment.TotalAmount).ToString("0,0");
+                    }
+
+                    if(inventoryOut.Items!=null && inventoryOut.Items.Count > 0)
+                    {
+                        dataGridOut.ItemsSource = inventoryOut.Items;
+                    }
+
+                }
+            }
         }
 
         bool isPaste = false;
@@ -177,64 +230,27 @@ namespace CakeGUI.forms
                 }
                 else
                 {
-                    MessageBoxResult messageBoxResult;
-                    if (string.IsNullOrEmpty(payment.Type))
+                    GenericWindow windowAdd = new GenericWindow();
+                    Payment paymentForm = new Payment(payment);
+
+                    paymentForm.SetParent(commonPage);
+                    paymentForm.Tag = this;
+
+                    windowAdd.Content = paymentForm;
+                    windowAdd.Owner = (this.Tag as MainWindow);
+                    windowAdd.ShowDialog();
+
+                    txtPaymentType.Text = payment.Type;
+                    txtPayAmount.Text = payment.PayAmount.ToString("0,0");
+                    if (payment.Type.Equals(Payment.TYPE_CASH))
                     {
-                        messageBoxResult = System.Windows.MessageBox.Show("Selesaikan Transaksi?", "Konfirmasi Bayar", System.Windows.MessageBoxButton.YesNo);
+                        lblExchange.Text = "Uang Kembali";
+                        txtExchange.Text = (payment.PayAmount - payment.TotalAmount).ToString("0,0");
                     }
-                    else
+                    else if (payment.Type.Equals(Payment.TYPE_EDC))
                     {
-                        messageBoxResult = MessageBoxResult.Yes;
-                    }
-
-                    if (messageBoxResult == MessageBoxResult.Yes)
-                    {
-                        GenericWindow windowAdd = new GenericWindow();
-                        Payment paymentForm = new Payment(payment);
-
-                        paymentForm.SetParent(commonPage);
-                        paymentForm.Tag = this;
-
-                        windowAdd.Content = paymentForm;
-                        windowAdd.Owner = (this.Tag as MainWindow);
-                        windowAdd.ShowDialog();
-
-                        if (!string.IsNullOrEmpty(payment.Type))
-                        {
-                            txtPaymentType.Text = payment.Type;
-                            txtPayAmount.Text = payment.PayAmount.ToString("0,0");
-                            if (payment.Type.Equals(Payment.TYPE_CASH))
-                            {
-                                txtExchange.Text = (payment.PayAmount - payment.TotalAmount).ToString("0,0");
-                            }
-                            else if (payment.Type.Equals(Payment.TYPE_EDC))
-                            {
-                                txtExchange.Text = payment.ReceiptNo;
-                            }
-                            if (payment.PayAmount > 0 || !string.IsNullOrEmpty(payment.ReceiptNo))
-                            {
-                                InventoryOutEntity outInventory = new InventoryOutEntity();
-                                outInventory.Date = dateOut.SelectedDate.Value;
-                                outInventory.Items = outInventories;
-                                outInventory.Type = type;
-                                outInventory.Remarks = txtPaymentType.Text + " - " + payment.PayAmount.ToString("0,0") + " - " + payment.ReceiptNo;
-                                outInventory.TotalPrice = decimal.Parse(txtTotalPrice.Text);
-                                outInventory.TransactionCode = txtTransactionCode.Text;
-                                outInventory.Payment = payment;
-
-                                inventoryOutService.saveProductInventory(outInventory);
-
-                                IsFinish = true;
-                                btnAddOut.IsEnabled = false;
-                                btnConfirm.IsEnabled = false;
-                                btnPrint.IsEnabled = true;
-
-                                loadDataOut();
-
-                                //MessageBox.Show("Cash Register berhasil disimpan");
-                            }
-                        }
-
+                        lblExchange.Text = "No. Struk EDC";
+                        txtExchange.Text = payment.ReceiptNo;
                     }
                 }
             }
@@ -324,6 +340,49 @@ namespace CakeGUI.forms
         {
             try
             {
+                MessageBoxResult messageBoxResult;
+                if (string.IsNullOrEmpty(payment.Type))
+                {
+                    messageBoxResult = System.Windows.MessageBox.Show("Selesaikan Transaksi?", "Konfirmasi Bayar", System.Windows.MessageBoxButton.YesNo);
+                }
+                else
+                {
+                    messageBoxResult = MessageBoxResult.Yes;
+                }
+
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    
+                    if (!string.IsNullOrEmpty(payment.Type))
+                    {
+                        
+                        if (payment.PayAmount > 0 || !string.IsNullOrEmpty(payment.ReceiptNo))
+                        {
+                            InventoryOutEntity outInventory = new InventoryOutEntity();
+                            outInventory.Date = dateOut.SelectedDate.Value;
+                            outInventory.Items = outInventories;
+                            outInventory.Type = type;
+                            outInventory.Remarks = txtPaymentType.Text + " - " + payment.PayAmount.ToString("0,0") + " - " + payment.ReceiptNo;
+                            outInventory.TotalPrice = decimal.Parse(txtTotalPrice.Text);
+                            outInventory.TransactionCode = txtTransactionCode.Text;
+                            outInventory.Payment = payment;
+
+                            inventoryOutService.saveProductInventory(outInventory);
+
+                            IsFinish = true;
+                            btnAddOut.IsEnabled = false;
+                            btnConfirm.IsEnabled = false;
+                            btnPrint.IsEnabled = true;
+
+                            loadDataOut();
+
+                            //MessageBox.Show("Cash Register berhasil disimpan");
+                        }
+                    }
+
+                }
+
+
                 clearData();
                 loadDataOut();
                 dateOut.SelectedDate = DateTime.Now;
@@ -365,7 +424,7 @@ namespace CakeGUI.forms
         {
             try
             {
-                if (!IsFinish)
+                if (!IsFinish && !IsReadOnly)
                 {
                     InventoryItemOutEntity cellContent = (InventoryItemOutEntity)dataGridOut.SelectedItem;
                     if (cellContent != null)

@@ -10,6 +10,6 @@ namespace CakeGUI.classes.service
     interface NotificationService
     {
         List<SaleNotificationEntity> getSaleNotification(ProductTypeEntity type);
-        List<StatusNotificationEntity> getStatusNotification(ProductTypeEntity type);
+        List<StatusNotificationEntity> getStatusNotification(ProductTypeEntity type, string barcode);
     }
 }

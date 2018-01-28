@@ -69,5 +69,40 @@ namespace CakeGUI.classes.service
             InventoryOutEntity savedProduct = response.Data.Data;            
         }
 
+        public InventoryOutEntity getById(string id)
+        {
+            var request = new RestRequest("inventory/out/{id}", Method.GET);
+            request.AddUrlSegment("id", id);
+
+            IRestResponse<TCommonResponse<InventoryOutEntity>> inventoryOut = client.Execute<TCommonResponse<InventoryOutEntity>>(request);
+
+            if (inventoryOut.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + inventoryOut.StatusCode + " - " + inventoryOut.ErrorMessage);
+            }
+            else
+            {
+                if (inventoryOut.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (inventoryOut.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (inventoryOut.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + inventoryOut.Data.ResponseStatus.ResponseCode + " - " + inventoryOut.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
+
+            return inventoryOut.Data.Data;
+        }
     }
 }

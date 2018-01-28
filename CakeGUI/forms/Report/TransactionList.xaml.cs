@@ -23,8 +23,12 @@ namespace CakeGUI.forms
     /// </summary>
     public partial class TransactionList : Page
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private static TransactionService transactionService = TransactionServiceRestImpl.Instance;
-        
+        private static ProductInventoryOutService productInventoryOutService = ProductInventoryOutServiceRestImpl.Instance;
+        private static ProductInventoryService productInventoryService = ProductInventoryServiceRestImpl.Instance;
+
         private List<TransactionEntity> productTypes = new List<TransactionEntity>();
 
         private CommonPage commonPage;
@@ -70,20 +74,116 @@ namespace CakeGUI.forms
             }
         }
 
-        private void ProductNameClicked(object sender, MouseButtonEventArgs e)
+        private void TransactionCodeClicked(object sender, MouseButtonEventArgs e)
         {
             try
             {
-                ProductStockEntity cellContent = (ProductStockEntity)dataGrid.SelectedItem;
+                /*ProductStockEntity cellContent = (ProductStockEntity)dataGrid.SelectedItem;
                 GenericWindow windowInventoryList = new GenericWindow();
                 ProductInventoryList inventoryListPage = new ProductInventoryList(cellContent.Product);
                 inventoryListPage.SetParent(commonPage);
 
                 windowInventoryList.Content = inventoryListPage;
-                windowInventoryList.ShowDialog();
+                windowInventoryList.ShowDialog();*/
+
+
+
+                TransactionEntity transactionEntity = (TransactionEntity)dataGrid.SelectedItem;
+                if (transactionEntity.Type.Equals("CASH REGISTER"))
+                {
+                    InventoryOutEntity inventoryOut = productInventoryOutService.getById(transactionEntity.Id);
+                    if (inventoryOut != null)
+                    {
+                        CashRegister cashRegister = new CashRegister(inventoryOut, true);
+                        
+                        GenericWindow windowInventoryList = new GenericWindow();
+                        cashRegister.SetParent(commonPage);
+                        windowInventoryList.Content = cashRegister;
+                        windowInventoryList.ShowDialog();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No Transaction data");
+                    }
+                }
+                else if(transactionEntity.Type.Equals("PEMBELIAN"))
+                {
+                    InventoryEntity inventory = productInventoryService.getById(transactionEntity.Id);
+                    if (inventory != null)
+                    {
+                        NewInventory newInventory = new NewInventory(inventory, true);
+
+                        GenericWindow windowInventoryList = new GenericWindow();
+                        newInventory.SetParent(commonPage);
+                        windowInventoryList.Content = newInventory;
+                        windowInventoryList.ShowDialog();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No Transaction data");
+                    }
+                }
+                else if (transactionEntity.Type.Equals("REPACKING") || transactionEntity.Type.Equals("STOCK OPNAME"))
+                {
+                    InventoryOutEntity inventoryOut = productInventoryOutService.getById(transactionEntity.Id);
+                    if (inventoryOut != null)
+                    {
+                        InventoryOut dataOut = new InventoryOut(inventoryOut, true);
+
+                        GenericWindow windowInventoryList = new GenericWindow();
+                        dataOut.SetParent(commonPage);
+                        windowInventoryList.Content = dataOut;
+                        windowInventoryList.ShowDialog();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No Transaction data");
+                    }
+                }
+                else if (transactionEntity.Type.Equals("PENJUALAN ONLINE"))
+                {
+                    InventoryOutEntity inventoryOut = productInventoryOutService.getById(transactionEntity.Id);
+                    if (inventoryOut != null)
+                    {
+                        OnlineTransaction dataOut = new OnlineTransaction(inventoryOut, true);
+
+                        GenericWindow windowInventoryList = new GenericWindow();
+                        dataOut.SetParent(commonPage);
+                        windowInventoryList.Content = dataOut;
+                        windowInventoryList.ShowDialog();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No Transaction data");
+                    }
+                }
+                else if (transactionEntity.Type.Equals("PENGHAPUSAN"))
+                {
+                    InventoryOutEntity inventoryOut = productInventoryOutService.getById(transactionEntity.Id);
+                    if (inventoryOut != null)
+                    {
+                        Damage dataOut = new Damage(inventoryOut, true);
+
+                        GenericWindow windowInventoryList = new GenericWindow();
+                        dataOut.SetParent(commonPage);
+                        windowInventoryList.Content = dataOut;
+                        windowInventoryList.ShowDialog();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No Transaction data");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Not implemented yet");
+                }
+
             }
             catch (Exception ex)
             {
+                log.Error("error");
+                log.Error(ex);
                 MessageBox.Show("failed show detail : "+ex.Message);
             }
         }
@@ -152,5 +252,6 @@ namespace CakeGUI.forms
         {
             lblSiteMap.Content = commonPage.TitleSiteMap;
         }
+        
     }
 }

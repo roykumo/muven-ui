@@ -30,7 +30,7 @@
                     <ColumnDefinition Width="5*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Jenis" Grid.Column="0" FontSize="14" FontWeight="Bold" VerticalAlignment="Bottom" Padding="0 0 15 0"/>
-                <ComboBox x:Name="cmbType" Grid.Column="1" SelectedValuePath="Id" FontSize="16" DisplayMemberPath="Description" HorizontalAlignment="Left" Width="100"/>
+                <ComboBox x:Name="cmbType" Grid.Column="1" SelectedValuePath="Id" FontSize="16" DisplayMemberPath="Description" HorizontalAlignment="Left" Width="100" SelectionChanged="cmbType_SelectionChanged"/>
 
                 <TextBlock Text="Barcode" Grid.Column="0" Grid.Row="1" FontSize="14" FontWeight="Bold" VerticalAlignment="Bottom" Padding="0 0 15 0"/>
                 <TextBox Grid.Column="1" Grid.Row="1" Name="txtBarcode" Width="150" HorizontalAlignment="Left" />

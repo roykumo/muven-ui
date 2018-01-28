@@ -36,7 +36,15 @@
                                 </Style>
                             </DataGridTextColumn.CellStyle>
                         </DataGridTextColumn>-->
-                        <DataGridTextColumn Binding="{Binding TransactionCode}" Header="Kode Transaksi" />
+                        <DataGridTextColumn Binding="{Binding TransactionCode}" Header="Kode Transaksi" Foreground="#FF1800FF" >
+                            <DataGridTextColumn.CellStyle>
+                                <Style>
+                                    <EventSetter Event="DataGridCell.MouseLeftButtonDown"
+                                        Handler="TransactionCodeClicked" />
+                                    <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Date, StringFormat=\{0:yyyy-MM-dd\}}" Header="Tanggal"/>
                         <DataGridTextColumn Binding="{Binding Type}" Header="Tipe Transaksi"/>
                         <DataGridTextColumn Binding="{Binding ProductType}" Header="Jenis Barang"/>
