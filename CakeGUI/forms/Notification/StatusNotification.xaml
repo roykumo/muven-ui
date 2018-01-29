@@ -25,15 +25,18 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="4*" />
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="6*" />
+                    <ColumnDefinition Width="5*" />
+                    <ColumnDefinition Width="7*" />
                     <ColumnDefinition Width="5*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Jenis" Grid.Column="0" FontSize="14" FontWeight="Bold" VerticalAlignment="Bottom" Padding="0 0 15 0"/>
                 <ComboBox x:Name="cmbType" Grid.Column="1" SelectedValuePath="Id" FontSize="16" DisplayMemberPath="Description" HorizontalAlignment="Left" Width="100" SelectionChanged="cmbType_SelectionChanged"/>
+                <ComboBox x:Name="cmbCategory" Grid.Column="2" SelectedValuePath="Id" FontSize="12" DisplayMemberPath="Code" HorizontalAlignment="Left" Width="150" />
+                <ComboBox x:Name="cmbGroup" Grid.Column="3" SelectedValuePath="Code" FontSize="14" DisplayMemberPath="Description" HorizontalAlignment="Left" Width="125" />
 
                 <TextBlock Text="Barcode" Grid.Column="0" Grid.Row="1" FontSize="14" FontWeight="Bold" VerticalAlignment="Bottom" Padding="0 0 15 0"/>
-                <TextBox Grid.Column="1" Grid.Row="1" Name="txtBarcode" Width="150" HorizontalAlignment="Left" />
+                <TextBox Grid.Column="1" Grid.Row="1" Name="txtBarcode" Width="125" HorizontalAlignment="Left" />
                 <Button Content="Cari" Grid.Column="2" Grid.Row="1" Click="btnSearch_Click" Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="10" Margin="5 0 0 0"/>
                 
             </Grid>

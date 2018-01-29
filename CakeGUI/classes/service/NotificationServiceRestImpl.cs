@@ -109,5 +109,56 @@ namespace CakeGUI.classes.service
 
             return products.Data.Data;
         }
+
+        public List<StatusNotificationEntity> getStatusNotification(ProductTypeEntity type, string category, string barcode, string group)
+        {
+            var request = new RestRequest("notification/status", Method.GET);
+            client.AddHandler("application/json", util.JsonSerializer.Default);
+            request.JsonSerializer = util.JsonSerializer.Default;
+
+            request.AddQueryParameter("type", type.Id);
+            if (!string.IsNullOrEmpty(category))
+            {
+                request.AddQueryParameter("category", category);
+            }
+            if (!string.IsNullOrEmpty(barcode))
+            {
+                request.AddQueryParameter("barcode", barcode);
+            }
+            if (!string.IsNullOrEmpty(group))
+            {
+                request.AddQueryParameter("group", group);
+            }
+
+            IRestResponse<TCommonResponse<List<StatusNotificationEntity>>> products = client.Execute<TCommonResponse<List<StatusNotificationEntity>>>(request);
+
+            if (products.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("error http : " + products.StatusCode + " - " + products.ErrorMessage);
+            }
+            else
+            {
+                if (products.Data == null)
+                {
+                    throw new Exception("response data null");
+                }
+                else
+                {
+                    if (products.Data.ResponseStatus == null)
+                    {
+                        throw new Exception("response status null");
+                    }
+                    else
+                    {
+                        if (products.Data.ResponseStatus.ResponseCode != "00")
+                        {
+                            throw new Exception("error api : " + products.Data.ResponseStatus.ResponseCode + " - " + products.Data.ResponseStatus.ResponseDesc);
+                        }
+                    }
+                }
+            }
+
+            return products.Data.Data;
+        }
     }
 }

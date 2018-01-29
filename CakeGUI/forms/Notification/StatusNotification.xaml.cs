@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CakeGUI.classes.service;
 using CakeGUI.classes.entity;
+using CakeGUI.classes.util;
 
 namespace CakeGUI.forms
 {
@@ -25,9 +26,11 @@ namespace CakeGUI.forms
     {
         private static ProductService productService = ProductServiceRestImpl.Instance;
         private static ProductTypeService productTypeService = ProductTypeServiceRestImpl.Instance;
+        private static ProductCategoryService productCategoryService = ProductCategoryServiceRestImpl.Instance;
 
         NotificationService notificationService = NotificationServiceRestImpl.Instance;
         private List<ProductTypeEntity> productTypes = new List<ProductTypeEntity>();
+        private List<ProductCategoryEntity> productCategories = new List<ProductCategoryEntity>();
 
         private CommonPage commonPage;
 
@@ -55,6 +58,8 @@ namespace CakeGUI.forms
                 cmbType.ItemsSource = productTypes;
                 cmbType.SelectedIndex = 0;
 
+                cmbGroup.ItemsSource = Utils.ListProductGroupWithBlank;
+
                 loadData();
                 //if(cmbType.SelectedIndex >= 0 )
                 //    this.dataGrid.ItemsSource = productStocks.Where(x => x.Product.Type != null && string.Equals(x.Product.Type.Id, ((ProductTypeEntity)cmbType.SelectedItem).Id));
@@ -71,7 +76,7 @@ namespace CakeGUI.forms
         {
             try
             {
-                productStocks = notificationService.getStatusNotification((ProductTypeEntity)cmbType.SelectedItem, txtBarcode.Text);
+                productStocks = notificationService.getStatusNotification((ProductTypeEntity)cmbType.SelectedItem, (string)cmbCategory.SelectedValue, txtBarcode.Text, (string)cmbGroup.SelectedValue);
                 dataGrid.ItemsSource = null;
                 dataGrid.ItemsSource = productStocks;
             }
@@ -175,6 +180,7 @@ namespace CakeGUI.forms
                 ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
                 if (type != null)
                 {
+                    initCategories(type);
                     dataGrid.Columns[2].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
                     //dataGrid.Columns[6].Header = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
                     loadData();
@@ -188,6 +194,19 @@ namespace CakeGUI.forms
             {
                 MessageBox.Show("failed combo change : "+ex.Message);
             }
+        }
+        
+        private void initCategories(ProductTypeEntity type)
+        {
+            productCategories = productCategoryService.getProductCategoriesByType(type, true);
+            if (productCategories != null && productCategories.Count > 0)
+            {
+                ProductCategoryEntity blankCategory = new ProductCategoryEntity();
+                blankCategory.Id = "";
+                blankCategory.Code = "ALL";
+                productCategories.Insert(0, blankCategory);
+            }
+            cmbCategory.ItemsSource = productCategories;
         }
 
         public void SetParent(CommonPage page)

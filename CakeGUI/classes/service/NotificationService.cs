@@ -11,5 +11,6 @@ namespace CakeGUI.classes.service
     {
         List<SaleNotificationEntity> getSaleNotification(ProductTypeEntity type);
         List<StatusNotificationEntity> getStatusNotification(ProductTypeEntity type, string barcode);
+        List<StatusNotificationEntity> getStatusNotification(ProductTypeEntity type, string category, string barcode, string group);
     }
 }
