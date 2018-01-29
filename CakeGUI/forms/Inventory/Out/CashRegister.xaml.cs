@@ -240,17 +240,21 @@ namespace CakeGUI.forms
                     windowAdd.Owner = (this.Tag as MainWindow);
                     windowAdd.ShowDialog();
 
-                    txtPaymentType.Text = payment.Type;
-                    txtPayAmount.Text = payment.PayAmount.ToString("0,0");
-                    if (payment.Type.Equals(Payment.TYPE_CASH))
+                    if (payment != null)
                     {
-                        lblExchange.Text = "Uang Kembali";
-                        txtExchange.Text = (payment.PayAmount - payment.TotalAmount).ToString("0,0");
-                    }
-                    else if (payment.Type.Equals(Payment.TYPE_EDC))
-                    {
-                        lblExchange.Text = "No. Struk EDC";
-                        txtExchange.Text = payment.ReceiptNo;
+                        txtPaymentType.Text = payment.Type;
+                        txtPayAmount.Text = payment.PayAmount.ToString("0,0");
+                        if (payment.Type.Equals(Payment.TYPE_CASH))
+                        {
+                            lblExchange.Text = "Uang Kembali";
+                            txtExchange.Text = (payment.PayAmount - payment.TotalAmount).ToString("0,0");
+                        }
+                        else if (payment.Type.Equals(Payment.TYPE_EDC))
+                        {
+                            lblExchange.Text = "No. Struk EDC";
+                            txtExchange.Text = payment.ReceiptNo;
+                        }
+                        btnPrint.IsEnabled = true;
                     }
                 }
             }
