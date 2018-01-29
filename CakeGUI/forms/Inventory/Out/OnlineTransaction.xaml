@@ -7,7 +7,7 @@
       xmlns:local="clr-namespace:CakeGUI.forms"
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="300"
-      Title="ProductInventoryList" Width="800" Height="780">
+      Title="ProductInventoryList" Width="800" Height="780" Loaded="Page_Loaded">
 
     <Border Padding="10">
         <StackPanel HorizontalAlignment="Left" Height="760" VerticalAlignment="Top" Width="780" Margin="0.4,0.4,-0.4,-0.4">

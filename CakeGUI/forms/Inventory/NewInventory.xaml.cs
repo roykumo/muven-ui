@@ -149,6 +149,7 @@ namespace CakeGUI.forms
                 inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
                 inventoryPage.SetParent(commonPage);
                 inventoryPage.Tag = this;
+                inventoryPage.TrxType = "PU";
 
                 windowAdd.Content = inventoryPage;
                 windowAdd.Owner = (this.Tag as MainWindow);

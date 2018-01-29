@@ -42,6 +42,8 @@ namespace CakeGUI.forms
         public bool EditMode { get; set; }
         public SellPrice SellPrice { get; set; }
 
+        public String TrxType { get; set; } = "";
+
         private void init()
         {
             commonPage = new CommonPage();
@@ -215,7 +217,8 @@ namespace CakeGUI.forms
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            try
+            openWindowAddItem(txtBarcode.Text);
+            /*try
             {
                 if (String.IsNullOrEmpty(txtBarcode.Text))
                 {
@@ -243,7 +246,7 @@ namespace CakeGUI.forms
             catch (Exception ex)
             {
                 MessageBox.Show("failed search : " +ex.Message);
-            }
+            }*/
         }
 
         public void SetParent(CommonPage page)
@@ -263,6 +266,38 @@ namespace CakeGUI.forms
                 txtSellingPrice.Text = SellPrice.SellingPrice.ToString();
                 radioFalse.IsChecked = !SellPrice.Sale;
                 radioTrue.IsChecked = SellPrice.Sale;
+            }
+            this.KeyDown += new KeyEventHandler(Page_KeyDown);
+        }
+
+        DateTime _lastKeystroke = new DateTime(0);
+        List<char> _barcode = new List<char>(20);
+        void Page_KeyDown(object sender, KeyEventArgs e)
+        {
+            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            if (elapsed.TotalMilliseconds > 100)
+                _barcode.Clear();
+
+            // process barcode
+            if (e.Key == Key.Enter)
+            {
+                if (_barcode.Count > 0)
+                {
+                    string msg = new String(_barcode.ToArray());
+                    _barcode.Clear();
+                    openWindowAddItem(msg);
+                }
+            }
+            else if((e.Key >= Key.D0 && e.Key <= Key.D9))
+            {
+                // record keystroke & timestamp
+                _barcode.Add(Convert.ToChar(e.Key.ToString().Substring(1, 1)));
+                _lastKeystroke = DateTime.Now;
+            }else if(e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
+            {
+                // record keystroke & timestamp
+                _barcode.Add(Convert.ToChar(e.Key.ToString().Substring(6, 1)));
+                _lastKeystroke = DateTime.Now;
             }
         }
 
@@ -303,13 +338,26 @@ namespace CakeGUI.forms
                 {
                     MessageBox.Show("Barang tidak ditemukan");
                     txtName.Text = "";
+                    txtPurchasePrice.Text = "";
+                    txtSellingPrice.Text = "";
                     product = null;
                 }
                 else
                 {
-                    product = p;
-                    txtBarcode.Text = product.BarCode;
-                    txtName.Text = product.Name;
+                    if (TrxType.Equals("RE") && !p.ProductGroup.Equals("BULK"))
+                    {
+                        MessageBox.Show("Hanya bisa barang Bulk");
+                        txtName.Text = "";
+                        txtPurchasePrice.Text = "";
+                        txtSellingPrice.Text = "";
+                        product = null;
+                    }
+                    else
+                    {
+                        product = p;
+                        txtBarcode.Text = product.BarCode;
+                        txtName.Text = product.Name;
+                    }
                 }
                 loadLatestPurchasePrice();
                 loadCurrentSellPrice();

@@ -159,7 +159,7 @@ namespace CakeGUI.forms
 
                 loadData();
 
-                txtTransactionCode.Text = inventoryService.getTrxCode("CR", null);
+                txtTransactionCode.Text = inventoryService.getTrxCode(this.type, null);
             }
             catch (Exception ex)
             {
@@ -265,7 +265,7 @@ namespace CakeGUI.forms
             try
             {
                 payment = new PaymentEntity();
-                txtTransactionCode.Text = inventoryService.getTrxCode("CR", null);
+                txtTransactionCode.Text = inventoryService.getTrxCode(this.type, null);
                 txtTotalPrice.Text = "";
                 txtPaymentType.Text = "";
                 txtPayAmount.Text = "";
@@ -472,6 +472,7 @@ namespace CakeGUI.forms
 
                 addItemOut.SetParent(commonPage);
                 addItemOut.Tag = this;
+                addItemOut.TrxType = this.type;
 
                 windowAdd.Content = addItemOut;
                 windowAdd.Owner = (this.Tag as MainWindow);
@@ -483,5 +484,44 @@ namespace CakeGUI.forms
                 MessageBox.Show("failed open add : "+ex.Message);
             }
         }
+
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.KeyDown += new KeyEventHandler(Page_KeyDown);
+        }
+
+        DateTime _lastKeystroke = new DateTime(0);
+        List<char> _barcode = new List<char>(20);
+        void Page_KeyDown(object sender, KeyEventArgs e)
+        {
+            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            if (elapsed.TotalMilliseconds > 100)
+                _barcode.Clear();
+
+            // process barcode
+            if (e.Key == Key.Enter)
+            {
+                if (_barcode.Count > 0)
+                {
+                    string msg = new String(_barcode.ToArray());
+                    _barcode.Clear();
+                    openWindowAddItem(msg);
+                }
+            }
+            else if ((e.Key >= Key.D0 && e.Key <= Key.D9))
+            {
+                // record keystroke & timestamp
+                _barcode.Add(Convert.ToChar(e.Key.ToString().Substring(1, 1)));
+                _lastKeystroke = DateTime.Now;
+            }
+            else if (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
+            {
+                // record keystroke & timestamp
+                _barcode.Add(Convert.ToChar(e.Key.ToString().Substring(6, 1)));
+                _lastKeystroke = DateTime.Now;
+            }
+        }
+
     }
 }

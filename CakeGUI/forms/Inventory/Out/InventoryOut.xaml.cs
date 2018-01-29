@@ -228,6 +228,7 @@ namespace CakeGUI.forms
                     inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
                     inventoryPage.SetParent(commonPageIn);
                     inventoryPage.Tag = this;
+                    inventoryPage.TrxType = this.type;
 
                     windowAdd.Content = inventoryPage;
                     windowAdd.Owner = (this.Tag as MainWindow);
@@ -409,6 +410,7 @@ namespace CakeGUI.forms
 
                 inventoryPage.SetParent(commonPageOut);
                 inventoryPage.Tag = this;
+                inventoryPage.TrxType = this.type;
 
                 windowAdd.Content = inventoryPage;
                 windowAdd.Owner = (this.Tag as MainWindow);

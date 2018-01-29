@@ -35,7 +35,7 @@ namespace CakeGUI.forms
         private CommonPage commonPage;
         private CommonPage commonPageIn;
         private CommonPage commonPageOut;
-        private string type;
+        private string type="SA";
         private bool IsReadOnly;
         //private PaymentEntity payment;
 
@@ -162,7 +162,7 @@ namespace CakeGUI.forms
 
                 loadData();
 
-                txtTransactionCode.Text = inventoryService.getTrxCode("SA", null);
+                txtTransactionCode.Text = inventoryService.getTrxCode(this.type, null);
             }
             catch (Exception ex)
             {
@@ -271,7 +271,7 @@ namespace CakeGUI.forms
                         //inventories.Clear();
                         //loadData();
                         outInventories.Clear();
-                        txtTransactionCode.Text = inventoryService.getTrxCode("SA", null);
+                        txtTransactionCode.Text = inventoryService.getTrxCode(this.type, null);
                         loadDataOut();
                         txtTotalPrice.Text = "";
                         txtTotalPriceRemark.Text = "";
@@ -299,7 +299,7 @@ namespace CakeGUI.forms
                     inventories.Clear();
                     outInventories.Clear();
                     //txtTransactionCode.Text = "";
-                    txtTransactionCode.Text = inventoryService.getTrxCode("SA", null);
+                    txtTransactionCode.Text = inventoryService.getTrxCode(this.type, null);
                     loadData();
                     loadDataOut();
                 }
@@ -356,6 +356,7 @@ namespace CakeGUI.forms
                 addItemOut.IsJoinSameProduct = false;
                 addItemOut.SetParent(commonPageOut);
                 addItemOut.Tag = this;
+                addItemOut.TrxType = this.type;
 
                 windowAdd.Content = addItemOut;
                 windowAdd.Owner = (this.Tag as MainWindow);
@@ -467,6 +468,43 @@ namespace CakeGUI.forms
                 openWindowAddItem(txtBarcode.Text);
             }
             isPaste = false;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.KeyDown += new KeyEventHandler(Page_KeyDown);
+        }
+
+        DateTime _lastKeystroke = new DateTime(0);
+        List<char> _barcode = new List<char>(20);
+        void Page_KeyDown(object sender, KeyEventArgs e)
+        {
+            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            if (elapsed.TotalMilliseconds > 100)
+                _barcode.Clear();
+
+            // process barcode
+            if (e.Key == Key.Enter)
+            {
+                if (_barcode.Count > 0)
+                {
+                    string msg = new String(_barcode.ToArray());
+                    _barcode.Clear();
+                    openWindowAddItem(msg);
+                }
+            }
+            else if ((e.Key >= Key.D0 && e.Key <= Key.D9))
+            {
+                // record keystroke & timestamp
+                _barcode.Add(Convert.ToChar(e.Key.ToString().Substring(1, 1)));
+                _lastKeystroke = DateTime.Now;
+            }
+            else if (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
+            {
+                // record keystroke & timestamp
+                _barcode.Add(Convert.ToChar(e.Key.ToString().Substring(6, 1)));
+                _lastKeystroke = DateTime.Now;
+            }
         }
     }
 }

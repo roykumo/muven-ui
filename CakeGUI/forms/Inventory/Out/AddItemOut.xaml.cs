@@ -39,6 +39,7 @@ namespace CakeGUI.forms
         public bool EditMode { get; set; }
         public SellPrice SellPrice { get; set; }
         public bool IsJoinSameProduct = true;
+        public String TrxType { get; set; } = "";
 
         private void init()
         {
@@ -116,8 +117,17 @@ namespace CakeGUI.forms
                     }
                     else
                     {
-                        txtBarcode.Text = this.product.BarCode;
-                        txtName.Text = this.product.Name;
+                        if (product.ProductGroup.Equals("BULK"))
+                        {
+                            MessageBox.Show("Barang Bulk tidak valid untuk transaksi ini!");
+                            btnSave.IsEnabled = false;
+                            txtQuantity.IsEnabled = false;
+                        }
+                        else
+                        {
+                            txtBarcode.Text = this.product.BarCode;
+                            txtName.Text = this.product.Name;
+                        }
                     }
                 }
                 else
