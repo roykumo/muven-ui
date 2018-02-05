@@ -9,7 +9,7 @@ namespace CakeGUI.classes.service
 {
     interface ProductInventoryOutService
     {
-        void saveProductInventory(InventoryOutEntity inventoryOut);
+        InventoryOutEntity saveProductInventory(InventoryOutEntity inventoryOut);
         InventoryOutEntity getById(string id);
     }
 }

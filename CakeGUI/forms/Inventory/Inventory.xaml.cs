@@ -69,6 +69,7 @@ namespace CakeGUI.forms
             InitializeComponent();
             this.inventory = inventory;
             this.product = inventory.Product;
+            
             txtBarcode.Text = this.inventory.Product.BarCode;
             txtName.Text = this.inventory.Product.Name;
             //txtTransactionCode.Text = this.inventory.TransactionCode;
@@ -83,6 +84,7 @@ namespace CakeGUI.forms
             init();
         }
 
+        //public InventoryItemEntity InventoryItem { get; set; }
         private InventoryItemEntity inventory;
         private ProductEntity product;
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -104,6 +106,17 @@ namespace CakeGUI.forms
                 if (product == null)
                 {
                     MessageBox.Show("Harus pilih barang dulu!");
+                }else if (string.IsNullOrEmpty(txtQuantity.Text))
+                {
+                    MessageBox.Show("Isi jumlah awal!");
+                }
+                else if (dtExpired.SelectedDate==null)
+                {
+                    MessageBox.Show("Isi tanggal kadaluarsa!");
+                }
+                else if (string.IsNullOrEmpty(txtPurchasePrice.Text))
+                {
+                    MessageBox.Show("Isi harga beli satuan!");
                 }
                 else
                 {
@@ -146,7 +159,10 @@ namespace CakeGUI.forms
                 if (String.IsNullOrEmpty(barcode))
                 {
                     MessageBox.Show("Isi barcode!");
-                }
+                }/*else if (String.IsNullOrEmpty(txtQuantity.Text))
+                {
+                    MessageBox.Show("Isi jumlah!");
+                }*/
                 else
                 {
                     ProductEntity p = productService.getProductByBarcode(barcode);

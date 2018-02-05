@@ -27,9 +27,9 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Barcode" FontSize="14" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="1" Text="Nama Barang" FontSize="14" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="2" Text="Jumlah" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="0" Text="BARCODE 2" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Text="NAMA BARANG" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="2" Text="JUMLAH" FontSize="14" VerticalAlignment="Center"/>
                 
                 <TextBox Grid.Column="1" Grid.Row="0" Name="txtBarcode" Margin="0.4,3,105,2.6" IsEnabled="False"/>
                 <TextBox Grid.Column="1" Grid.Row="1" Name="txtName" IsEnabled="False" />
@@ -42,8 +42,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="btnSave" Content="Simpan" Margin="0 0 5 0" Click="btnSave_Click"/>
-                <Button Grid.Column="1" Content="Batal" Margin="5 0 0 0" Click="btnCancel_Click"/>
+                <Button Grid.Column="1" x:Name="btnSave" Content="TAMBAHKAN" Margin="0 0 5 0" Click="btnSave_Click"/>
+                <!--<Button Grid.Column="1" Content="BATAL" Margin="5 0 0 0" Click="btnCancel_Click"/>-->
             </Grid>
         </StackPanel>
     </Border>

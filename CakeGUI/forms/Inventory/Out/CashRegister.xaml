@@ -17,7 +17,7 @@
                 <StackPanel>
                     <Grid Height="95" Margin="0 0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="4*"/>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="2*"/>
@@ -29,15 +29,15 @@
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="35"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="0" x:Name="lblTransactionCode" TextWrapping="Wrap" Text="Kode Transaksi" FontSize="14" FontWeight="Bold" />
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="0" x:Name="lblTransactionCode" TextWrapping="Wrap" Text="KODE TRANSAKSI" FontSize="14" FontWeight="Bold" />
                         <TextBlock Grid.Column="1" VerticalAlignment="Center" Grid.Row="0" x:Name="txtTransactionCode" TextWrapping="Wrap" Text="" FontSize="14" FontWeight="Bold" />
 
-                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="1" x:Name="lblTransactionDateOut" TextWrapping="Wrap" Text="Tanggal Keluar" FontSize="14" FontWeight="Bold" />
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="1" x:Name="lblTransactionDateOut" TextWrapping="Wrap" Text="TGL BARANG KELUAR" FontSize="14" FontWeight="Bold" />
                         <DatePicker Grid.Column="1" Grid.Row="1" Name="dateOut" Height="25" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" IsEnabled="False"/>
                         
-                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="Barcode" FontSize="14" FontWeight="Bold" />
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="BARCODE 2" FontSize="14" FontWeight="Bold" />
                         <TextBox x:Name="txtBarcode" Grid.Column="1" Grid.Row="2" Width="200" HorizontalAlignment="Left" TextChanged="txtBarcode_TextChanged"/>
-                        <Button x:Name="btnAddOut" Height="20" Width="50" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="2" Content="Cari" FontSize="10" Click="btnAddOut_Click"/>
+                        <Button x:Name="btnAddOut" Height="20" Width="50" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="2" Content="Cari" FontSize="10" Click="btnAddOut_Click"/>
                     </Grid>
                     <Grid Margin="0 10 0 0">
                         <DataGrid x:Name="dataGridOut" AutoGenerateColumns="False" ItemsSource="{Binding inventories}" IsReadOnly="True">
@@ -50,10 +50,9 @@
                                 </Style>
                             </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Product.BarCode}" ClipboardContentBinding="{x:Null}" Header="BarCode"  />
-                                <DataGridTextColumn Binding="{Binding Product.Name}" HeaderStringFormat="" Header="Nama Barang" Foreground="Black"  />
-                                <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah"  ElementStyle="{StaticResource TextRightAligned}"  />
-                                <DataGridTextColumn Binding="{Binding SellPrice.SellingPrice, StringFormat=\{0:n0\}}" Header="Harga Jual&#x0a;Satuan" TextBlock.TextAlignment="Center"  Width="115" ElementStyle="{StaticResource TextRightAligned}"  />
+                                <DataGridTextColumn Binding="{Binding Product.BarCode}" ClipboardContentBinding="{x:Null}" Header="BARCODE 2"  />
+                                <DataGridTextColumn Binding="{Binding Product.Name}" HeaderStringFormat="" Header="NAMA BARANG" Foreground="Black"  />
+                                <DataGridTextColumn Binding="{Binding SellPrice.SellingPrice, StringFormat=\{0:n0\}}" Header="HARGA JUAL SATUAN" TextBlock.TextAlignment="Center"  Width="150" ElementStyle="{StaticResource TextRightAligned}"  />
                                 <!--<DataGridTemplateColumn Header="Harga Jual&#x0a;Online" TextBlock.TextAlignment="Center"  Width="90" >
                                     <DataGridTemplateColumn.CellStyle>
                                         <Style>
@@ -91,6 +90,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>-->
+                                <DataGridTextColumn Binding="{Binding Quantity}" Header="JUMLAH BARANG"  ElementStyle="{StaticResource TextRightAligned}"  />
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellStyle>
                                         <Style>
@@ -113,8 +113,8 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="4*"/>
                             <ColumnDefinition Width="6*"/>
-                            <ColumnDefinition Width="3*"/>
-                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="4*"/>
                             <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -135,9 +135,9 @@
                         <TextBlock x:Name="lblExchange" Grid.Column="0" VerticalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" Text="Uang Kembali" FontSize="16" FontWeight="Bold"/>
                         <TextBox x:Name="txtExchange" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Height="25" Text="" VerticalAlignment="Center" Width="200" IsEnabled="False"/>
 
-                        <Button x:Name="btnPrint" Grid.Column="2" Grid.Row="4" Content="Cetak Struk" Width="95" Height="25" Click="btnPrint_Click" FontSize="12" IsEnabled="False"/>
-                        <Button x:Name="btnConfirm" Grid.Column="3" Grid.Row="4" Content="Pembayaran" Width="100" Height="25" Click="btnConfirm_Click" FontSize="12"/>
-                        <Button x:Name="btnCancel" Grid.Column="4" Grid.Row="4" Content="Batal" Width="95" Height="25" Click="btnCancel_Click" FontSize="12"/>
+                        <Button x:Name="btnPrint" Grid.Column="2" Grid.Row="4" Content="CETAK STRUK" Width="120" Height="25" Click="btnPrint_Click" FontSize="12" IsEnabled="False"/>
+                        <Button x:Name="btnConfirm" Grid.Column="3" Grid.Row="4" Content="PEMBARAYAN" Width="120" Height="25" Click="btnConfirm_Click" FontSize="12"/>
+                        <Button x:Name="btnCancel" Grid.Column="4" Grid.Row="4" Content="BATAL" Width="95" Height="25" Click="btnCancel_Click" FontSize="12"/>
                     </Grid>
                 </StackPanel>
             </materialDesign:Card>

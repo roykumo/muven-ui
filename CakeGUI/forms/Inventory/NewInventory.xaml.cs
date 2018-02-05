@@ -169,7 +169,7 @@ namespace CakeGUI.forms
                 ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
                 if (type != null)
                 {
-                    dataGrid.Columns[3].Header = type.Expiration ? "Tanggal Kadaluarsa" : "Tanggal Aging";
+                    dataGrid.Columns[3].Header = type.Expiration ? "TANGGAL KADALUARSA" : "TANGGAL AGING";
                     loadData();
                 }
             }

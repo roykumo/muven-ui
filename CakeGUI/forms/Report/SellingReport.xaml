@@ -1,0 +1,42 @@
+﻿<Page x:Class="CakeGUI.forms.SellingReport"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CakeGUI.forms"
+      xmlns:util="clr-namespace:CakeGUI.classes.util"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="ProductStock" Width="800" Height="600" Loaded="Page_Loaded">
+
+    <Page.Resources>
+        <util:AlertConverter x:Key="AlertConverter"/>
+    </Page.Resources>
+
+    <Border Padding="10">
+        <StackPanel HorizontalAlignment="Left" Height="580" VerticalAlignment="Top" Width="780">
+            <Label Content="Title" Name="lblSiteMap"/>
+            <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="LAPORAN PENJUALAN" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
+            <Grid Height="60" Margin="0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="BULAN" VerticalAlignment="Center" FontWeight="Bold"/>
+                <ComboBox x:Name="cmbMonth" Height="30" Grid.Column="1" SelectedValuePath="Id" FontSize="16" DisplayMemberPath="Description" Margin="0.4,0,0,0.4" HorizontalAlignment="Left" Width="175" Grid.ColumnSpan="2"/>
+                <TextBox x:Name="txtYear" Grid.Column="2" Height="30" Width="75" HorizontalAlignment="Left" PreviewTextInput="txtYear_PreviewTextInput"/>
+                <Button x:Name="btnSearch" Grid.Column="3" Content="Cari" Width="100" Height="25" HorizontalAlignment="Left" Click="btnSearch_Click"/>
+
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="1" x:Name="lblProductType" TextWrapping="Wrap" Text="JENIS BARANG" FontSize="12" FontWeight="Bold" />
+                <ComboBox x:Name="cmbType" Grid.Column="1" Grid.Row="1" Height="30" SelectedValuePath="Id" FontSize="14" DisplayMemberPath="Description" VerticalAlignment="Top" HorizontalAlignment="Left" Width="153" />
+            </Grid>
+            
+        </StackPanel>
+    </Border>
+</Page>

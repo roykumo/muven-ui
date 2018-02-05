@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using CakeGUI.classes.service;
 using CakeGUI.classes.entity;
 using CakeGUI.classes.util;
+using CakeGUI.forms.Report;
 
 namespace CakeGUI.forms
 {
@@ -371,7 +372,17 @@ namespace CakeGUI.forms
                             outInventory.TransactionCode = txtTransactionCode.Text;
                             outInventory.Payment = payment;
 
-                            inventoryOutService.saveProductInventory(outInventory);
+                            InventoryOutEntity saved = inventoryOutService.saveProductInventory(outInventory);
+
+                            GenericWindow windowAdd = new GenericWindow();
+                            PdfViewer pdfViewer = new PdfViewer("http://localhost:8908/transaction/receipt?id="+saved.Id);
+
+                            pdfViewer.SetParent(commonPage);
+                            pdfViewer.Tag = this;
+
+                            windowAdd.Content = pdfViewer;
+                            //windowAdd.Owner = (this.Tag as MainWindow);
+                            windowAdd.ShowDialog();
 
                             IsFinish = true;
                             btnAddOut.IsEnabled = false;

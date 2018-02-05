@@ -30,7 +30,7 @@ namespace CakeGUI.classes.service
 
         private RestClient client = new RestClient("http://localhost:8908");
         
-        public void saveProductInventory(InventoryOutEntity inventoryOut)
+        public InventoryOutEntity saveProductInventory(InventoryOutEntity inventoryOut)
         {
             var request = new RestRequest("inventory/out/add", Method.POST);
             
@@ -66,7 +66,7 @@ namespace CakeGUI.classes.service
                 }
             }
 
-            InventoryOutEntity savedProduct = response.Data.Data;            
+            return response.Data.Data;            
         }
 
         public InventoryOutEntity getById(string id)

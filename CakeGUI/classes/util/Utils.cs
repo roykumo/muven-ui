@@ -58,5 +58,79 @@ namespace CakeGUI.classes.util
                 return list;
             }
         }
+
+        private static List<MonthEntity> listMonth;
+        public static List<MonthEntity> ListMonth
+        {
+            get
+            {
+                if (listMonth == null)
+                {
+                    listMonth = new List<MonthEntity>();
+                    MonthEntity jan = new MonthEntity();
+                    jan.Id = 1;
+                    jan.Description = "Januari";
+
+                    MonthEntity feb = new MonthEntity();
+                    feb.Id = 2;
+                    feb.Description = "Februari";
+
+                    MonthEntity mar = new MonthEntity();
+                    mar.Id = 3;
+                    mar.Description = "Maret";
+
+                    MonthEntity apr = new MonthEntity();
+                    apr.Id = 4;
+                    apr.Description = "April";
+
+                    MonthEntity mei = new MonthEntity();
+                    mei.Id = 5;
+                    mei.Description = "Mei";
+
+                    MonthEntity jun = new MonthEntity();
+                    jun.Id = 6;
+                    jun.Description = "Juni";
+
+                    MonthEntity jul = new MonthEntity();
+                    jul.Id = 7;
+                    jul.Description = "Juli";
+
+                    MonthEntity agu = new MonthEntity();
+                    agu.Id = 8;
+                    agu.Description = "Agustus";
+
+                    MonthEntity sep = new MonthEntity();
+                    sep.Id = 9;
+                    sep.Description = "September";
+
+                    MonthEntity okt = new MonthEntity();
+                    okt.Id = 10;
+                    okt.Description = "Oktober";
+
+                    MonthEntity nov = new MonthEntity();
+                    nov.Id = 11;
+                    nov.Description = "November";
+
+                    MonthEntity des = new MonthEntity();
+                    des.Id = 12;
+                    des.Description = "Desember";
+
+                    listMonth.Add(jan);
+                    listMonth.Add(feb);
+                    listMonth.Add(mar);
+                    listMonth.Add(apr);
+                    listMonth.Add(mei);
+                    listMonth.Add(jun);
+                    listMonth.Add(jul);
+                    listMonth.Add(agu);
+                    listMonth.Add(sep);
+                    listMonth.Add(okt);
+                    listMonth.Add(nov);
+                    listMonth.Add(des);
+                }
+
+                return listMonth;
+            }
+        }
     }
 }

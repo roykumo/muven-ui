@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CakeGUI.classes.service;
 using CakeGUI.classes.entity;
+using CakeGUI.classes.util;
 
 namespace CakeGUI.forms
 {
@@ -50,7 +51,7 @@ namespace CakeGUI.forms
         {
             try
             {
-                
+                cmbMonth.ItemsSource = Utils.ListMonth;
 
                 loadData();
             }
@@ -216,17 +217,17 @@ namespace CakeGUI.forms
             set { headerAlertDate = value; }
         }
         
-        private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void cmbMonth_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
-                ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
+                /*ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
                 if (type != null)
                 {
                     dataGrid.Columns[2].Header = type.Expiration ? "Expired Date" : "Aging Date";
                     //dataGrid.Columns[6].Header = type.Expiration ? "Expiry Notif" : "Aging Notif";
                     loadData();
-                }
+                }*/
             }
             catch (Exception ex)
             {

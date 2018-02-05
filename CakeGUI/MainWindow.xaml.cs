@@ -57,6 +57,7 @@ namespace CakeGUI
                     { "ProductDump", mi => (s, e) => { loadProductDump(); }},                
                     { "OnlineTransaction", mi => (s, e) => { loadOnlineTransaction(); }},
                     { "TransactionList", mi => (s, e) => { loadTransactionList(); }},
+                    { "SellingReports", mi => (s, e) => { loadTransactionReport(); }},
                     { "Alert", mi => (s, e) => { loadAlertNotification(); }}
                 };
 
@@ -218,6 +219,14 @@ namespace CakeGUI
         private void loadTransactionList()
         {
             TransactionList trxList = new TransactionList();
+            trxList.SetParent(commonPageReport);
+            trxList.Tag = this;
+            this.mainFrame.Content = trxList;
+        }
+
+        private void loadTransactionReport()
+        {
+            SellingReport trxList = new SellingReport();
             trxList.SetParent(commonPageReport);
             trxList.Tag = this;
             this.mainFrame.Content = trxList;

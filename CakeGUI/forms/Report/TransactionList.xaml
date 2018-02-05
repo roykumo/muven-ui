@@ -16,8 +16,9 @@
     <Border Padding="10">
         <StackPanel HorizontalAlignment="Left" Height="580" VerticalAlignment="Top" Width="780">
             <Label Content="Title" Name="lblSiteMap"/>
-            <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Daftar Transaksi" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
-            <ComboBox x:Name="cmbType" SelectedValuePath="Id" FontSize="16" DisplayMemberPath="Description" Margin="0, 10" HorizontalAlignment="Left" Width="100" SelectionChanged="cmbType_SelectionChanged"/>
+            <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="DAFTAR TRANSAKSI" FontSize="18" TextDecorations="Underline" FontWeight="Bold"/>
+            <ComboBox x:Name="cmbMonth" SelectedValuePath="Id" FontSize="16" DisplayMemberPath="Description" Margin="0, 10" HorizontalAlignment="Left" Width="100" SelectionChanged="cmbMonth_SelectionChanged"/>
+
             <Grid>
                 <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" MaxHeight="500" ItemsSource="{Binding products}" IsReadOnly="True" LoadingRow="dataGrid_LoadingRow" >
                     <DataGrid.Resources>
@@ -36,7 +37,7 @@
                                 </Style>
                             </DataGridTextColumn.CellStyle>
                         </DataGridTextColumn>-->
-                        <DataGridTextColumn Binding="{Binding TransactionCode}" Header="Kode Transaksi" Foreground="#FF1800FF" >
+                        <DataGridTextColumn Binding="{Binding TransactionCode}" Header="KODE TRANSAKSI" Foreground="#FF1800FF" >
                             <DataGridTextColumn.CellStyle>
                                 <Style>
                                     <EventSetter Event="DataGridCell.MouseLeftButtonDown"
@@ -45,11 +46,11 @@
                                 </Style>
                             </DataGridTextColumn.CellStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Binding="{Binding Date, StringFormat=\{0:yyyy-MM-dd\}}" Header="Tanggal"/>
-                        <DataGridTextColumn Binding="{Binding Type}" Header="Tipe Transaksi"/>
-                        <DataGridTextColumn Binding="{Binding ProductType}" Header="Jenis Barang"/>
-                        <DataGridTextColumn Binding="{Binding Revenue, StringFormat=\{0:n0\}}" Header="Pemasukan" Width="100" ElementStyle="{StaticResource TextRightAligned}" />
-                        <DataGridTextColumn Binding="{Binding Expense, StringFormat=\{0:n0\}}" Header="Pengeluaran" Width="100" ElementStyle="{StaticResource TextRightAligned}" />
+                        <DataGridTextColumn Binding="{Binding Date, StringFormat=\{0:yyyy-MM-dd\}}" Header="TANGGAL"/>
+                        <DataGridTextColumn Binding="{Binding Type}" Header="TIPE TRANSAKSI"/>
+                        <DataGridTextColumn Binding="{Binding ProductType}" Header="JENIS BARANG"/>
+                        <DataGridTextColumn Binding="{Binding Revenue, StringFormat=\{0:n0\}}" Header="PEMASUKAN" Width="115" ElementStyle="{StaticResource TextRightAligned}" />
+                        <DataGridTextColumn Binding="{Binding Expense, StringFormat=\{0:n0\}}" Header="PENGELUARAN" Width="115" ElementStyle="{StaticResource TextRightAligned}" />
                         
                     </DataGrid.Columns>
 

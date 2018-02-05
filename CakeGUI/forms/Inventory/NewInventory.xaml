@@ -37,7 +37,7 @@
                 <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="3" x:Name="lblTransactionCode" TextWrapping="Wrap" Text="Kode Transaksi" FontSize="16" FontWeight="Bold" Margin="0,0,0.4,0"/>
                 <TextBox x:Name="txtTransactionCode" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="0,0,0,0"/>
 
-                <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="4" x:Name="lblTransactionDate" TextWrapping="Wrap" Text="Tanggal Masuk" FontSize="16" FontWeight="Bold" Margin="0,0,0.4,0"/>
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="4" x:Name="lblTransactionDate" TextWrapping="Wrap" Text="Tgl Barang Masuk" FontSize="16" FontWeight="Bold" Margin="0,0,0.4,0"/>
                 <DatePicker Grid.Column="1" Grid.Row="4" Name="date" Height="25" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False"/>
 
                 <Button x:Name="btnAdd" Grid.Column="2" Grid.Row="5" Content="Tambah" Width="100" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="10" Click="btnAdd_Click"/>
@@ -51,12 +51,12 @@
                         </Style>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Product.BarCode}" ClipboardContentBinding="{x:Null}" Header="BarCode"  />
-                        <DataGridTextColumn Binding="{Binding Product.Name}" HeaderStringFormat="" Header="Nama Barang" Foreground="Black"  />
-                        <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah"  ElementStyle="{StaticResource TextRightAligned}"  />
+                        <DataGridTextColumn Binding="{Binding Product.BarCode}" ClipboardContentBinding="{x:Null}" Header="BARCODE 2"  />
+                        <DataGridTextColumn Binding="{Binding Product.Name}" HeaderStringFormat="" Header="NAMA BARANG" Foreground="Black"  />
+                        <DataGridTextColumn Binding="{Binding Quantity}" Header="JUMLAH AWAL"  ElementStyle="{StaticResource TextRightAligned}"  />
                         <DataGridTextColumn Binding="{Binding ExpiredDate, StringFormat=\{0:yyyy-MM-dd\}}" Header="Expired Date"  />
-                        <DataGridTextColumn Binding="{Binding PurchasePrice, StringFormat=\{0:n0\}}" Header="Harga Beli&#x0a;Satuan" TextBlock.TextAlignment="Center"  Width="90" ElementStyle="{StaticResource TextRightAligned}"  />
-                        <DataGridTextColumn Binding="{Binding Remarks}" Header="Keterangan Barang"  />
+                        <DataGridTextColumn Binding="{Binding PurchasePrice, StringFormat=\{0:n0\}}" Header="HARGA BELI&#x0a;SATUAN" TextBlock.TextAlignment="Center"  Width="90" ElementStyle="{StaticResource TextRightAligned}"  />
+                        <DataGridTextColumn Binding="{Binding Remarks}" Header="KETERANGAN BARANG"  />
                         <!--<DataGridTextColumn Binding="{Binding PurchaseDate, StringFormat=\{0:yyyy-MM-dd\}}" Header="Tanggal Barang Masuk"/>-->
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellStyle>

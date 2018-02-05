@@ -43,10 +43,11 @@ namespace CakeGUI.classes.service
             keyValue.Key = "inventory.product";
             keyValue.Value = product.Id;
             listFilter.Add(keyValue);
-
+            
             string strListFilter = JsonConvert.SerializeObject(listFilter);
 
             request.AddQueryParameter("field", strListFilter);
+            request.AddQueryParameter("sort", "expiredDate");
 
             IRestResponse<TCommonResponsePaging<InventoryItemEntity>> products = client.Execute<TCommonResponsePaging<InventoryItemEntity>>(request);
 

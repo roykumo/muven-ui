@@ -17,30 +17,30 @@
                 <StackPanel>
                     <Grid Height="95" Margin="0 0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="4*"/>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="35"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="0" x:Name="lblProductType" TextWrapping="Wrap" Text="Jenis Barang" FontSize="14" FontWeight="Bold" />
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="0" x:Name="lblProductType" TextWrapping="Wrap" Text="JENIS BARANG" FontSize="14" FontWeight="Bold" />
                         <ComboBox x:Name="cmbType" Grid.Column="1" Grid.Row="0" Height="30" SelectedValuePath="Id" FontSize="14" DisplayMemberPath="Description" VerticalAlignment="Top" HorizontalAlignment="Left" Width="153" SelectionChanged="cmbType_SelectionChanged"/>
 
-                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="1" x:Name="lblTransactionCode" TextWrapping="Wrap" Text="Kode Transaksi" FontSize="14" FontWeight="Bold" />
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="1" x:Name="lblTransactionCode" TextWrapping="Wrap" Text="KODE TRANSAKSI" FontSize="14" FontWeight="Bold" />
                         <TextBlock Grid.Column="1" VerticalAlignment="Center" Grid.Row="1" x:Name="txtTransactionCode" TextWrapping="Wrap" Text="" FontSize="14" FontWeight="Bold" />
 
-                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="2" x:Name="lblTransactionDateOut" TextWrapping="Wrap" Text="Tanggal Keluar" FontSize="14" FontWeight="Bold" />
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="2" x:Name="lblTransactionDateOut" TextWrapping="Wrap" Text="TGL BARANG KELUAR" FontSize="14" FontWeight="Bold" />
                         <DatePicker Grid.Column="1" Grid.Row="2" Name="dateOut" Height="25" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False"/>
                         
                         <!--<TextBlock Grid.Column="0" VerticalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="Barcode" FontSize="14" FontWeight="Bold" />
                         <TextBox x:Name="txtBarcode" Grid.Column="1" Grid.Row="2" Width="200" HorizontalAlignment="Left"/>-->
-                        <Button x:Name="btnAddOut" Height="20" Width="60" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="5" Grid.Row="2" Content="Tambah" FontSize="8" Click="btnAddOut_Click"/>
+                        <Button x:Name="btnAddOut" Height="20" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="5" Grid.Row="2" Content="TAMBAH BARANG" FontSize="8" Click="btnAddOut_Click"/>
                     </Grid>
                     <Grid Margin="0 5 0 0">
                         <DataGrid x:Name="dataGridOut" AutoGenerateColumns="False" ItemsSource="{Binding inventories}" IsReadOnly="True">
@@ -53,11 +53,11 @@
                                 </Style>
                             </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Product.BarCode}" ClipboardContentBinding="{x:Null}" Header="BarCode"  />
-                                <DataGridTextColumn Binding="{Binding Product.Name}" HeaderStringFormat="" Header="Nama Barang" Foreground="Black"  />
-                                <DataGridTextColumn Binding="{Binding Quantity}" Header="Jumlah"  ElementStyle="{StaticResource TextRightAligned}"  />
-                                <DataGridTextColumn Binding="{Binding PurchasePrice, StringFormat=\{0:n0\}}" Header="Harga Beli Rata2" TextBlock.TextAlignment="Center"  Width="115" ElementStyle="{StaticResource TextRightAligned}"  />
-                                <DataGridTextColumn Binding="{Binding SellPrice.SellingPrice, StringFormat=\{0:n0\}}" Header="Harga Jual" TextBlock.TextAlignment="Center"  Width="90" ElementStyle="{StaticResource TextRightAligned}"  />
+                                <DataGridTextColumn Binding="{Binding Product.BarCode}" ClipboardContentBinding="{x:Null}" Header="BARCODE 2"  />
+                                <DataGridTextColumn Binding="{Binding Product.Name}" HeaderStringFormat="" Header="NAMA BARANG" Foreground="Black"  />
+                                <DataGridTextColumn Binding="{Binding Quantity}" Header="JUMLAH BARANG YG DIHAPUS"  ElementStyle="{StaticResource TextRightAligned}"  />
+                                <DataGridTextColumn Binding="{Binding PurchasePrice, StringFormat=\{0:n0\}}" Header="HARGA BELI RATA-RATA" TextBlock.TextAlignment="Center"  Width="115" ElementStyle="{StaticResource TextRightAligned}"  />
+                                <DataGridTextColumn Binding="{Binding SellPrice.SellingPrice, StringFormat=\{0:n0\}}" Header="HARGA JUAL (TERAKHIR)" TextBlock.TextAlignment="Center"  Width="90" ElementStyle="{StaticResource TextRightAligned}"  />
                                 <DataGridTemplateColumn Header=" ">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -65,7 +65,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Binding="{Binding Remarks}" Header="Keterangan"  />
+                                <DataGridTextColumn Binding="{Binding Remarks}" Header="KETERANGAN BARANG"  />
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellStyle>
                                         <Style>
