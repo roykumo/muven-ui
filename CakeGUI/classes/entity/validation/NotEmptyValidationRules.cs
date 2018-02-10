@@ -13,8 +13,9 @@ namespace CakeGUI.classes.entity.validation
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             return string.IsNullOrWhiteSpace((value ?? "").ToString())
-                ? new ValidationResult(false, "Field is required.")
-                : ValidationResult.ValidResult;
+            //? new ValidationResult(false, "Field is required.")
+            ? new ValidationResult(false, null)
+            : ValidationResult.ValidResult;
         }
     }
 }

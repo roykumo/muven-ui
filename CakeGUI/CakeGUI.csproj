@@ -104,7 +104,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="forms\Inventory\Inventory.xaml">
+    <Page Include="forms\Inventory\InventoryForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -117,6 +117,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="forms\Inventory\Out\CashRegister.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="forms\Inventory\Out\InventoryItemIn.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -269,7 +273,10 @@
     <Compile Include="classes\util\JSONSerializer.cs" />
     <Compile Include="classes\util\Utils.cs" />
     <Compile Include="classes\view-model\InventoryInViewModel.cs" />
+    <Compile Include="classes\view-model\InventoryViewModel.cs" />
+    <Compile Include="classes\view-model\InventoryItemOutViewModel.cs" />
     <Compile Include="classes\view-model\NotifyPropertyChangedExtension.cs" />
+    <Compile Include="classes\view-model\NewInventoryViewModel.cs" />
     <Compile Include="classes\view-model\ProductViewModel.cs" />
     <Compile Include="forms\CommonPage.cs" />
     <Compile Include="forms\ICommonPage.cs" />
@@ -279,8 +286,8 @@
     <Compile Include="forms\Inventory\InventoryMaintenance.xaml.cs">
       <DependentUpon>InventoryMaintenance.xaml</DependentUpon>
     </Compile>
-    <Compile Include="forms\Inventory\Inventory.xaml.cs">
-      <DependentUpon>Inventory.xaml</DependentUpon>
+    <Compile Include="forms\Inventory\InventoryForm.xaml.cs">
+      <DependentUpon>InventoryForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="forms\Inventory\NewInventory.xaml.cs">
       <DependentUpon>NewInventory.xaml</DependentUpon>
@@ -290,6 +297,9 @@
     </Compile>
     <Compile Include="forms\Inventory\Out\CashRegister.xaml.cs">
       <DependentUpon>CashRegister.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\Inventory\Out\InventoryItemIn.xaml.cs">
+      <DependentUpon>InventoryItemIn.xaml</DependentUpon>
     </Compile>
     <Compile Include="forms\Inventory\Out\Payment.xaml.cs">
       <DependentUpon>Payment.xaml</DependentUpon>

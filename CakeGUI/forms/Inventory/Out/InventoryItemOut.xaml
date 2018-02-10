@@ -7,7 +7,9 @@
       xmlns:system="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
       d:DesignHeight="400" d:DesignWidth="500"
-      Title="Product" HorizontalAlignment="Center" VerticalAlignment="Center" Loaded="Page_Loaded">
+      Title="Product" HorizontalAlignment="Center" VerticalAlignment="Center" Loaded="Page_Loaded"
+      xmlns:vm="clr-namespace:CakeGUI.classes.view_model"
+      d:DataContext="{d:DesignInstance vm:InventoryItemOutViewModel, d:IsDesignTimeCreatable=False}">
     <Page.Resources>
         <system:Boolean x:Key="True">True</system:Boolean>
         <system:Boolean x:Key="False">False</system:Boolean>
@@ -31,18 +33,26 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Barcode" FontSize="14" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="1" Text="Nama Barang" FontSize="14" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="2" Text="Jumlah" FontSize="14" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="3" Text="Harga Beli Rata-rata" FontSize="14" VerticalAlignment="Center"/>
-                <TextBlock x:Name="lblExpired" Grid.Row="4" Text="Harga Jual" FontSize="14" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="5" Text="Keterangan" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="0" Text="BARCODE 2" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Text="NAMA BARANG" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="2" Text="JUMLAH*" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="3" Text="HARGA BELI RATA2" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock x:Name="lblExpired" Grid.Row="4" Text="HARGA JUAL TERAKHIR" FontSize="14" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="5" Text="KETERANGAN" FontSize="14" VerticalAlignment="Center"/>
                 <TextBlock Grid.Row="6" Text="Sale" FontSize="14" VerticalAlignment="Center" Visibility="Hidden"/>
 
                 <TextBox Grid.Column="1" Grid.Row="0" Name="txtBarcode" Margin="0.4,3,105,2.6" TextChanged="txtBarcode_TextChanged"/>
                 <Button Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Content="Cari" Click="btnSearch_Click" Width="95"/>
                 <TextBox Grid.Column="1" Grid.Row="1" Name="txtName" IsEnabled="False" />
-                <TextBox Grid.Column="1" Grid.Row="2" Name="txtQuantity" PreviewTextInput="txtQuantity_PreviewTextInput"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Name="txtQuantity" PreviewTextInput="txtQuantity_PreviewTextInput">
+                    <TextBox.Text>
+                        <Binding Path="Quantity" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <rules:NotEmptyValidationRules xmlns:rules="clr-namespace:CakeGUI.classes.entity.validation" ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <TextBox Grid.Column="1" Grid.Row="3" Name="txtPurchasePrice" IsEnabled="False"/>
                 <TextBox Grid.Column="1" Grid.Row="4" Name="txtSellingPrice" IsEnabled="False"/>
                 <TextBox Grid.Column="1" Grid.Row="5" Name="txtRemarks"/>

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using CakeGUI.classes.service;
 using CakeGUI.classes.entity;
 using CakeGUI.classes.util;
+using CakeGUI.classes.view_model;
 
 namespace CakeGUI.forms
 {
@@ -46,6 +47,9 @@ namespace CakeGUI.forms
 
         private void init()
         {
+            InventoryItemOutViewModel viewModel = new InventoryItemOutViewModel();
+            DataContext = viewModel;
+
             commonPage = new CommonPage();
             commonPage.Title = "Add New";
             lblSiteMap.Content = commonPage.Title;

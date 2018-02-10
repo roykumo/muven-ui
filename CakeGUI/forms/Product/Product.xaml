@@ -6,15 +6,15 @@
       xmlns:local="clr-namespace:CakeGUI.forms"
       xmlns:rules="clr-namespace:CakeGUI.classes.entity.validation"
       mc:Ignorable="d" 
-      d:DesignHeight="420" d:DesignWidth="370"
+      d:DesignHeight="620" d:DesignWidth="370"
       Title="Product" HorizontalAlignment="Center" VerticalAlignment="Center" Loaded="Page_Loaded"
       xmlns:vm="clr-namespace:CakeGUI.classes.view_model"
       d:DataContext="{d:DesignInstance vm:ProductViewModel, d:IsDesignTimeCreatable=False}">
     <Border Padding="10">
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="470" Width="350">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="600" Width="350">
             <Label Content="TItle" Name="lblSiteMap" FontWeight="Bold"/>
             <TextBlock x:Name="lblTitle" TextWrapping="Wrap" Text="Master Barang" TextDecorations="Underline" FontWeight="Bold" FontSize="18" Visibility="Hidden"/>
-            <Grid Margin="0 10" Height="210">
+            <Grid Margin="0 10" Height="250">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="4*"/>
@@ -27,62 +27,137 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Jenis" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="1" Text="Kategori" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="2" Text="Barcode 1" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="3" Text="Barcode 2" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="4" Text="Nama" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="5" Text="Group" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="0" Text="JENIS*" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="1" Text="KATEGORI*" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="2" Text="BARCODE 1*" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="3" Text="BARCODE 2" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="4" Text="NAMA BARANG*" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="5" Text="GROUP*" FontSize="14" VerticalAlignment="Bottom"/>
 
-                <ComboBox Grid.Column="1" Grid.Row="0" Name="cmbType" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Id" SelectedValue="product.Category.Type.Id" DisplayMemberPath="Description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100" SelectionChanged="cmbType_SelectionChanged"/>
-                <ComboBox Grid.Column="1" Grid.Row="1" Name="cmbCategory" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Id" SelectedValue="product.Category.Id" DisplayMemberPath="Code" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100"/>
-                <TextBox Grid.Column="1" Grid.Row="2" Name="txtCode1" FontSize="14" Height="35" Width="70" HorizontalAlignment="Left"/>
+                <ComboBox Grid.Column="1" Grid.Row="0" Name="cmbType" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Id" SelectedValue="product.Category.Type.Id" DisplayMemberPath="Description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100" SelectionChanged="cmbType_SelectionChanged">
+                    <ComboBox.SelectedItem>
+                        <Binding Path="Type" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <rules:NotEmptyValidationRules xmlns:rules="clr-namespace:CakeGUI.classes.entity.validation" ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.SelectedItem>
+                </ComboBox>
+                <ComboBox Grid.Column="1" Grid.Row="1" Name="cmbCategory" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Id" SelectedValue="product.Category.Id" DisplayMemberPath="Code" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100">
+                    <ComboBox.SelectedItem>
+                        <Binding Path="Category" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <rules:NotEmptyValidationRules xmlns:rules="clr-namespace:CakeGUI.classes.entity.validation" ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.SelectedItem>
+                </ComboBox>
+                <!--<TextBox Grid.Column="1" Grid.Row="2" Name="txtCode1" FontSize="14" Height="35" Width="70" HorizontalAlignment="Left"/>
                 <TextBox Grid.Column="1" Grid.Row="2" Name="txtCode2" FontSize="14" Height="35" Width="70"/>
-                <TextBox Grid.Column="1" Grid.Row="2" Name="txtCode3" FontSize="14" Height="35" Width="70" HorizontalAlignment="Right"/>
-                <TextBox Grid.Column="1" Grid.Row="3" Name="txtBarcode" FontSize="14" Height="35">
+                <TextBox Grid.Column="1" Grid.Row="2" Name="txtCode3" FontSize="14" Height="35" Width="70" HorizontalAlignment="Right"/>-->
+                <TextBox Grid.Column="1" Grid.Row="2" Name="txtCode" FontSize="14" Height="35" PreviewTextInput="txtNumber_PreviewTextInput">
                     <TextBox.Text>
-                        <Binding Path="Barcode2" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="Code" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <rules:NotEmptyValidationRules xmlns:rules="clr-namespace:CakeGUI.classes.entity.validation" ValidatesOnTargetUpdated="True" />
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                <TextBox Grid.Column="1" Grid.Row="4" Name="txtName" FontSize="14" Height="35"/>
-                <ComboBox Grid.Column="1" Grid.Row="5" Name="cmbGroup" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Code" DisplayMemberPath="Description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100"/>
+                <TextBox Grid.Column="1" Grid.Row="3" Name="txtBarcode" FontSize="14" Height="35" PreviewTextInput="txtNumber_PreviewTextInput">
+                    <!--<TextBox.Text>
+                        <Binding Path="Barcode2" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <rules:NotEmptyValidationRules xmlns:rules="clr-namespace:CakeGUI.classes.entity.validation" ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>-->
+                </TextBox>
+                <TextBox Grid.Column="1" Grid.Row="4" Name="txtName" FontSize="14" Height="35">
+                    <TextBox.Text>
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <rules:NotEmptyValidationRules xmlns:rules="clr-namespace:CakeGUI.classes.entity.validation" ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <ComboBox Grid.Column="1" Grid.Row="5" Name="cmbGroup" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Code" DisplayMemberPath="Description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100">
+                    <ComboBox.SelectedItem>
+                        <Binding Path="ProductGroup" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <rules:NotEmptyValidationRules xmlns:rules="clr-namespace:CakeGUI.classes.entity.validation" ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.SelectedItem>
+                </ComboBox>
 
             </Grid>
 
             <TextBlock Text="Notification" Name="lblNotif" FontSize="16" TextDecorations="Underline" Padding="0 10"/>
 
-            <Grid Height="100">
+            <Grid Height="150">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Merah" FontSize="14" VerticalAlignment="Bottom" Padding="50 0 0 0"/>
-                <TextBlock Grid.Row="1" Text="Kuning" FontSize="14" VerticalAlignment="Bottom" Padding="50 0 0 0"/>
-                <TextBlock Grid.Row="2" Text="Hijau" FontSize="14" VerticalAlignment="Bottom" Padding="50 0 0 0"/>
-                <TextBlock Grid.Row="3" Text="Biru" FontSize="14" VerticalAlignment="Bottom" Grid.RowSpan="2" Padding="50 0 0 0"/>
+                <TextBlock Grid.Row="0" Text="MERAH*" FontSize="14" VerticalAlignment="Bottom" Padding="50 0 0 0"/>
+                <TextBlock Grid.Row="1" Text="KUNING*" FontSize="14" VerticalAlignment="Bottom" Padding="50 0 0 0"/>
+                <TextBlock Grid.Row="2" Text="HIJAU*" FontSize="14" VerticalAlignment="Bottom" Padding="50 0 0 0"/>
+                <TextBlock Grid.Row="3" Text="BIRU*" FontSize="14" VerticalAlignment="Bottom" Grid.RowSpan="2" Padding="50 0 0 0"/>
 
-                <TextBox Grid.Column="1" Grid.Row="0" Name="txtExpiryRed" Height="25" Width="30" HorizontalAlignment="Left" />
-                <TextBox Grid.Column="1" Grid.Row="1" Name="txtExpiryYellow" Height="25" Width="30" HorizontalAlignment="Left"/>
-                <TextBox Grid.Column="1" Grid.Row="2" Name="txtExpiryGreen" Height="25" Width="30" HorizontalAlignment="Left"/>
-                <TextBox Grid.Column="1" Grid.Row="3" Name="txtExpiryBlue" Height="25" Width="30" HorizontalAlignment="Left"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Name="txtExpiryRed" Height="25" Width="30" HorizontalAlignment="Left" >
+                    <TextBox.Text>
+                        <Binding Path="AlertRed" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <rules:NotEmptyValidationRules xmlns:rules="clr-namespace:CakeGUI.classes.entity.validation" ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox Grid.Column="1" Grid.Row="1" Name="txtExpiryYellow" Height="25" Width="30" HorizontalAlignment="Left">
+                    <TextBox.Text>
+                        <Binding Path="AlertYellow" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <rules:NotEmptyValidationRules xmlns:rules="clr-namespace:CakeGUI.classes.entity.validation" ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox Grid.Column="1" Grid.Row="2" Name="txtExpiryGreen" Height="25" Width="30" HorizontalAlignment="Left">
+                    <TextBox.Text>
+                        <Binding Path="AlertGreen" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <rules:NotEmptyValidationRules xmlns:rules="clr-namespace:CakeGUI.classes.entity.validation" ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox Grid.Column="1" Grid.Row="3" Name="txtExpiryBlue" Height="25" Width="30" HorizontalAlignment="Left">
+                    <TextBox.Text>
+                        <Binding Path="AlertBlue" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <rules:NotEmptyValidationRules xmlns:rules="clr-namespace:CakeGUI.classes.entity.validation" ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
+
+            <TextBlock Text="* Harus diisi" Foreground="Red" FontSize="12" Padding="0 10"/>
 
             <Grid Height="40" Margin="0 10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Content="Simpan" Margin="0 0 5 0" Click="btnSave_Click"/>
+                <Button x:Name="btnSave" Content="Simpan" Margin="0 0 5 0" Click="btnSave_Click"/>
                 <Button Grid.Column="1" Content="Batal" Margin="5 0 0 0" Click="btnCancel_Click"/>
             </Grid>
         </StackPanel>

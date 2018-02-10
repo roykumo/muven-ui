@@ -47,8 +47,8 @@ namespace CakeGUI.forms
         {
             InitializeComponent();
             this.product = product;
-            //txtCode.Text = this.product.Code;
-            if (!string.IsNullOrEmpty(this.product.Code))
+            txtCode.Text = this.product.Code;
+            /*if (!string.IsNullOrEmpty(this.product.Code))
             {
                 string[] codes = this.product.Code.Split('~');
                 if (codes.Length > 0)
@@ -63,7 +63,7 @@ namespace CakeGUI.forms
                 {
                     txtCode3.Text = codes[2];
                 }
-            }
+            }*/
             txtBarcode.Text = this.product.BarCode;
             txtName.Text = this.product.Name;
             txtExpiryRed.Text = this.product.AlertRed.ToString();
@@ -79,7 +79,23 @@ namespace CakeGUI.forms
         {
             try
             {
-                DataContext = new ProductViewModel();
+                ProductViewModel viewModel = new ProductViewModel();
+                if (this.product != null)
+                {
+                    viewModel.AlertBlue = product.AlertBlue;
+                    viewModel.AlertGreen = product.AlertGreen;
+                    viewModel.AlertRed = product.AlertRed;
+                    viewModel.AlertYellow = product.AlertYellow;
+                    viewModel.BarCode = product.BarCode;
+                    viewModel.Barcode2 = product.BarCode;
+                    viewModel.Category = product.Category;
+                    viewModel.Code = product.Code;
+                    if (product.Category != null)
+                    {
+                        viewModel.Type = product.Category.Type;
+                    }
+                }
+                DataContext = viewModel;
                 commonPage = new CommonPage();
                 commonPage.Title = (this.product != null && !string.IsNullOrEmpty(this.product.Id)) ? "Edit Barang" : "Penambahan Barang";
                 productTypes = productTypeService.getProductTypes();
@@ -153,13 +169,21 @@ namespace CakeGUI.forms
                 }else if (cmbCategory.SelectedIndex < 0)
                 {
                     MessageBox.Show("Pilih kategori Barang!");
-                }else if (string.IsNullOrEmpty(txtCode1.Text) && string.IsNullOrEmpty(txtCode2.Text) && string.IsNullOrEmpty(txtCode3.Text))
+                }/*else if (string.IsNullOrEmpty(txtCode1.Text) && string.IsNullOrEmpty(txtCode2.Text) && string.IsNullOrEmpty(txtCode3.Text))
+                {
+                    MessageBox.Show("Isi barcode 1 dahulu!");
+                }*/
+                else if (string.IsNullOrEmpty(txtCode.Text))
                 {
                     MessageBox.Show("Isi barcode 1 dahulu!");
                 }
                 else if (string.IsNullOrEmpty((string)cmbGroup.SelectedValue))
                 {
                     MessageBox.Show("Pilih group barang!");
+                }
+                else if (string.IsNullOrEmpty(txtExpiryRed.Text) || string.IsNullOrEmpty(txtExpiryYellow.Text) || string.IsNullOrEmpty(txtExpiryGreen.Text) || string.IsNullOrEmpty(txtExpiryBlue.Text))
+                {
+                    MessageBox.Show("Isi alert!");
                 }
                 else
                 {
@@ -169,8 +193,8 @@ namespace CakeGUI.forms
                     MessageBoxResult messageBoxResult = MessageBox.Show("Konfirmasi?", "Konfirmasi Simpan", MessageBoxButton.YesNo);
                     if (messageBoxResult == MessageBoxResult.Yes)
                     {
-                        //product.Code = txtCode.Text;
-                        product.Code = txtCode1.Text + "~" + txtCode2.Text + "~" + txtCode3.Text;
+                        product.Code = txtCode.Text;
+                        //product.Code = txtCode1.Text + "~" + txtCode2.Text + "~" + txtCode3.Text;
                         product.BarCode = txtBarcode.Text;
                         product.Name = txtName.Text;
                         product.ProductGroup = cmbGroup.SelectedValue.ToString();
@@ -202,7 +226,7 @@ namespace CakeGUI.forms
                 if (type != null)
                 {
                     initCategory();
-                    lblNotif.Text = type.Expiration ? "Batasan Kadaluarsa" : "Batasan Aging";
+                    lblNotif.Text = type.Expiration ? "BATASAN KADALUARSA" : "BATASAN AGING";
                 }
             }catch(Exception ex)
             {
@@ -228,6 +252,7 @@ namespace CakeGUI.forms
             }
 
             this.KeyDown += new KeyEventHandler(Page_KeyDown);
+            this.AddHandler(Validation.ErrorEvent, new RoutedEventHandler(OnErrorEvent));
         }
 
         DateTime _lastKeystroke = new DateTime(0);
@@ -268,6 +293,35 @@ namespace CakeGUI.forms
             {
                 commonPage.ParentPage = page;
             }
+        }
+
+        private int errorCount;
+        private void OnErrorEvent(object sender, RoutedEventArgs e)
+        {
+            var validationEventArgs = e as ValidationErrorEventArgs;
+            if (validationEventArgs == null)
+                throw new Exception("Unexpected event args");
+            switch (validationEventArgs.Action)
+            {
+                case ValidationErrorEventAction.Added:
+                    {
+                        errorCount++; break;
+                    }
+                case ValidationErrorEventAction.Removed:
+                    {
+                        errorCount--; break;
+                    }
+                default:
+                    {
+                        throw new Exception("Unknown action");
+                    }
+            }
+            btnSave.IsEnabled = errorCount == 0;
+        }
+
+        private void txtNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Utils.IsTextAllowed(e.Text);
         }
     }
 }

@@ -15,13 +15,14 @@ using System.Windows.Shapes;
 using CakeGUI.classes.service;
 using CakeGUI.classes.entity;
 using CakeGUI.classes.util;
+using CakeGUI.classes.view_model;
 
 namespace CakeGUI.forms
 {
     /// <summary>
     /// Interaction logic for Inventory.xaml
     /// </summary>
-    public partial class Inventory : Page
+    public partial class InventoryForm : Page
     {
         private static ProductService productService = ProductServiceRestImpl.Instance;
         private static ProductInventoryItemService inventoryService = ProductInventoryItemServiceRestImpl.Instance;
@@ -32,7 +33,7 @@ namespace CakeGUI.forms
             {
                 productType = value;
                 if(productType!=null)
-                    lblExpired.Text = productType.Expiration ? "Tanggal Kadaluarsa" : "Tanggal Aging";
+                    lblExpired.Text = productType.Expiration ? "TANGGAL KADALUARSA*" : "TANGGAL AGING*";
             }
         }
         private CommonPage commonPage;
@@ -41,12 +42,14 @@ namespace CakeGUI.forms
 
         private void init()
         {
+            InventoryViewModel viewModel = new InventoryViewModel();
+            DataContext = viewModel;
             commonPage = new CommonPage();
             commonPage.Title = "Add New";
             lblSiteMap.Content = commonPage.Title;
         }
 
-        public Inventory()
+        public InventoryForm()
         {
             InitializeComponent();
             inventory = new InventoryItemEntity();
@@ -54,7 +57,7 @@ namespace CakeGUI.forms
             init();
         }
 
-        public Inventory(List<InventoryItemEntity> inventories)
+        public InventoryForm(List<InventoryItemEntity> inventories)
         {
             InitializeComponent();
             inventory = new InventoryItemEntity();
@@ -64,7 +67,7 @@ namespace CakeGUI.forms
         }
 
         List<InventoryItemEntity> inventories;
-        public Inventory(InventoryItemEntity inventory)
+        public InventoryForm(InventoryItemEntity inventory)
         {
             InitializeComponent();
             this.inventory = inventory;

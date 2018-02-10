@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using CakeGUI.classes.service;
 using CakeGUI.classes.entity;
 using CakeGUI.classes.util;
+using CakeGUI.classes.view_model;
 
 namespace CakeGUI.forms
 {
@@ -92,6 +93,8 @@ namespace CakeGUI.forms
         {
             try
             {
+                NewInventoryViewModel viewModel = new NewInventoryViewModel();
+                DataContext = viewModel;
                 commonPage = new CommonPage();
                 commonPage.Title = "Pembelian";
                 lblSiteMap.Content = commonPage.Title;
@@ -144,17 +147,24 @@ namespace CakeGUI.forms
         {
             try
             {
-                GenericWindow windowAdd = new GenericWindow();
-                Inventory inventoryPage = new Inventory(inventories);
-                inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
-                inventoryPage.SetParent(commonPage);
-                inventoryPage.Tag = this;
-                inventoryPage.TrxType = "PU";
+                if (cmbType.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Pilih jenis barang dulu");
+                }
+                else
+                {
+                    GenericWindow windowAdd = new GenericWindow();
+                    InventoryForm inventoryPage = new InventoryForm(inventories);
+                    inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
+                    inventoryPage.SetParent(commonPage);
+                    inventoryPage.Tag = this;
+                    inventoryPage.TrxType = "PU";
 
-                windowAdd.Content = inventoryPage;
-                windowAdd.Owner = (this.Tag as MainWindow);
-                windowAdd.ShowDialog();
-                loadData();
+                    windowAdd.Content = inventoryPage;
+                    windowAdd.Owner = (this.Tag as MainWindow);
+                    windowAdd.ShowDialog();
+                    loadData();
+                }
             }
             catch (Exception ex)
             {
@@ -278,7 +288,7 @@ namespace CakeGUI.forms
                     //MessageBox.Show(cellContent.Product.Name);
 
                     GenericWindow windowAdd = new GenericWindow();
-                    Inventory inventoryPage = new Inventory(cellContent);
+                    InventoryForm inventoryPage = new InventoryForm(cellContent);
                     inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
                     inventoryPage.SetParent(commonPage);
                     inventoryPage.Tag = this;

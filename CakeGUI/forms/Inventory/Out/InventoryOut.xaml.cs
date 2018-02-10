@@ -16,6 +16,9 @@ using System.Windows.Shapes;
 using CakeGUI.classes.service;
 using CakeGUI.classes.entity;
 using CakeGUI.classes.util;
+using CakeGUI.classes.view_model;
+using CakeGUI.forms.Inventory.Out;
+using CakeGUI.forms.Inventory;
 
 namespace CakeGUI.forms
 {
@@ -224,7 +227,8 @@ namespace CakeGUI.forms
                 else
                 {
                     GenericWindow windowAdd = new GenericWindow();
-                    Inventory inventoryPage = new Inventory(inventories);
+                    //Inventory inventoryPage = new Inventory(inventories);
+                    forms.Inventory.Out.InventoryItemIn inventoryPage = new forms.Inventory.Out.InventoryItemIn(inventories, this.type);
                     inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
                     inventoryPage.SetParent(commonPageIn);
                     inventoryPage.Tag = this;
@@ -360,7 +364,7 @@ namespace CakeGUI.forms
                     //MessageBox.Show(cellContent.Product.Name);
 
                     GenericWindow windowAdd = new GenericWindow();
-                    Inventory inventoryPage = new Inventory(cellContent);
+                    InventoryForm inventoryPage = new InventoryForm(cellContent);
                     inventoryPage.ProductType = (ProductTypeEntity)cmbType.SelectedItem;
                     inventoryPage.SetParent(commonPage);
                     inventoryPage.Tag = this;
