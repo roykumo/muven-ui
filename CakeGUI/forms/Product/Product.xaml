@@ -4,9 +4,12 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CakeGUI.forms"
+      xmlns:rules="clr-namespace:CakeGUI.classes.entity.validation"
       mc:Ignorable="d" 
       d:DesignHeight="420" d:DesignWidth="370"
-      Title="Product" HorizontalAlignment="Center" VerticalAlignment="Center" Loaded="Page_Loaded">
+      Title="Product" HorizontalAlignment="Center" VerticalAlignment="Center" Loaded="Page_Loaded"
+      xmlns:vm="clr-namespace:CakeGUI.classes.view_model"
+      d:DataContext="{d:DesignInstance vm:ProductViewModel, d:IsDesignTimeCreatable=False}">
     <Border Padding="10">
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="470" Width="350">
             <Label Content="TItle" Name="lblSiteMap" FontWeight="Bold"/>
@@ -36,7 +39,15 @@
                 <TextBox Grid.Column="1" Grid.Row="2" Name="txtCode1" FontSize="14" Height="35" Width="70" HorizontalAlignment="Left"/>
                 <TextBox Grid.Column="1" Grid.Row="2" Name="txtCode2" FontSize="14" Height="35" Width="70"/>
                 <TextBox Grid.Column="1" Grid.Row="2" Name="txtCode3" FontSize="14" Height="35" Width="70" HorizontalAlignment="Right"/>
-                <TextBox Grid.Column="1" Grid.Row="3" Name="txtBarcode" FontSize="14" Height="35"/>
+                <TextBox Grid.Column="1" Grid.Row="3" Name="txtBarcode" FontSize="14" Height="35">
+                    <TextBox.Text>
+                        <Binding Path="Barcode2" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <rules:NotEmptyValidationRules xmlns:rules="clr-namespace:CakeGUI.classes.entity.validation" ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <TextBox Grid.Column="1" Grid.Row="4" Name="txtName" FontSize="14" Height="35"/>
                 <ComboBox Grid.Column="1" Grid.Row="5" Name="cmbGroup" FontSize="14" Height="35" VerticalContentAlignment="Bottom" SelectedValuePath="Code" DisplayMemberPath="Description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.4,0,0,0" Grid.RowSpan="2" Width="100"/>
 

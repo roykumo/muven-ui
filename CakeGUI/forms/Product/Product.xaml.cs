@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using CakeGUI.classes.service;
 using CakeGUI.classes.entity;
 using CakeGUI.classes.util;
+using CakeGUI.classes.view_model;
 
 namespace CakeGUI.forms
 {
@@ -78,6 +79,7 @@ namespace CakeGUI.forms
         {
             try
             {
+                DataContext = new ProductViewModel();
                 commonPage = new CommonPage();
                 commonPage.Title = (this.product != null && !string.IsNullOrEmpty(this.product.Id)) ? "Edit Barang" : "Penambahan Barang";
                 productTypes = productTypeService.getProductTypes();
@@ -118,7 +120,7 @@ namespace CakeGUI.forms
         public ProductEntity _Product { get { return this.product; } }
         private List<ProductTypeEntity> productTypes = new List<ProductTypeEntity>();
         private List<ProductCategoryEntity> categories = new List<ProductCategoryEntity>();
-
+        
         //public ProductEntity ProductSelected
         //{
         //    get { return product; }

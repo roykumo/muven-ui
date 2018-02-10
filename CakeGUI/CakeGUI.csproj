@@ -236,6 +236,7 @@
     <Compile Include="classes\entity\rest\CommonStatus.cs" />
     <Compile Include="classes\entity\rest\KeyValue.cs" />
     <Compile Include="classes\entity\SellPrice.cs" />
+    <Compile Include="classes\entity\validation\NotEmptyValidationRules.cs" />
     <Compile Include="classes\service\TransactionServiceRestImpl.cs" />
     <Compile Include="classes\service\TransactionService.cs" />
     <Compile Include="classes\service\ProductInventoryOutService.cs" />
@@ -268,6 +269,8 @@
     <Compile Include="classes\util\JSONSerializer.cs" />
     <Compile Include="classes\util\Utils.cs" />
     <Compile Include="classes\view-model\InventoryInViewModel.cs" />
+    <Compile Include="classes\view-model\NotifyPropertyChangedExtension.cs" />
+    <Compile Include="classes\view-model\ProductViewModel.cs" />
     <Compile Include="forms\CommonPage.cs" />
     <Compile Include="forms\ICommonPage.cs" />
     <Compile Include="forms\GenericWindow.xaml.cs">
