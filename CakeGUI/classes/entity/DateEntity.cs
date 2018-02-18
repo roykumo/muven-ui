@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace CakeGUI.classes.entity
 {
-    /*public class MonthEntity
+    public class DateEntity
     {
         public Int32 Id { get; set; }
         public string Description { get; set; }
-    }*/
+    }
+
+    public class MonthEntity
+    {
+        public Int32 Id { get; set; }
+        public string Description { get; set; }
+    }
 }

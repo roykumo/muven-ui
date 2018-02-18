@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CakeGUI.classes.entity;
 using RestSharp;
 using CakeGUI.classes.entity.rest;
+using Newtonsoft.Json;
 
 namespace CakeGUI.classes.service
 {
@@ -28,12 +29,42 @@ namespace CakeGUI.classes.service
 
         private RestClient client = new RestClient("http://localhost:8908");
 
-        public List<TransactionEntity> getTransactionList()
+        public List<TransactionEntity> getTransactionList(Int32 year, Int32 month, Int32 day)
         {
             var request = new RestRequest("transaction/list", Method.GET);
             client.AddHandler("application/json", util.JsonSerializer.Default);
             request.JsonSerializer = util.JsonSerializer.Default;
-            
+
+            if (year > 0 || month > 0 || day > 0)
+            {
+                List<KeyValue> listFilter = new List<KeyValue>();
+
+                if (year > 0)
+                {
+                    KeyValue keyValue = new KeyValue();
+                    keyValue.Key = "year";
+                    keyValue.Value = year.ToString();
+                    listFilter.Add(keyValue);
+                }
+                if (month > 0)
+                {
+                    KeyValue keyValue = new KeyValue();
+                    keyValue.Key = "month";
+                    keyValue.Value = month.ToString();
+                    listFilter.Add(keyValue);
+                }
+                if (day > 0)
+                {
+                    KeyValue keyValue = new KeyValue();
+                    keyValue.Key = "day";
+                    keyValue.Value = day.ToString();
+                    listFilter.Add(keyValue);
+                }
+
+                string strListFilter = JsonConvert.SerializeObject(listFilter);
+                request.AddQueryParameter("field", strListFilter);
+            }
+
             IRestResponse<TCommonResponsePaging<TransactionEntity>> products = client.Execute<TCommonResponsePaging<TransactionEntity>>(request);
 
             if (products.StatusCode != System.Net.HttpStatusCode.OK)

@@ -51,6 +51,11 @@ namespace CakeGUI.forms
         {
             try
             {
+                txtYear.Text = DateTime.Now.Year.ToString();
+
+                cmbMonth.ItemsSource = Utils.ListMonth;
+                cmbMonth.SelectedIndex = DateTime.Now.Month - 1;
+                
                 cmbMonth.ItemsSource = Utils.ListMonth;
 
                 loadData();
@@ -65,7 +70,11 @@ namespace CakeGUI.forms
         {
             try
             {
-                transactionList = transactionService.getTransactionList();
+                Int32 year = string.IsNullOrEmpty(txtYear.Text) ? 0 : Int32.Parse(txtYear.Text);
+                Int32 month = ((MonthEntity)cmbMonth.SelectedItem).Id;
+                Int32 day = ((DateEntity)cmbDay.SelectedItem).Id;
+
+                transactionList = transactionService.getTransactionList(year, month, day);
                 dataGrid.ItemsSource = null;
                 dataGrid.ItemsSource = transactionList;
             }
@@ -221,6 +230,7 @@ namespace CakeGUI.forms
         {
             try
             {
+                updateDays();
                 /*ProductTypeEntity type = ((sender as ComboBox)).SelectedItem as ProductTypeEntity;
                 if (type != null)
                 {
@@ -232,6 +242,16 @@ namespace CakeGUI.forms
             catch (Exception ex)
             {
                 MessageBox.Show("failed combo change : "+ex.Message);
+            }
+        }
+
+        private void updateDays()
+        {
+            cmbDay.ItemsSource = null;
+            if (!string.IsNullOrEmpty(txtYear.Text))
+            {
+                cmbDay.ItemsSource = Utils.ListDayByMonth(Int32.Parse(txtYear.Text), ((MonthEntity)cmbMonth.SelectedItem).Id);
+                cmbDay.SelectedIndex = 0;
             }
         }
 
@@ -253,6 +273,22 @@ namespace CakeGUI.forms
         {
             lblSiteMap.Content = commonPage.TitleSiteMap;
         }
-        
+
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtYear.Text))
+            {
+                MessageBox.Show("Tahun harus diisi");
+            }
+            else
+            {
+                loadData();
+            }
+        }
+
+        private void txtYear_LostFocus(object sender, RoutedEventArgs e)
+        {
+            updateDays();
+        }
     }
 }

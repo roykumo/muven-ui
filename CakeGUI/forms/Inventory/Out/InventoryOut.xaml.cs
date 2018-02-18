@@ -108,6 +108,7 @@ namespace CakeGUI.forms
                 {
                     txtSupplier.Text = inventoryOut.InventoryIn.Supplier;
                     txtTransactionCode.Text = inventoryOut.InventoryIn.TransactionCode;
+                    txtTransactionCodeOut.Text = inventoryOut.TransactionCode;
                     date.SelectedDate = inventoryOut.InventoryIn.Date;
 
                     if(inventoryOut.InventoryIn.Items!=null && inventoryOut.InventoryIn.Items.Count > 0)
@@ -168,6 +169,7 @@ namespace CakeGUI.forms
                 cmbType.SelectedIndex = 0;
 
                 txtTransactionCode.Text = inventoryService.getTrxCode(type, null);
+                txtTransactionCodeOut.Text = txtTransactionCode.Text;
                 date.SelectedDate = DateTime.Now;
                 dateOut.SelectedDate = DateTime.Now;
 
@@ -294,7 +296,7 @@ namespace CakeGUI.forms
                         outInventory.Date = dateOut.SelectedDate.Value;
                         outInventory.Items = outInventories;
                         outInventory.Type = type;
-                        outInventory.TransactionCode = txtTransactionCode.Text;
+                        outInventory.TransactionCode = txtTransactionCodeOut.Text;
 
                         InventoryEntity inventory = new InventoryEntity();
                         inventory.Date = date.SelectedDate.Value;
@@ -314,7 +316,9 @@ namespace CakeGUI.forms
                         outInventories.Clear();
                         loadDataOut();
                         txtTransactionCode.Text = "";
+                        txtTransactionCodeOut.Text = "";
                         txtTransactionCode.Text = inventoryService.getTrxCode(type, null);
+                        txtTransactionCodeOut.Text = txtTransactionCode.Text;
                         date.SelectedDate = DateTime.Now;
                         dateOut.SelectedDate = DateTime.Now;
 
@@ -338,7 +342,7 @@ namespace CakeGUI.forms
                     inventories.Clear();
                     outInventories.Clear();
                     txtTransactionCode.Text = inventoryService.getTrxCode(type, null);
-                    txtTransactionCode.Text = "";
+                    txtTransactionCodeOut.Text = txtTransactionCode.Text;
                     loadData();
                     loadDataOut();
                 }

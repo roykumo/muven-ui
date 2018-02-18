@@ -90,6 +90,8 @@ namespace CakeGUI.forms
                     viewModel.Barcode2 = product.BarCode;
                     viewModel.Category = product.Category;
                     viewModel.Code = product.Code;
+                    viewModel.Name = product.Name;
+                    viewModel.ProductGroup = product.ProductGroup;
                     if (product.Category != null)
                     {
                         viewModel.Type = product.Category.Type;

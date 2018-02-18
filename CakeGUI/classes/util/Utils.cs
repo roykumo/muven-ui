@@ -132,5 +132,28 @@ namespace CakeGUI.classes.util
                 return listMonth;
             }
         }
+
+        public static List<DateEntity> ListDayByMonth(int year, int month)
+        {
+            //return Enumerable.Range(1, DateTime.DaysInMonth(year, month)).ToList();
+            int days = DateTime.DaysInMonth(year, month);
+
+            List<DateEntity> listDay = new List<DateEntity>();
+            DateEntity dateEntityAll = new DateEntity();
+            dateEntityAll.Id = 0;
+            dateEntityAll.Description = "All";
+            listDay.Add(dateEntityAll);
+
+            for(int i = 1; i <= days; i++)
+            {
+                DateEntity dateEntity = new DateEntity();
+                dateEntity.Id = i;
+                dateEntity.Description = i.ToString();
+
+                listDay.Add(dateEntity);
+            }
+
+            return listDay;
+        }
     }
 }

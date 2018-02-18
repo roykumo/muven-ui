@@ -9,6 +9,6 @@ namespace CakeGUI.classes.service
 {
     interface TransactionService
     {
-        List<TransactionEntity> getTransactionList();
+        List<TransactionEntity> getTransactionList(Int32 year, Int32 month, Int32 day);
     }
 }

@@ -49,6 +49,17 @@ namespace CakeGUI.forms
         {
             InventoryItemOutViewModel viewModel = new InventoryItemOutViewModel();
             DataContext = viewModel;
+            if (this.outInventory != null)
+            {
+                viewModel.Id = this.outInventory.Id;
+                viewModel.InventoryOut = this.outInventory.InventoryOut;
+                viewModel.Product = this.outInventory.Product;
+                viewModel.PurchasePrice = this.outInventory.PurchasePrice;
+                viewModel.Quantity = this.outInventory.Quantity;
+                viewModel.Remarks = this.outInventory.Remarks;
+                viewModel.SellPrice = this.outInventory.SellPrice;
+                viewModel.SellPriceTrx = this.outInventory.SellPriceTrx;
+            }
 
             commonPage = new CommonPage();
             commonPage.Title = "Add New";
@@ -194,6 +205,14 @@ namespace CakeGUI.forms
                 {
                     MessageBox.Show("Harus pilih barang dulu!");
                 }
+                else if (string.IsNullOrEmpty(txtQuantity.Text) || Decimal.Parse(txtQuantity.Text) <= 0)
+                {
+                    MessageBox.Show("Jumlah barang tidak boleh kosong!");
+                }
+                /*else if (string.IsNullOrEmpty(txtPurchasePrice.Text) || Decimal.Parse(txtPurchasePrice.Text) <= 0)
+                {
+                    MessageBox.Show("Harga Beli rata2 kosong!");
+                }*/
                 else
                 {
                     MessageBoxResult messageBoxResult = MessageBox.Show("Yakin simpan?", "Konfirmasi Simpan", MessageBoxButton.YesNo);

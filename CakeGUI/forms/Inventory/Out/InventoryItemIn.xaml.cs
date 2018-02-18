@@ -57,6 +57,17 @@ namespace CakeGUI.forms.Inventory.Out
             txtPurchasePrice.IsEnabled = false;
             InventoryViewModel viewModel = new InventoryViewModel();
             DataContext = viewModel;
+            if (this.inventory != null)
+            {
+                if(this.inventory.ExpiredDate!=null && this.inventory.ExpiredDate!=DateTime.MinValue)
+                   viewModel.ExpiredDate = this.inventory.ExpiredDate;
+                viewModel.Id = this.inventory.Id;
+                viewModel.Inventory = this.inventory.Inventory;
+                viewModel.Product = this.inventory.Product;
+                viewModel.PurchasePrice = this.inventory.PurchasePrice;
+                viewModel.Quantity = this.inventory.Quantity;
+                viewModel.Remarks = this.inventory.Remarks;
+            }
             commonPage = new CommonPage();
             commonPage.Title = "Add New";
             lblSiteMap.Content = commonPage.Title;
@@ -133,17 +144,18 @@ namespace CakeGUI.forms.Inventory.Out
                 if (product == null)
                 {
                     MessageBox.Show("Harus pilih barang dulu!");
-                }else if (string.IsNullOrEmpty(txtQuantity.Text))
+                }
+                else if (string.IsNullOrEmpty(txtQuantity.Text) || Decimal.Parse(txtQuantity.Text) <= 0)
                 {
-                    MessageBox.Show("Isi jumlah awal!");
+                    MessageBox.Show("Jumlah barang tidak boleh kosong!");
                 }
                 else if (dtExpired.SelectedDate==null)
                 {
                     MessageBox.Show("Isi tanggal kadaluarsa!");
                 }
-                else if (string.IsNullOrEmpty(txtPurchasePrice.Text))
+                else if (string.IsNullOrEmpty(txtPurchasePrice.Text) || Decimal.Parse(txtPurchasePrice.Text) <= 0 && ( this.type.Equals("RE") || this.type.Equals("RP")))
                 {
-                    MessageBox.Show("Isi harga beli satuan!");
+                    MessageBox.Show("Harga Jual belum ada!");
                 }
                 else
                 {

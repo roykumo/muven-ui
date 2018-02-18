@@ -220,6 +220,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="classes\entity\DateEntity.cs" />
     <Compile Include="classes\entity\InventoryItemOutEntity.cs" />
     <Compile Include="classes\entity\InventoryOutEntity.cs" />
     <Compile Include="classes\entity\InventoryEntity.cs" />
